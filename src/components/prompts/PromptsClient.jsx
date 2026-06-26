@@ -18,6 +18,7 @@ export default function PromptsClient({ prompts }) {
       const matchesSearch =
         prompt.promptTitle.toLowerCase().includes(keyword) ||
         prompt.fullDescription.toLowerCase().includes(keyword) ||
+        prompt.aiToolName.toLowerCase().includes(keyword) ||
         prompt.tags.some((tag) => tag.toLowerCase().includes(keyword));
 
       const matchesCategory =

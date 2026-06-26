@@ -10,3 +10,8 @@ export const getPrompts = async () => {
   const data = await serverFetch("/api/prompts");
   return data.prompts;
 };
+
+export const getFeaturedPrompts = async () => {
+  const data = await serverFetch("/api/prompts/featured");
+  return data.prompts;
+};

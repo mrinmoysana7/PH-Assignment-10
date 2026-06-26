@@ -104,7 +104,8 @@ export default function HeroSection() {
 
           <TrendingTags />
 
-          <Link href="/prompts">
+          <div className="flex gap-5 justify-center">
+            <Link href="/prompts">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -113,6 +114,17 @@ export default function HeroSection() {
               Explore Prompts →
             </motion.button>
           </Link>
+
+          <Link href="/prompts">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mt-10 rounded-2xl border border-purple-600 bg-transparent px-10 py-4 font-semibold shadow-xl"
+            >
+              Become a Creator
+            </motion.button>
+          </Link>
+          </div>
 
           <p className="mt-4 text-gray-500">
             Join thousands of creators and innovators

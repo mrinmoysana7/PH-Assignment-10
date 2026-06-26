@@ -22,6 +22,15 @@ export default function PromptCard({ prompt }) {
     rating,
   } = prompt;
 
+  const handleViewDetails = () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    router.push(`/prompts/${prompt._id}`);
+  };
+
   return (
     <Card
       radius="xl"
@@ -259,6 +268,7 @@ export default function PromptCard({ prompt }) {
           </div>
         </div>
         <Button
+          onClick={handleViewDetails}
           as={Link}
           href={`/prompts/${_id}`}
           radius="full"
