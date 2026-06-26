@@ -187,78 +187,77 @@ export default function PromptCard({ prompt }) {
               </Chip>
             )}
           </div>
-
-          {/* Creator + Stats */}
-
-          <div className="rounded-2xl shadow-lg bg-default-50/70 p-3">
-            {/* Creator */}
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Avatar
-                  src={creatorInformation.avatar}
-                  name={creatorInformation.name}
-                  size="md"
-                  className="ring-2 ring-violet-100"
-                />
-
-                <div>
-                  <h4 className="text-sm font-semibold text-default-900">
-                    {creatorInformation.name}
-                  </h4>
-
-                  <p className="text-xs text-default-500">
-                    @{creatorInformation.username}
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-full bg-violet-100 px-3 py-1">
-                <span className="text-xs font-semibold text-violet-700">
-                  Creator
-                </span>
-              </div>
-            </div>
-
-            {/* Divider */}
-
-            <div className="my-3 h-px bg-default-200" />
-
-            {/* Stats */}
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-2 rounded-xl bg-white p-3 shadow-sm">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-100">
-                  <Copy width={18} height={18} className="text-violet-600" />
-                </div>
-
-                <div>
-                  <p className="text-lg font-bold leading-none">
-                    {copyCount.toLocaleString()}
-                  </p>
-
-                  <span className="text-xs text-default-500">Copies</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 rounded-xl bg-white p-3 shadow-sm">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100">
-                  <Comment width={18} height={18} className="text-orange-500" />
-                </div>
-
-                <div>
-                  <p className="text-lg font-bold leading-none">{reviews}</p>
-
-                  <span className="text-xs text-default-500">Reviews</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </Card.Content>
 
         {/* ================= FOOTER ================= */}
       </div>
-      <Card.Footer className="p-4 mt-auto pt-0">
+      <Card.Footer className="p-4 mt-auto pt-0 space-y-8">
+        {/* Creator + Stats */}
+
+        <div className="rounded-2xl shadow-lg bg-default-50/70 p-3">
+          {/* Creator */}
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Avatar
+                src={creatorInformation.avatar}
+                name={creatorInformation.name}
+                size="md"
+                className="ring-2 ring-violet-100"
+              />
+
+              <div>
+                <h4 className="text-sm font-semibold text-default-900">
+                  {creatorInformation.name}
+                </h4>
+
+                <p className="text-xs text-default-500">
+                  @{creatorInformation.username}
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-full bg-violet-100 px-3 py-1">
+              <span className="text-xs font-semibold text-violet-700">
+                Creator
+              </span>
+            </div>
+          </div>
+
+          {/* Divider */}
+
+          <div className="my-3 h-px bg-default-200" />
+
+          {/* Stats */}
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex items-center gap-2 rounded-xl bg-white p-3 shadow-sm">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-100">
+                <Copy width={18} height={18} className="text-violet-600" />
+              </div>
+
+              <div>
+                <p className="text-lg font-bold leading-none">
+                  {copyCount.toLocaleString()}
+                </p>
+
+                <span className="text-xs text-default-500">Copies</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 rounded-xl bg-white p-3 shadow-sm">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100">
+                <Comment width={18} height={18} className="text-orange-500" />
+              </div>
+
+              <div>
+                <p className="text-lg font-bold leading-none">{reviews}</p>
+
+                <span className="text-xs text-default-500">Reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <Button
           as={Link}
           href={`/prompts/${_id}`}
