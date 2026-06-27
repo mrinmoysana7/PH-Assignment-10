@@ -267,12 +267,12 @@ export default function PromptCard({ prompt }) {
             </div>
           </div>
         </div>
-        <Button
-          onClick={handleViewDetails}
-          as={Link}
-          href={`/prompts/${_id}`}
-          radius="full"
-          className="
+        <Link href={`/prompts/${_id}`}>
+          <Button
+            onClick={handleViewDetails}
+            as={Link}
+            radius="full"
+            className="
             h-12
             w-full
             border-0
@@ -291,16 +291,17 @@ export default function PromptCard({ prompt }) {
             hover:shadow-xl
             hover:shadow-violet-500/40
           "
-          endContent={
-            <ArrowRight
-              width={18}
-              height={18}
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          }
-        >
-          View Details
-        </Button>
+            endContent={
+              <ArrowRight
+                width={18}
+                height={18}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            }
+          >
+            View Details
+          </Button>
+        </Link>
       </Card.Footer>
     </Card>
   );
