@@ -5,4 +5,16 @@ export const serverFetch = async (path) => {
   return await res.json();
 };
 
+// export const serverMutation = async (path, data, method = "post") => {
+//   const res = await fetch(`${baseURL}${path}`, {
+//     // method: "POST",
+//     method: method,
+//     headers: {
+//       "content-type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   });
+
+//   return await res.json();
+// };
 

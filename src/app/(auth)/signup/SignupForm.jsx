@@ -329,7 +329,7 @@ export default function SignupForm() {
         <div className="pt-2 text-center text-sm text-default-600">
           Already have an account?{" "}
           <Link
-            href={`/auth/signin?redirect=${redirectTo}`}
+            href={`/signin?redirect=${redirectTo}`}
             className="font-semibold text-violet-600 hover:text-violet-700 hover:underline"
           >
             Sign In

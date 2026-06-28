@@ -23,7 +23,7 @@ export default function Navbar() {
       toast.success("Logged out successfully");
 
       setTimeout(() => {
-        window.location.href = "/auth/signin";
+        window.location.href = "/signin";
       }, 1000);
     } catch (error) {
       toast.error("Failed to log out");
@@ -48,38 +48,20 @@ export default function Navbar() {
     admin: "/dashboard/admin",
   };
 
-  // if (user) {
-  //   navLinks.push({
-  //     label: "Dashboard",
-  //     href: dashboardLinks[user?.role || "user"],
-  //   });
-  // }
+  if (user) {
+    navLinks.push({
+      label: "Dashboard",
+      href: dashboardLinks[user?.role || "user"],
+    });
+  }
 
   return (
     <header className="bg-white/30 backdrop-blur-md border border-white/5 shadow z-50 fixed w-full top-0.5">
       <Toaster />
       {/* <div className=""> */}
-      <nav className="flex container mx-auto h-13.5 items-center px-6 justify-between  ">
+      <nav className="flex container mx-auto h-16 items-center px-6 justify-between  ">
         {/* Logo & Website Brand Block */}
         <Logo />
-        {/* <Link href="/" className="flex items-center gap-2 shrink-0"> */}
-        {/* Minimalist AI Theme Logo Icon */}
-        {/* <svg
-              className="w-7 h-7 text-indigo-500"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-            <span className="text-xl font-extrabold tracking-tight text-white">
-              <span className="text-yellow-500">Prompt</span>
-              <span className="text-indigo-500">Verse</span>
-            </span>
-          </Link> */}
 
         {/* Desktop Navigation Links */}
         <div className="hidden lg:flex items-center gap-8 ml-8">
@@ -87,7 +69,7 @@ export default function Navbar() {
             <NavLinks
               key={link.href}
               href={link.href}
-              // isActive={pathname === link.href}
+              isActive={pathname === link.href}
             >
               {link.label}
             </NavLinks>
@@ -119,15 +101,15 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <Link
-                href="/auth/signin"
-                className="text-sm font-medium text-white hover:text-indigo-500 transition"
+                href="/signin"
+                className="text-sm font-medium text-violet-600 border border-violet-600 px-4 py-2 rounded-xl hover:text-indigo-500 transition"
               >
                 Login
               </Link>
               <Link
-                href="/auth/signup"
+                href="/signup"
                 className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-500 shadow-md shadow-indigo-600/20"
               >
                 Register
@@ -193,14 +175,14 @@ export default function Navbar() {
             ) : (
               <div className="flex flex-col gap-2 pt-1">
                 <Link
-                  href="/auth/signin"
+                  href="/signin"
                   onClick={() => setIsOpen(false)}
                   className="w-full rounded-xl border border-white/10 py-3 text-center text-sm font-semibold text-gray-300 hover:bg-white/5 transition"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/auth/signup"
+                  href="/signup"
                   onClick={() => setIsOpen(false)}
                   className="w-full rounded-xl bg-indigo-600 py-3 text-center text-sm font-semibold text-white transition hover:bg-indigo-500"
                 >

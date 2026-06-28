@@ -42,7 +42,7 @@ export default function PromptFilter({
         rounded-3xl
         bg-white/80
         p-6
-        shadow-2xl
+        shadow-xl
         backdrop-blur-xl
       "
     >

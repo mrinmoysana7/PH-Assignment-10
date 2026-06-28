@@ -309,7 +309,7 @@ export default function SignInForm() {
           <p className="text-sm text-default-600">
             Dont have an account?{" "}
             <Link
-              href={`/auth/signup?redirect=${redirectTo}`}
+              href={`/signup?redirect=${redirectTo}`}
               className="
         font-semibold
         text-violet-600
