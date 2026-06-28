@@ -169,10 +169,12 @@ export default function Footer() {
 
           {/* Bottom Section */}
           <div className="flex flex-col items-start justify-between gap-5 text-sm text-gray-500 md:flex-row md:items-center">
-            <p>
-              © 2026 PromptVerse. All rights reserved. Created with ❤️ by
-              Mrinmoy Sana
-            </p>
+            <div>
+              <p>
+                © 2026 PromptVerse. All rights reserved | Created with ❤️ by
+                Mrinmoy Sana
+              </p>
+            </div>
 
             <div className="flex flex-wrap gap-6">
               <Link href="/privacy-policy" className="hover:text-black">

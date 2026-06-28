@@ -18,7 +18,7 @@ const particles = [
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-30">
+    <section className="relative overflow-hidden bg-white py-23">
       {/* Background Glow */}
       <div className="absolute left-1/2 top-20 h-150 w-150 -translate-x-1/2 rounded-full bg-violet-400/20 blur-[140px]" />
 

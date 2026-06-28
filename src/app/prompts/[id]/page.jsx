@@ -14,7 +14,7 @@ export default async function PromptDetailsPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-33 px-4 md:px-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-10 px-8">
       <div className="max-w-5xl mx-auto flex flex-col gap-8">
         <Link
           href="/prompts"
