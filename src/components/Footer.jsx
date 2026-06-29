@@ -7,6 +7,7 @@ import {
   FaLinkedinIn,
   FaGithub,
 } from "react-icons/fa6";
+import DashboardLogo from "./dashboard/DashboardLogo";
 
 export default function Footer() {
   return (
@@ -25,13 +26,7 @@ export default function Footer() {
             {/* Left Section */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black">
-                  <span className="text-lg font-bold text-white">P</span>
-                </div>
-
-                <h3 className="text-xl font-semibold text-gray-900">
-                  PromptVerse
-                </h3>
+                <DashboardLogo></DashboardLogo>
               </div>
 
               <p className="mt-5 max-w-md text-sm leading-7 text-gray-500">
