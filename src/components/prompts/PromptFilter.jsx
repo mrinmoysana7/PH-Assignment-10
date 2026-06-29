@@ -97,81 +97,12 @@ export default function PromptFilter({
               />
             </InputGroup>
           </TextField>
-
-          {/* <Button
-            color="secondary"
-            size="lg"
-            radius="full"
-            className="
-              h-14
-              px-8
-              bg-linear-to-r
-              from-violet-600
-              to-fuchsia-600
-              font-semibold
-              shadow-lg
-              shadow-violet-500/20
-              hover:scale-[1.02]
-            "
-            startContent={<Magnifier width={18} />}
-          >
-            Search
-          </Button> */}
         </div>
 
         {/* Filter Row */}
 
         <div className="grid grid-cols-1 gap-4 rounded-3xl bg-default-50/70 p-5 backdrop-blur-xl md:grid-cols-2 xl:grid-cols-4">
           {/* Category */}
-
-          {/* <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-default-500">
-              Category
-            </p>
-
-            <Select selectedKey={category} onSelectionChange={setCategory}>
-              <Select.Trigger
-                className="
-        w-full
-        h-12
-        rounded-xl
-        bg-white
-        px-3
-        shadow-sm
-        transition-all
-        duration-300
-        hover:border-sky-300
-        hover:shadow-md
-        focus-within:border-sky-500
-        focus-within:ring-2
-        focus-within:ring-sky-500/20"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100">
-                    <LayoutList width={18} className="text-violet-600" />
-                  </div>
-
-                  <Select.Value placeholder="All Categories" />
-                </div>
-              </Select.Trigger>
-
-              <Select.Popover>
-                <ListBox className="bg-white/90 py-4 space-y-3 rounded-md">
-                  {categories.map((item) => (
-                    <ListBox.Item
-                      key={item}
-                      id={item}
-                      className="hover:cursor-pointer hover:bg-purple-400"
-                    >
-                      <div className="px-10 py-1.5">
-                        {item === "all" ? "All Categories" : item}
-                      </div>
-                    </ListBox.Item>
-                  ))}
-                </ListBox>
-              </Select.Popover>
-            </Select>
-          </div> */}
 
           <FilterSelect
             label="Category"
@@ -185,55 +116,6 @@ export default function PromptFilter({
 
           {/* AI Tool */}
 
-          {/* <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-default-500">
-              AI Tool
-            </p>
-
-            <Select
-              className="w-full"
-              selectedKey={tool}
-              onSelectionChange={setTool}
-            >
-              <Select.Trigger
-                className="
-                w-full
-        h-12
-        rounded-xl
-        bg-white
-        px-3
-        shadow-sm
-        transition-all
-        duration-300
-        hover:border-sky-300
-        hover:shadow-md
-        focus-within:border-sky-500
-        focus-within:ring-2
-        focus-within:ring-sky-500/20
-      "
-              >
-                <div className="flex flex-1 items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-100">
-                    <Sparkles width={18} height={18} className="text-sky-600" />
-                  </div>
-
-                  <Select.Value placeholder="All AI Tools" />
-                </div>
-
-              </Select.Trigger>
-
-              <Select.Popover className="rounded-xl border border-default-200 shadow-xl">
-                <ListBox>
-                  {tools.map((item) => (
-                    <ListBox.Item key={item} id={item} className="rounded-lg">
-                      {item === "all" ? "All AI Tools" : item}
-                    </ListBox.Item>
-                  ))}
-                </ListBox>
-              </Select.Popover>
-            </Select>
-          </div> */}
-
           <FilterSelect
             label="AI Tool"
             icon={<Sparkles width={18} />}
@@ -246,58 +128,6 @@ export default function PromptFilter({
 
           {/* Difficulty */}
 
-          {/* <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-default-500">
-              Difficulty
-            </p>
-
-            <Select
-              className="w-full"
-              selectedKey={difficulty}
-              onSelectionChange={setDifficulty}
-            >
-              <Select.Trigger
-                className="
-                w-full
-        h-12
-        rounded-xl
-        bg-white
-        px-3
-        shadow-sm
-        transition-all
-        duration-300
-        hover:border-orange-300
-        hover:shadow-md
-        focus-within:border-orange-500
-        focus-within:ring-2
-        focus-within:ring-orange-500/20
-      "
-              >
-                <div className="flex flex-1 items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-100">
-                    <Sparkles
-                      width={18}
-                      height={18}
-                      className="text-orange-500"
-                    />
-                  </div>
-
-                  <Select.Value placeholder="All Levels" />
-                </div>
-              </Select.Trigger>
-
-              <Select.Popover className="rounded-xl border border-default-200 shadow-xl">
-                <ListBox>
-                  {difficulties.map((item) => (
-                    <ListBox.Item key={item} id={item} className="rounded-lg">
-                      {item === "all" ? "All Levels" : item}
-                    </ListBox.Item>
-                  ))}
-                </ListBox>
-              </Select.Popover>
-            </Select>
-          </div> */}
-
           <FilterSelect
             label="Difficulty"
             icon={<Sparkles width={18} />}
@@ -309,87 +139,6 @@ export default function PromptFilter({
           />
 
           {/* Sort By */}
-
-          {/* <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-default-500">
-              Sort By
-            </p>
-
-            <Select
-              className="w-full"
-              selectedKey={sort}
-              onSelectionChange={setSort}
-            >
-              <Select.Trigger
-                className="
-        h-12
-        w-full
-        rounded-xl
-        bg-white
-        px-3
-        shadow-sm
-        transition-all
-        duration-300
-        hover:border-emerald-300
-        hover:shadow-md
-        focus-within:border-emerald-500
-        focus-within:ring-2
-        focus-within:ring-emerald-500/20
-      "
-              >
-                <div className="flex flex-1 items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100">
-                    <LayoutList
-                      width={18}
-                      height={18}
-                      className="text-emerald-600"
-                    />
-                  </div>
-
-                  <Select.Value placeholder="Newest" />
-                </div>
-              </Select.Trigger>
-
-              <Select.Popover className="rounded-xl border border-default-200 bg-white shadow-xl">
-                <ListBox>
-                  <ListBox.Item
-                    id="newest"
-                    className="rounded-lg transition-colors hover:bg-emerald-50"
-                  >
-                    🆕 Newest
-                  </ListBox.Item>
-
-                  <ListBox.Item
-                    id="rating"
-                    className="rounded-lg transition-colors hover:bg-emerald-50"
-                  >
-                    ⭐ Highest Rating
-                  </ListBox.Item>
-
-                  <ListBox.Item
-                    id="copies"
-                    className="rounded-lg transition-colors hover:bg-emerald-50"
-                  >
-                    📋 Most Copied
-                  </ListBox.Item>
-
-                  <ListBox.Item
-                    id="reviews"
-                    className="rounded-lg transition-colors hover:bg-emerald-50"
-                  >
-                    💬 Most Reviewed
-                  </ListBox.Item>
-
-                  <ListBox.Item
-                    id="title"
-                    className="rounded-lg transition-colors hover:bg-emerald-50"
-                  >
-                    🔤 A - Z
-                  </ListBox.Item>
-                </ListBox>
-              </Select.Popover>
-            </Select>
-          </div> */}
 
           <FilterSelect
             label="Sort By"
@@ -452,9 +201,7 @@ export default function PromptFilter({
               variant="flat"
               color="primary"
               onPress={() => setSearch("")}
-            >
-              {/* "{search}" ✕ */}
-            </Button>
+            ></Button>
           )}
         </div>
 

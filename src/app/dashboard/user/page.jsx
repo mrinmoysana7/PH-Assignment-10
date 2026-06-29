@@ -1,11 +1,5 @@
-import React from 'react';
-
 const UserDashboard = () => {
-    return (
-        <div className=''>
-            User Dashboard Page
-        </div>
-    );
+  return <div className="max-w-7xl mx-auto">User Dashboard Page</div>;
 };
 
 export default UserDashboard;

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ArrowRight } from "@gravity-ui/icons";
-// import FeaturedPromptCard from "./FeaturedPromptCard";
 import PromptCard from "@/components/ui/PromptCard";
 
 export default function FeaturedPrompts({ prompts }) {

@@ -6,19 +6,7 @@ export default function Logo() {
       {/* Logo */}
       <div className="relative flex h-10 w-10 items-center justify-center">
         <div
-          className="
-          absolute
-          inset-0
-          rounded-2xl
-          bg-linear-to-br
-          from-violet-600
-          via-purple-500
-          to-blue-500
-          shadow-lg
-          shadow-violet-500/30
-          transition-all
-          duration-300
-          group-hover:scale-110
+          className="absolute inset-0 rounded-2xl bg-linear-to-br from-violet-600 via-purple-500 to-blue-500shadow-lg shadow-violet-500/30 transition-all duration-300 group-hover:scale-110
         "
         />
 
@@ -70,7 +58,6 @@ export default function Logo() {
             Verse
           </span>
         </h1>
-
       </div>
     </Link>
   );

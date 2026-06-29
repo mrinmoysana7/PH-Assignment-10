@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-// import { Sparkles, Lightning, Person, StarFill } from "@gravity-ui/icons";
 
 const features = [
   {
@@ -55,9 +54,7 @@ export default function SignupHero() {
         }}
         className="absolute right-12 top-16"
       >
-        <div className="flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-violet-500 via-purple-500 to-blue-500 shadow-[0_20px_80px_rgba(124,58,237,.35)]">
-          {/* <Sparkles width={42} className="text-white" /> */}
-        </div>
+        <div className="flex h-28 w-28 items-center justify-center rounded-full bg-linear-to-br from-violet-500 via-purple-500 to-blue-500 shadow-[0_20px_80px_rgba(124,58,237,.35)]"></div>
       </motion.div>
 
       {/* Badge */}
@@ -104,66 +101,6 @@ export default function SignupHero() {
           <p className="mt-1 text-gray-500">Copies</p>
         </div>
       </div>
-
-      {/* Feature Cards */}
-
-      {/* <div className="mt-14 space-y-5">
-        {features.map((feature, index) => (
-          <motion.div
-            key={index}
-            whileHover={{
-              y: -4,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-            className="flex items-start gap-5 rounded-3xl border border-default-200 bg-white/80 p-6 shadow-lg backdrop-blur-xl"
-          >
-            <div
-              className={`flex h-14 w-14 items-center justify-center rounded-2xl ${feature.bg}`}
-            >
-              <div className={feature.text}>{feature.icon}</div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">
-                {feature.title}
-              </h3>
-
-              <p className="mt-2 max-w-md leading-7 text-gray-500">
-                {feature.description}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div> */}
-
-      {/* Floating Mini Card */}
-
-      {/* <motion.div
-        animate={{
-          y: [0, 10, 0],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-        }}
-        className="absolute bottom-16 right-16"
-      >
-        <div className="flex items-center gap-3 rounded-2xl border border-default-200 bg-white/90 px-5 py-4 shadow-xl backdrop-blur-xl">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-violet-500 to-blue-500 text-white">
-            
-          </div>
-
-          <div>
-            <h4 className="font-semibold">Join the Community</h4>
-
-            <p className="text-sm text-gray-500">
-              Build your AI portfolio today.
-            </p>
-          </div>
-        </div>
-      </motion.div> */}
     </section>
   );
 }

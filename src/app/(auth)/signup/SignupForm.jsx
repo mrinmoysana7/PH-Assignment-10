@@ -46,9 +46,6 @@ export default function SignupForm() {
 
   const { register, handleSubmit } = useForm();
 
-  // const inputClass =
-  //   "h-14 rounded-2xl border border-default-200 bg-white px-4 shadow-sm transition-all duration-300 hover:border-violet-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20";
-
   const onSubmit = async (formData) => {
     try {
       setLoading(true);
@@ -113,7 +110,7 @@ export default function SignupForm() {
             Full Name
           </Label>
 
-         <InputGroup className="relative">
+          <InputGroup className="relative">
             <div className="absolute left-4 top-8 z-10 -translate-y-1/2">
               <Person width={18} className="text-violet-500" />
             </div>

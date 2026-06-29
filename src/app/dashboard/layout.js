@@ -1,13 +1,39 @@
+"use client";
+
+import DashboardMobileSidebar from "@/components/dashboard/DashboardMobileSidebar";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 
-const DashboardLayoutPage = ({ children }) => {
-  return (
-    <div className="flex min-h-screen">
-      <DashboardSidebar></DashboardSidebar>
+import { useState } from "react";
 
-      <main className="flex-1">{children}</main>
+export default function DashboardLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen ">
+      {/* Mobile / Tablet Navbar */}
+      <DashboardNavbar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      {/* Desktop Sidebar */}
+      <DashboardSidebar />
+
+      {/* Mobile Sidebar */}
+      <DashboardMobileSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+
+      {/* Main Content */}
+      <main
+        className="
+          lg:ml-72
+          min-h-screen
+          transition-all
+          duration-300
+        "
+      >
+        <div className="p-5 md:p-8">{children}</div>
+      </main>
     </div>
   );
-};
-
-export default DashboardLayoutPage;
+}

@@ -23,7 +23,6 @@ import {
 } from "@heroui/react";
 
 import { authClient } from "@/lib/auth-client";
-import Image from "next/image";
 
 export default function SignInForm() {
   const [loading, setLoading] = useState(false);
@@ -296,8 +295,7 @@ export default function SignInForm() {
         >
           {!googleLoading && (
             <div className="flex justify-center items-center gap-2">
-              
-              <FcGoogle size="2em"/>
+              <FcGoogle size="2em" />
               <h2>Continue with Google</h2>
             </div>
           )}

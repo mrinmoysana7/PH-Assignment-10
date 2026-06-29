@@ -56,7 +56,8 @@ export default function Navbar() {
   }
 
   return (
-    <header className="bg-white/30 backdrop-blur-md border border-white/5 shadow z-50 fixed w-full top-0.5">
+    <header className="bg-white/30 backdrop-blur-md border border-white/5 shadow z-50 fixed top-0.5 left-0
+    right-0">
       <Toaster />
       {/* <div className=""> */}
       <nav className="flex container mx-auto h-16 items-center px-6 justify-between  ">
