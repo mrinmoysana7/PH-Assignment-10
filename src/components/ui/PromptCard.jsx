@@ -55,7 +55,6 @@ export default function PromptCard({ prompt }) {
       <div className="flex-1">
         <Card.Header className="flex flex-col gap-5 p-4">
           {/* Image */}
-
           <div className="relative h-35 w-full overflow-hidden rounded-2xl">
             <Image
               src={image}
@@ -95,11 +94,32 @@ export default function PromptCard({ prompt }) {
               <span className="text-sm font-semibold">{rating}</span>
             </div>
           </div>
-
-          <div className="flex gap-4">
-            {/* AI Tool */}
-
+          {/* PromptCard.jsx-এ নিচের অংশটি আপডেট করুন */}
+          <div className="flex gap-2">
+            {/* AI Tool Chip */}
             <Chip
+              size="xl" // 'sm' এর বদলে 'md' ব্যবহার করলে টেক্সট বড় দেখাবে
+              color="secondary"
+              variant="solid"
+              className="px-4 h-auto py-1.5 rounded-full border border-white/30 bg-violet-600/90 text-white min-w-fit"
+            >
+              {/* ডেটা চেক করার জন্য */}
+              {typeof aiToolName === "string" ? aiToolName : "Tool"}
+            </Chip>
+
+            {/* Difficulty Chip */}
+            <Chip
+              size="md"
+              color="warning"
+              variant="solid"
+              className="px-4 h-auto py-1.5 rounded-full border border-white/30 bg-amber-500/90 text-white min-w-fit"
+            >
+              {typeof difficultyLevel === "string" ? difficultyLevel : "Level"}
+            </Chip>
+          </div>
+          {/* <div className="flex gap-4"> */}
+          {/* AI Tool */}
+          {/* <Chip
               size="sm"
               color="secondary"
               variant="solid"
@@ -115,11 +135,9 @@ export default function PromptCard({ prompt }) {
             "
             >
               {aiToolName}
-            </Chip>
-
-            {/* Difficulty */}
-
-            <Chip
+            </Chip> */}
+          {/* Difficulty */}
+          {/* <Chip
               size="sm"
               color="warning"
               variant="solid"
@@ -134,11 +152,9 @@ export default function PromptCard({ prompt }) {
             "
             >
               {difficultyLevel}
-            </Chip>
-          </div>
-
+            </Chip> */}
+          {/* </div> */}
           {/* Title */}
-
           <Card.Title
             className="
             line-clamp-2
@@ -153,9 +169,7 @@ export default function PromptCard({ prompt }) {
           >
             {promptTitle}
           </Card.Title>
-
           {/* Description */}
-
           <Card.Description
             className="
             line-clamp-3
@@ -209,19 +223,22 @@ export default function PromptCard({ prompt }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar
-                src={creatorInformation.avatar}
-                name={creatorInformation.name}
+                src={
+                  creatorInformation?.avatar ||
+                  "https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                }
+                name={creatorInformation?.name || "Anonymous"}
                 size="md"
                 className="ring-2 ring-violet-100"
               />
 
               <div>
                 <h4 className="text-sm font-semibold text-default-900">
-                  {creatorInformation.name}
+                  {creatorInformation?.name || "Anonymous"}
                 </h4>
 
                 <p className="text-xs text-default-500">
-                  @{creatorInformation.username}
+                  @{creatorInformation?.username || "unknown"}
                 </p>
               </div>
             </div>

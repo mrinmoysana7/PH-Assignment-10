@@ -15,7 +15,7 @@ export const dashboardNavLinks = {
   user: [
     {
       label: "My Profile",
-      href: "/dashboard/user",
+      href: "/dashboard/user/my-profile",
       icon: Person,
     },
     {
