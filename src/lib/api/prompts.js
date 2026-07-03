@@ -19,3 +19,9 @@ export const getFeaturedPrompts = async () => {
 export const getPromptsById = async (jobId) => {
   return serverFetch(`/api/prompts/${jobId}`);
 };
+
+export const getUserPrompts = async (userId) => {
+  const data = await serverFetch(`/api/prompts/user/${userId}`);
+
+  return data.prompts;
+};
