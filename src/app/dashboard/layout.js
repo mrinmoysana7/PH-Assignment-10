@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }) {
           duration-300
         "
       >
-        <div className="p-5 md:p-8">{children}</div>
+        <div className="">{children}</div>
       </main>
     </div>
   );

@@ -8,8 +8,9 @@ import { Button } from "@heroui/react";
 
 import { ShieldAlert } from "lucide-react";
 
-import Modal from "@/components/ui/Modal";
+// import Modal from "@/components/ui/Modal";
 import { submitReport } from "@/lib/api/reports";
+import Modal from "../ui/Modal";
 // import { getLoggedInUser } from "@/lib/api/user";
 
 export default function ReportPromptModal({ open, setOpen, promptId, userId }) {

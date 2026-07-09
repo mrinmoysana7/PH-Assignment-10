@@ -12,8 +12,10 @@ import BookmarkButton from "./BookmarkButton";
 import CopyPromptButton from "./CopyPromptButton";
 import ReportPromptButton from "./ReportPromptButton";
 
-export default function PromptDetailsClient({ prompt, user }) {
+export default function PromptDetailsClient({ prompt, user, returnTo }) {
   const [copyCount, setCopyCount] = useState(prompt.copyCount || 0);
+
+  const backUrl = user && returnTo ? decodeURIComponent(returnTo) : "/prompts";
 
   return (
     <div className="bg-slate-50 text-slate-900 py-24 px-5 lg:px-10">
@@ -21,7 +23,7 @@ export default function PromptDetailsClient({ prompt, user }) {
         {/* Back Button */}
 
         <Link
-          href="/prompts"
+          href={backUrl}
           className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors w-fit"
         >
           <ArrowLeft size={16} />

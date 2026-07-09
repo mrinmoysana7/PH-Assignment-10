@@ -43,7 +43,7 @@ export default function Navbar() {
 
   // Dynamically push dashboard routes based on authentication role
   const dashboardLinks = {
-    user: "/dashboard/user",
+    user: "/dashboard/user/my-profile",
     creator: "/dashboard/creator",
     admin: "/dashboard/admin",
   };

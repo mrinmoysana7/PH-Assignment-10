@@ -12,9 +12,9 @@ const MyPromptsPage = async () => {
   const prompts = await getUserPrompts(user.id);
 
   return (
-    <div className="text-zinc-100 pt-10 mx-auto w-full px-4">
+    <div className="max-w-7xl mx-auto py-22 lg:py-10 w-full px-5 sm:px-6 md:px-10 lg:px-15">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold tracking-tight text-white">
+        <h2 className="text-3xl font-bold tracking-tight">
           My Prompt Templates
         </h2>
         <p className="text-zinc-400 text-sm mt-1">
@@ -23,7 +23,7 @@ const MyPromptsPage = async () => {
       </div>
 
       {/* ৩. টেবিলে প্রম্পট ডাটা পাস করুন */}
-      <PromptsTable prompts={prompts} />
+      <PromptsTable prompts={prompts} user={user} />
     </div>
   );
 };

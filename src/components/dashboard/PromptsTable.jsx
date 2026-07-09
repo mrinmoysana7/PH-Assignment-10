@@ -1,23 +1,23 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Table, Chip } from "@heroui/react";
-import {
-  Eye,
-  Pencil,
-  Trash2,
-  BarChart3,
-  Lock,
-  Unlock,
-  Star,
-} from "lucide-react";
+import { Eye, Lock, Unlock, Star } from "lucide-react";
+import Link from "next/link";
+import UpdatePromptModal from "../prompts/UpdatePromptModal";
 
-export default function PromptsTable({ prompts = [] }) {
-  console.log("PromptsTable received prompts:", prompts); // Debugging line
+import DeletePromptModal from "../prompts/DeletePromptModal";
+import PromptAnalyticsModal from "../prompts/PromptAnalyticsModal";
+
+export default function PromptsTable({ prompts = [], user }) {
+  // console.log("PromptsTable received prompts:", prompts);
   const getPromptId = (prompt) => prompt._id?.$oid || prompt._id;
 
+  const router = useRouter();
+
   return (
-    <div className="container mx-auto mt-6 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-x-auto">
+    <div className="mt-6 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-x-auto">
       <Table aria-label="My prompt templates table" className="min-w-200">
         <Table.ResizableContainer>
           <Table.Content>
@@ -102,7 +102,7 @@ text-center"
                 RATING
               </Table.Column>
               <Table.Column
-                minWidth={150}
+                minWidth={170}
                 className="text-xs
               w-50
 uppercase
@@ -235,52 +235,46 @@ py-4 "
                     </Table.Cell>
 
                     {/* ACTIONS COLUMN (৪টি চমৎকার বাটন) */}
-                    <Table.Cell className="">
-                      <div className="flex gap-2 items-center justify-center flex-wrap">
+                    <Table.Cell className="p-2">
+                      <div className="grid grid-cols-4 gap-1 items-center justify-center flex-wrap">
                         {/* View Details */}
-                        {/* <button
-                          isIconOnly
-                          size="sm"
-                          variant="flat"
-                          color="primary"
-                          title="View Details"
-                          className="p-2 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800/80 rounded-lg transition-colors"
-                        >
-                          <Eye className="w-4 h-4 text-white" />
-                        </button> */}
+                        <div>
+                          <Link
+                            href={`/prompts/${getPromptId(prompt)}?returnTo=/dashboard/user/my-prompts`}
+                            isIconOnly
+                            size="sm"
+                            variant="flat"
+                            color="primary"
+                            title="View Details"
+                            className="p-2 bg-zinc-900/50 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800/80 rounded-lg transition-colors flex items-center justify-center"
+                          >
+                            <Eye className="w-4 h-4 text-white" />
+                          </Link>
+                        </div>
                         {/* Edit Prompt */}
-                        <button
-                          isIconOnly
-                          size="sm"
-                          variant="flat"
-                          color="secondary"
-                          title="Edit Prompt"
-                          className="p-2 bg-zinc-900/50 hover:bg-zinc-800 border border-zinc-800/80 rounded-lg transition-colors"
-                        >
-                          <Pencil className="w-4 h-4 text-white" />
-                        </button>
+
+                        <div>
+                          <UpdatePromptModal
+                            prompt={prompt}
+                            onUpdated={() => router.refresh()}
+                          />
+                        </div>
+
                         {/* View Analytics */}
-                        <button
-                          isIconOnly
-                          size="sm"
-                          variant="flat"
-                          color="success"
-                          title="View Analytics"
-                          className="p-2 bg-zinc-900/50 hover:bg-zinc-800 border border-zinc-800/80 rounded-lg transition-colors"
-                        >
-                          <BarChart3 className="w-4 h-4 text-white" />
-                        </button>
+
+                        <div>
+                          <PromptAnalyticsModal prompt={prompt} />
+                        </div>
+
                         {/* Delete Prompt */}
-                        <button
-                          isIconOnly
-                          size="sm"
-                          variant="flat"
-                          color="danger"
-                          title="Delete Prompt"
-                          className="p-2 bg-red-200 hover:bg-red-500 border border-red-500 hover:border-red-900/50 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4 hover:text-white text-red-500" />
-                        </button>
+
+                        <div>
+                          <DeletePromptModal
+                            prompt={prompt}
+                            user={user}
+                            onDeleted={() => router.refresh()}
+                          />
+                        </div>
                       </div>
                     </Table.Cell>
                   </Table.Row>
@@ -293,7 +287,7 @@ py-4 "
 
       {/* Empty State fallback */}
       {prompts.length === 0 && (
-        <div className="text-center py-12 text-zinc-500 text-sm bg-zinc-950/20">
+        <div className=" overflow-x-auto text-center py-12 text-zinc-500 text-sm bg-zinc-950/20">
           No prompt templates found. Create your first template.
         </div>
       )}

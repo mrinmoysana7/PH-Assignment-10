@@ -83,13 +83,6 @@ export default function AddPromptPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // const payload = {
-    //   ...formData,
-    //   image: thumbnailUrl,
-    //   tags: formData.tags.split(",").map((tag) => tag.trim()),
-    //   copyCount: 0,
-    //   status: "pending",
-    // };
 
     const payload = {
       ...formData,
@@ -100,10 +93,14 @@ export default function AddPromptPage() {
         .map((tag) => tag.trim())
         .filter(Boolean),
 
+      userId: user?.id,
+
       copyCount: 0,
       reviews: 0,
       rating: 0,
+
       status: "pending",
+
       authorId: user?.id,
       authorName: user?.name,
       authorEmail: user?.email,
@@ -111,6 +108,9 @@ export default function AddPromptPage() {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+
+    console.log("Payload:", payload);
+
     try {
       const res = await addPrompt(payload);
       if (res.insertedId) {
@@ -195,11 +195,11 @@ shadow-2xl
   const difficultyLevels = ["Beginner", "Intermediate", "Advanced", "Expert"];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:py-12 font-sans text-gray-900">
+    <div className="min-h-screen px-5 sm:px-10 md:px-15 py-20 sm:py-20 md:py-22 lg:py-10 font-sans text-gray-900">
       <Toaster />
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold mb-2 text-gray-900 tracking-tight">
+          <h1 className="text-3xl font-bold mb-2 text-gray-900 tracking-tight">
             Create New Prompt
           </h1>
           <p className="text-gray-500">

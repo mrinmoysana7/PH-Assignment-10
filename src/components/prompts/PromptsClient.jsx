@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import PromptCard from "../ui/PromptCard";
 import PromptFilter from "./PromptFilter";
 
-export default function PromptsClient({ prompts }) {
+export default function PromptsClient({ prompts = [], user }) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [tool, setTool] = useState("all");
@@ -33,7 +33,7 @@ export default function PromptsClient({ prompts }) {
         matchesSearch && matchesCategory && matchesTool && matchesDifficulty
       );
     });
-  }, [prompts, search, category, tool, difficulty]);  
+  }, [prompts, search, category, tool, difficulty]);
 
   return (
     <div className="px-5 md:px-10 py-25 bg-[#fafafa]">
@@ -52,7 +52,7 @@ export default function PromptsClient({ prompts }) {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredPrompts.map((prompt) => (
-            <PromptCard key={prompt._id} prompt={prompt} />
+            <PromptCard key={prompt._id} prompt={prompt} user={user} />
           ))}
         </div>
       </div>

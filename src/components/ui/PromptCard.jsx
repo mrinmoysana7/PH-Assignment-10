@@ -6,8 +6,10 @@ import Link from "next/link";
 import { Avatar, Button, Card, Chip } from "@heroui/react";
 
 import { ArrowRight, Copy, Comment, StarFill } from "@gravity-ui/icons";
+import { useRouter } from "next/navigation";
 
-export default function PromptCard({ prompt }) {
+export default function PromptCard({ prompt, user }) {
+  const router = useRouter();
   const {
     _id,
     image,
@@ -24,11 +26,10 @@ export default function PromptCard({ prompt }) {
 
   const handleViewDetails = () => {
     if (!user) {
-      router.push("/login");
+      router.push("/signin");
       return;
     }
-
-    router.push(`/prompts/${prompt._id}`);
+    router.push(`/prompts/${_id}`);
   };
 
   return (
