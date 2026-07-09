@@ -65,7 +65,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
   ====================================== */
 
   console.log("Prompt:", prompt);
-  console.log("Prompt ID:", prompt._id);
+  console.log("Prompt ID:", prompt._id); 
   console.log("User:", user);
 
   const handleDelete = async () => {
