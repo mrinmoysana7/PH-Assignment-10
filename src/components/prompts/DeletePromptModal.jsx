@@ -80,7 +80,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
         return;
       }
 
-      toast.success("Prompt deleted successfully.");
+      toast.success("Prompt deleted successfully");
 
       handleClose();
 
