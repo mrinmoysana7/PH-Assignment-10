@@ -11,20 +11,28 @@ import { ArrowLeft, Flag, Star } from "lucide-react";
 import BookmarkButton from "./BookmarkButton";
 import CopyPromptButton from "./CopyPromptButton";
 import ReportPromptButton from "./ReportPromptButton";
+import ReviewSection from "../review/ReviewSection";
+import RatingStars from "../rating/RatingStars";
 
-export default function PromptDetailsClient({ prompt, user, returnTo }) {
+export default function PromptDetailsClient({
+  prompt,
+  user,
+  reviews,
+  returnTo,
+}) {
   const [copyCount, setCopyCount] = useState(prompt.copyCount || 0);
+  const [reviewList, setReviewList] = useState(reviews);
 
   const backUrl = user && returnTo ? decodeURIComponent(returnTo) : "/prompts";
 
   return (
-    <div className="bg-slate-50 text-slate-900 py-24 px-5 lg:px-10">
+    <div className="bg-slate-50 min-h-screen text-slate-900 pt-24 pb-10 px-5 md:px-10 lg:px-15">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
         {/* Back Button */}
 
         <Link
           href={backUrl}
-          className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors w-fit"
+          className="flex items-center gap-2 text-lg font-medium text-slate-500 hover:text-slate-900 transition-colors w-fit"
         >
           <ArrowLeft size={16} />
           Back to previous page
@@ -125,11 +133,13 @@ export default function PromptDetailsClient({ prompt, user, returnTo }) {
                 <div className="flex justify-between">
                   <span>Rating</span>
 
-                  <span className="flex items-center gap-1 font-bold">
-                    <Star size={14} className="fill-amber-400 text-amber-400" />
+                  <div className="flex items-center gap-2">
+                    <RatingStars value={prompt.rating} size={15} />
 
-                    {prompt.rating}
-                  </span>
+                    <span className="font-semibold">
+                      {Number(prompt.rating || 0).toFixed(1)}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -140,22 +150,20 @@ export default function PromptDetailsClient({ prompt, user, returnTo }) {
 
                 <div className="flex gap-3 items-center">
                   <Image
-                    src={
-                      prompt.creatorInformation?.avatar || "/default-avatar.png"
-                    }
+                    src={user?.image || "/default-avatar.png"}
                     width={42}
                     height={42}
                     alt="avatar"
-                    className="rounded-full"
+                    className="bg-gray-200 p-0.5 rounded-full"
                   />
 
                   <div>
                     <h4 className="font-semibold">
-                      {prompt.creatorInformation?.name || "Anonymous"}
+                      {user?.name || "Anonymous"}
                     </h4>
 
                     <p className="text-xs text-slate-500">
-                      @{prompt.creatorInformation?.username || "unknown"}
+                      @{user?.username || "unknown"}
                     </p>
                   </div>
                 </div>
@@ -163,6 +171,19 @@ export default function PromptDetailsClient({ prompt, user, returnTo }) {
             </Card.Content>
           </Card>
         </div>
+
+        {/* BUTTOM SIDE */}
+
+        {/* Reviews */}
+
+        <ReviewSection
+          prompt={prompt}
+          user={user}
+          reviews={reviewList}
+          onReviewAdded={(newReview) => {
+            setReviewList((prev) => [newReview, ...prev]);
+          }}
+        />
       </div>
     </div>
   );

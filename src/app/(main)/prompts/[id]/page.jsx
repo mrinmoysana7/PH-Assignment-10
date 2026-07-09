@@ -1,6 +1,7 @@
 import { getPromptsById } from "@/lib/api/prompts";
 import PromptDetailsClient from "@/components/prompts/PromptDetailsClient";
 import { getUserSession } from "@/lib/core/session";
+import { getReviews } from "@/lib/api/reviews";
 
 export default async function PromptDetailsPage({ params, searchParams }) {
   const { id } = await params;
@@ -10,11 +11,18 @@ export default async function PromptDetailsPage({ params, searchParams }) {
 
   const user = await getUserSession();
 
+  const reviews = await getReviews(id);
+
   if (!prompt) {
     return <div className="p-20 text-center">Prompt not found</div>;
   }
 
   return (
-    <PromptDetailsClient prompt={prompt} user={user} returnTo={returnTo} />
+    <PromptDetailsClient
+      prompt={prompt}
+      user={user}
+      returnTo={returnTo}
+      reviews={reviews}
+    />
   );
 }

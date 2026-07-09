@@ -17,7 +17,7 @@ export default function ReportPromptButton({ promptId, userId }) {
         isIconOnly
         variant="flat"
         onPress={() => setOpen(true)}
-        className="bg-slate-100 max-h-10 px-3 rounded-lg hover:bg-slate-200 hover:cursor-pointer border border-slate-200"
+        className="bg-slate-100 h-10 px-3 rounded-lg hover:bg-slate-200 hover:cursor-pointer border border-slate-200"
       >
         <Flag size={18} />
       </Button>
