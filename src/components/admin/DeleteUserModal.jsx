@@ -9,9 +9,9 @@ import { Button } from "@heroui/react";
 
 import { Trash2, X } from "lucide-react";
 
-import { deletePrompt } from "@/lib/api/prompts";
+import { deleteUser } from "@/lib/api/users";
 
-export default function DeletePromptModal({ prompt, user, onDeleted }) {
+export default function DeleteUserModal({ user, onDeleted }) {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -52,7 +52,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
     try {
       setLoading(true);
 
-      const result = await deletePrompt(prompt._id, user.id);
+      const result = await deleteUser(user._id);
 
       if (!result.success) {
         toast.error(result.message || "Delete failed.");
@@ -60,7 +60,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
         return;
       }
 
-      toast.success("Prompt deleted successfully");
+      toast.success("User deleted successfully.");
 
       handleClose();
 
@@ -98,8 +98,6 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
         <Trash2 className="w-4 h-4" />
       </Button>
 
-      {/* Modal */}
-
       {open && (
         <>
           {/* Backdrop */}
@@ -115,7 +113,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
             "
           />
 
-          {/* Modal Wrapper */}
+          {/* Modal */}
 
           <div
             className="
@@ -139,10 +137,6 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                 border-slate-700
                 bg-[#0F172A]
                 shadow-2xl
-                animate-in
-                fade-in
-                zoom-in-95
-                duration-200
               "
             >
               {/* Header */}
@@ -159,19 +153,13 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                 "
               >
                 <div className="flex items-center gap-4">
-                  <div
-                    className="
-                      rounded-2xl
-                      bg-red-500/10
-                      p-3
-                    "
-                  >
-                    <Trash2 className="text-red-500" size={24} />
+                  <div className="rounded-2xl bg-red-500/10 p-3">
+                    <Trash2 size={24} className="text-red-500" />
                   </div>
 
                   <div>
                     <h2 className="text-2xl font-bold text-white">
-                      Delete Prompt
+                      Delete User
                     </h2>
 
                     <p className="mt-1 text-sm text-slate-400">
@@ -189,7 +177,6 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                     text-slate-400
                     hover:bg-slate-800
                     hover:text-white
-                    transition
                   "
                 >
                   <X size={20} />
@@ -199,15 +186,9 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
               {/* Body */}
 
               <div className="space-y-6 p-8">
-                {/* Description */}
-
                 <p className="leading-7 text-slate-400">
-                  Are you sure you want to permanently delete this prompt
-                  template? Once deleted, it cannot be recovered and all
-                  associated analytics, bookmarks and reports will be removed.
+                  Are you sure you want to permanently delete this user account?
                 </p>
-
-                {/* Prompt Preview */}
 
                 <div
                   className="
@@ -218,26 +199,30 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                     p-5
                   "
                 >
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                    Prompt Title
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    USER NAME
                   </p>
 
                   <h3 className="mt-3 text-lg font-semibold text-white">
-                    {prompt?.promptTitle}
+                    {user?.name}
                   </h3>
 
                   <div className="mt-5">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                      Description
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                      EMAIL
                     </p>
 
-                    <p className="mt-2 line-clamp-3 leading-7 text-slate-400">
-                      {prompt?.fullDescription || "No description available."}
+                    <p className="mt-2 text-slate-400">{user?.email}</p>
+                  </div>
+
+                  <div className="mt-5">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                      ROLE
                     </p>
+
+                    <p className="mt-2 capitalize text-white">{user?.role}</p>
                   </div>
                 </div>
-
-                {/* Danger Alert */}
 
                 <div
                   className="
@@ -248,19 +233,8 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                     p-5
                   "
                 >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="
-                        flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-red-500/20
-                      "
-                    >
+                  <div className="flex gap-4">
+                    <div className="rounded-xl bg-red-500/20 p-2">
                       <Trash2 size={18} className="text-red-400" />
                     </div>
 
@@ -270,9 +244,8 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                       </h4>
 
                       <p className="mt-2 text-sm leading-7 text-red-200">
-                        Deleting this prompt will permanently remove the prompt,
-                        analytics, bookmarks, reports and related records from
-                        the system. This action cannot be undone.
+                        This user account will be permanently removed from the
+                        system.
                       </p>
                     </div>
                   </div>
@@ -284,12 +257,10 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
               <div
                 className="
                   flex
-                  items-center
                   justify-end
                   gap-3
                   border-t
                   border-slate-700
-                  bg-[#0F172A]
                   px-8
                   py-5
                 "
@@ -302,10 +273,6 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                     border-slate-600
                     bg-[#1E293B]
                     text-white
-                    hover:bg-slate-700
-                    rounded-xl
-                    px-6
-                    py-2
                   "
                 >
                   Cancel
@@ -315,21 +282,15 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                   color="danger"
                   isLoading={loading}
                   startContent={!loading && <Trash2 size={16} />}
-                  onClick={handleDelete}
+                  onPress={handleDelete}
                   className="
                     bg-linear-to-r
                     from-red-600
                     to-red-500
                     text-white
-                    rounded-xl
-                    px-6
-                    py-2
-                    cursor-pointer
-                    hover:translate-y-0.5
-                    transition-all
                   "
                 >
-                  Delete Prompt
+                  Delete User
                 </Button>
               </div>
             </div>
