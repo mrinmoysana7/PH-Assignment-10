@@ -34,7 +34,7 @@ export default function PromptCard({ prompt, user }) {
     router.push(`/prompts/${_id}`);
   };
 
-  return (
+  return ( 
     <Card
       radius="xl"
       className="
