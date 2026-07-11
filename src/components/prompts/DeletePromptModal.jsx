@@ -64,9 +64,9 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
             DELETE PROMPT
   ====================================== */
 
-  console.log("Prompt:", prompt);
-  console.log("Prompt ID:", prompt._id); 
-  console.log("User:", user);
+  // console.log("Prompt:", prompt);
+  // console.log("Prompt ID:", prompt._id);
+  // console.log("User:", user);
 
   const handleDelete = async () => {
     try {
@@ -114,7 +114,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
           p-2
           bg-red-900/20
           hover:bg-red-600
-          hover:text-white
+          text-white
           border
           border-red-700/30
           rounded-lg
@@ -341,7 +341,7 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                   color="danger"
                   isLoading={loading}
                   startContent={!loading && <Trash2 size={16} />}
-                  onPress={handleDelete}
+                  onClick={handleDelete}
                   className="
                     bg-linear-to-r
                     from-red-600
@@ -350,6 +350,9 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                     rounded-xl
                     px-6
                     py-2
+                    cursor-pointer
+                    hover:translate-y-0.5
+                    transition-all
                   "
                 >
                   Delete Prompt

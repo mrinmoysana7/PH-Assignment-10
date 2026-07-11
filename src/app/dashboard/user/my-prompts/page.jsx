@@ -12,14 +12,32 @@ const MyPromptsPage = async () => {
   const prompts = await getUserPrompts(user.id);
 
   return (
-    <div className="max-w-7xl mx-auto py-22 lg:py-10 w-full px-5 sm:px-6 md:px-10 lg:px-15">
-      <div className="mb-6">
-        <h2 className="text-3xl font-bold tracking-tight">
-          My Prompt Templates
-        </h2>
-        <p className="text-zinc-400 text-sm mt-1">
-          Review approval statuses, change details, and check analytics.
-        </p>
+    <div className="max-w-7xl mx-auto py-22 lg:py-10 w-full px-6">
+      {/* Header */}
+
+      <div className="rounded-3xl border border-slate-800 bg-[#0F172A] p-8 shadow-xl">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-3">
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
+              My Product Reviews
+            </h1>
+
+            <p className="max-w-2xl mb-3 text-slate-400">
+              Feedback and ratings you have posted on the PromptVerse
+              marketplace.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-violet-500/20 bg-violet-500/10 px-6 py-5">
+            <p className="text-xs uppercase tracking-widest text-violet-300">
+              Total Prompts
+            </p>
+
+            <h2 className="mt-2 text-4xl font-bold text-white">
+              {prompts.length}
+            </h2>
+          </div>
+        </div>
       </div>
 
       {/* ৩. টেবিলে প্রম্পট ডাটা পাস করুন */}

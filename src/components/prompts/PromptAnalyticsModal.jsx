@@ -95,9 +95,9 @@ export default function PromptAnalyticsModal({ prompt }) {
           p-2
           bg-zinc-900/50
           hover:bg-green-600
-          hover:text-white
+          text-white
           border
-          border-zinc-800/80
+          border-green-800
           rounded-lg
           transition-all
           duration-300

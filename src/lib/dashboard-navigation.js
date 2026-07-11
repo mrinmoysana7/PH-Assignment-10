@@ -42,14 +42,14 @@ export const dashboardNavLinks = {
 
   creator: [
     {
-      label: "Creator Home",
-      href: "/dashboard/creator",
-      icon: LayoutSplitSideContentRight,
+      label: "My Profile",
+      href: "/dashboard/creator/my-profile",
+      icon: Person,
     },
     {
-      label: "My Profile",
-      href: "/dashboard/creator/profile",
-      icon: Person,
+      label: "Creator Home",
+      href: "/dashboard/creator/creator-dashboard",
+      icon: LayoutSplitSideContentRight,
     },
     {
       label: "Add Prompt",
@@ -65,9 +65,14 @@ export const dashboardNavLinks = {
 
   admin: [
     {
-      label: "Dashboard",
-      href: "/dashboard/admin",
-      icon: LayoutSplitSideContentRight,
+      label: "My Profile",
+      href: "/dashboard/admin/profile",
+      icon: Person,
+    },
+    {
+      label: "Admin Analytics",
+      href: "/dashboard/admin/analytics",
+      icon: ChartColumn,
     },
     {
       label: "All Users",
@@ -88,11 +93,6 @@ export const dashboardNavLinks = {
       label: "Reported Prompts",
       href: "/dashboard/admin/reported-prompts",
       icon: TriangleExclamation,
-    },
-    {
-      label: "Analytics",
-      href: "/dashboard/admin/analytics",
-      icon: ChartColumn,
     },
     {
       label: "Settings",

@@ -24,6 +24,8 @@ export default function PromptCard({ prompt, user }) {
     rating,
   } = prompt;
 
+  const username = creatorInformation?.name?.replace(/\s+/g, "").toLowerCase();
+
   const handleViewDetails = () => {
     if (!user) {
       router.push("/signin");
@@ -118,44 +120,7 @@ export default function PromptCard({ prompt, user }) {
               {typeof difficultyLevel === "string" ? difficultyLevel : "Level"}
             </Chip>
           </div>
-          {/* <div className="flex gap-4"> */}
-          {/* AI Tool */}
-          {/* <Chip
-              size="sm"
-              color="secondary"
-              variant="solid"
-              className="
-              px-4
-              py-1
-              rounded-full
-              border
-              border-white/30
-              bg-violet-600/90
-              backdrop-blur-md
-              text-white
-            "
-            >
-              {aiToolName}
-            </Chip> */}
-          {/* Difficulty */}
-          {/* <Chip
-              size="sm"
-              color="warning"
-              variant="solid"
-              className="
-              px-4
-              py-1
-              rounded-full
-              border
-              border-white/30
-              bg-amber-500/90
-              text-white
-            "
-            >
-              {difficultyLevel}
-            </Chip> */}
-          {/* </div> */}
-          {/* Title */}
+
           <Card.Title
             className="
             line-clamp-2
@@ -224,10 +189,7 @@ export default function PromptCard({ prompt, user }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar
-                src={
-                  creatorInformation?.avatar ||
-                  "https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                }
+                src={creatorInformation?.image || "/default-avatar.png"}
                 name={creatorInformation?.name || "Anonymous"}
                 size="md"
                 className="ring-2 ring-violet-100"
@@ -238,15 +200,13 @@ export default function PromptCard({ prompt, user }) {
                   {creatorInformation?.name || "Anonymous"}
                 </h4>
 
-                <p className="text-xs text-default-500">
-                  @{creatorInformation?.username || "unknown"}
-                </p>
+                <p className="text-xs text-default-500">@{username}</p>
               </div>
             </div>
 
             <div className="rounded-full bg-violet-100 px-3 py-1">
               <span className="text-xs font-semibold text-violet-700">
-                Creator
+                {creatorInformation?.role}
               </span>
             </div>
           </div>

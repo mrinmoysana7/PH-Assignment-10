@@ -17,11 +17,19 @@ export default function PromptsTable({ prompts = [], user }) {
   const router = useRouter();
 
   return (
-    <div className="mt-6 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-x-auto">
+    <div
+      className="mt-8
+        overflow-x-auto
+        rounded-3xl
+        border
+        border-slate-800
+        bg-[#0F172A]
+        shadow-2xl"
+    >
       <Table aria-label="My prompt templates table" className="min-w-200">
         <Table.ResizableContainer>
           <Table.Content>
-            <Table.Header className="bg-gray-50">
+            <Table.Header className="bg-[#131C33]">
               <Table.Column
                 isRowHeader
                 minWidth={220}
@@ -31,7 +39,6 @@ uppercase
 tracking-wider
 font-bold
 text-gray-500
-border-r border-gray-200
 px-4"
               >
                 TITLE
@@ -44,7 +51,6 @@ uppercase
 tracking-wider
 font-bold
 text-gray-500
-border-r border-gray-200
 px-1"
               >
                 AI ENGINE
@@ -57,7 +63,6 @@ uppercase
 tracking-wider
 font-bold
 text-gray-500
-border-r border-gray-200
 "
               >
                 VISIBILITY
@@ -70,7 +75,6 @@ uppercase
 tracking-wider
 font-bold
 text-gray-500
-border-r border-gray-200
  "
               >
                 STATUS
@@ -83,7 +87,6 @@ uppercase
 tracking-wider
 font-bold
 text-gray-500
-border-r border-gray-200
 text-center"
               >
                 COPIES
@@ -96,7 +99,6 @@ uppercase
 tracking-wider
 font-bold
 text-gray-500
-border-r border-gray-200
 text-center"
               >
                 RATING
@@ -119,7 +121,7 @@ py-4 "
             {/* টেবিল বডি */}
             <Table.Body>
               {prompts.map((prompt) => {
-                console.log("Prompt Data:", prompt); // Debugging line to check the structure of prompt
+                // console.log("Prompt Data:", prompt); // Debugging line to check the structure of prompt
                 const isRejected = prompt.status?.toLowerCase() === "rejected";
 
                 return (
@@ -130,10 +132,10 @@ py-4 "
                     {/* TITLE COLUMN (ইমেজ অনুযায়ী টাইটেল, ক্যাটাগরি এবং রিজেকশন ফিডব্যাক সহ) */}
                     <Table.Cell className="py-6 px-5">
                       <div className="flex flex-col gap-0.5">
-                        <span className="font-semibold text-black/80 text-base text-ellipsis overflow-hidden whitespace-nowrap">
+                        <span className="font-semibold text-white text-base text-ellipsis overflow-hidden whitespace-nowrap">
                           {prompt.promptTitle}
                         </span>
-                        <span className="text-xs text-zinc-600">
+                        <span className="text-xs text-gray-300">
                           Category: {prompt.category}
                         </span>
 
@@ -170,7 +172,7 @@ py-4 "
                             ? "warning"
                             : "success"
                         }
-                        className="flex justify-center items-center gap-1 text-black/80"
+                        className="flex justify-center items-center gap-1 text-white"
                       >
                         {prompt.visibility === "private" ? (
                           <Lock size={14} />
@@ -219,7 +221,7 @@ py-4 "
                     </Table.Cell>
 
                     {/* COPIES COLUMN */}
-                    <Table.Cell className="text-center text-black/80 font-semibold">
+                    <Table.Cell className="text-center text-white font-semibold">
                       {prompt.copyCount || 0}
                     </Table.Cell>
 
@@ -228,7 +230,7 @@ py-4 "
                       <div className="flex justify-center items-center gap-1.5">
                         <Star size={15} fill="#facc15" stroke="#facc15" />
 
-                        <span className="font-medium text-black/80">
+                        <span className="font-medium text-white">
                           {prompt.rating.toFixed(1)}
                         </span>
                       </div>
@@ -246,9 +248,9 @@ py-4 "
                             variant="flat"
                             color="primary"
                             title="View Details"
-                            className="p-2 bg-zinc-900/50 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800/80 rounded-lg transition-colors flex items-center justify-center"
+                            className="p-2 bg-zinc-900/50 hover:bg-white/75 text-white hover:text-black border border-white/75 rounded-lg transition-colors flex items-center justify-center"
                           >
-                            <Eye className="w-4 h-4 text-white" />
+                            <Eye className="w-4 h-4 " />
                           </Link>
                         </div>
                         {/* Edit Prompt */}
@@ -287,8 +289,15 @@ py-4 "
 
       {/* Empty State fallback */}
       {prompts.length === 0 && (
-        <div className=" overflow-x-auto text-center py-12 text-zinc-500 text-sm bg-zinc-950/20">
-          No prompt templates found. Create your first template.
+        // <div className=" overflow-x-auto text-center py-12 text-zinc-500 text-sm bg-zinc-950/20">
+        //   No prompt templates found. Create your first template.
+        // </div>
+        <div className="py-20 text-center">
+          <h3 className="text-xl font-semibold text-white">No prompt found</h3>
+
+          <p className="mt-3 text-slate-400">
+            You havent published any prompts yet.
+          </p>
         </div>
       )}
     </div>

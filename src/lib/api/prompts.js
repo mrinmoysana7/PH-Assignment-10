@@ -92,6 +92,14 @@ export const deletePrompt = async (promptId, authorId) => {
   );
 };
 
+// export const deletePrompt = async (promptId) => {
+//   return serverMutation("/api/bookmarks/remove", promptId, "DELETE");
+// };
+
+// export const removeBookmark = async (data) => {
+//   return serverMutation("/api/bookmarks/remove", data, "DELETE");
+// };
+
 /* ==========================================
    Copy Prompt
 ========================================== */
@@ -152,4 +160,10 @@ export const rejectPrompt = async (promptId) => {
 
 export const approvePrompt = async (promptId) => {
   return serverMutation(`/api/prompts/${promptId}/approve`, {}, "PATCH");
+};
+
+export const getCreatorAnalytics = async (userId) => {
+  const data = await serverFetch(`/api/creator/${userId}/analytics`);
+
+  return data.analytics;
 };

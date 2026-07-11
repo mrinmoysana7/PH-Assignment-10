@@ -101,10 +101,17 @@ export default function AddPromptPage() {
 
       status: "pending",
 
-      authorId: user?.id,
-      authorName: user?.name,
-      authorEmail: user?.email,
-      authorImage: user?.image || "",
+      creatorInformation: {
+        id: user.id,
+
+        name: user.name,
+
+        email: user.email,
+
+        image: user.image,
+
+        role: user.role,
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -127,33 +134,32 @@ export default function AddPromptPage() {
 
   // Light Mode Styles
   const labelClass =
-    "mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500";
+    "mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-white";
   const fieldWrapperClass = "flex w-full flex-col gap-2";
   const inputClass = `
 h-14
 rounded-2xl
 border
 border-gray-200
-bg-white
+bg-white/5
 px-4
-text-gray-900
 placeholder:text-gray-400
 shadow-md
 transition-all
 duration-300
-hover:border-violet-300
-focus:border-violet-500
+hover:border-violet-600
 focus:ring-4
-focus:ring-violet-100
+focus:ring-violet-600
 `;
   const selectTriggerClass = `
 h-14
 rounded-2xl
 border
 border-gray-200
-bg-white
+bg-white/5
 px-4
 shadow-md
+text-gray-400
 transition-all
 duration-300
 hover:border-violet-300
@@ -207,7 +213,7 @@ shadow-2xl
           </p>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-10 shadow-sm">
+        <div className="bg-[#0F172A] border border-gray-200 rounded-2xl p-6 md:p-10 shadow-sm">
           <Form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
             <TextField isRequired className={fieldWrapperClass}>
               <Label className={labelClass}>Prompt Title</Label>
@@ -439,7 +445,7 @@ shadow-2xl
             {/* Thumbnail Upload */}
             <div className="flex flex-col gap-2">
               <span className={labelClass}>Thumbnail</span>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-purple-400 transition-colors">
+              <div className="border-2 border-dashed border-gray-300 rounded-xl bg-white/10 p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-purple-400 transition-colors">
                 <input
                   type="file"
                   onChange={handleImageUpload}
@@ -455,8 +461,8 @@ shadow-2xl
                   />
                 ) : (
                   <>
-                    <ArrowUpFromLine className="w-8 h-8 text-gray-400 mb-2" />
-                    <p className="text-sm font-medium text-gray-600">
+                    <ArrowUpFromLine className="w-8 h-8 text-gray-100 mb-2" />
+                    <p className="text-sm font-medium text-gray-100">
                       Click to upload image
                     </p>
                   </>

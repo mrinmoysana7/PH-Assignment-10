@@ -191,9 +191,9 @@ export default function UpdatePromptModal({ prompt, onUpdated }) {
         onPress={handleOpen}
         className="
           bg-zinc-900/50
-          hover:bg-violet-600
+          hover:bg-violet-600 
           border
-          border-zinc-800
+          border-violet-600
           transition-all
           duration-300
           p-2

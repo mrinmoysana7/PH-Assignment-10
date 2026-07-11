@@ -5,7 +5,13 @@ export const serverFetch = async (path) => {
     cache: "no-store",
   });
 
-  return res.json();
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Something went wrong");
+  }
+
+  return data;
 };
 
 export const serverMutation = async (path, data, method = "POST") => {

@@ -2,7 +2,7 @@
 
 export default function SavedPromptSkeleton() {
   return (
-    <div className="animate-pulse rounded-2xl border border-zinc-800 bg-[#111827] p-5">
+    <div className="animate-pulse duration-initial rounded-2xl border border-zinc-800 bg-[#111827] p-5">
       <div className="flex gap-2">
         <div className="h-6 w-20 rounded-full bg-zinc-700"></div>
 
