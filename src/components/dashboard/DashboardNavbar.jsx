@@ -85,29 +85,28 @@ export default function DashboardNavbar({ sidebarOpen, setSidebarOpen }) {
           <div
             className="
               items-center
-              gap-5
-              rounded-2xl
-              border
-              border-white/10
-              bg-white/5
+              gap-3
               px-3
               py-2
               hidden 
               md:flex
             "
           >
-            <Image
-              src={user?.image}
-              width={30}
-              height={30}
-              alt={user?.name}
-              className="rounded-full"
-            ></Image>
+          
+            <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-violet-500">
+              <Image
+                src={user?.image || "https://i.pravatar.cc/150?img=12"}
+                alt={user?.name || "User"}
+                fill
+                className="object-cover"
+              />
+            </div>
+
 
             <div>
               <p className="text-sm font-semibold">{user?.name || "User"}</p>
 
-              <p className="text-xs capitalize bg-cyan-100 rounded-full text-center p-0.5 w-15 text-cyan-600 border border-cyan-300">
+              <p className="text-xs capitalize bg-cyan-100 rounded-md text-center text-cyan-600 border border-cyan-300">
                 {user?.role}
               </p>
             </div>

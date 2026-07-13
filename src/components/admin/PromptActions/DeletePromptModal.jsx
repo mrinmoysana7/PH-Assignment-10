@@ -1,19 +1,17 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
-import toast from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 import { Button } from "@heroui/react";
 
 import { Trash2, AlertTriangle, X } from "lucide-react";
 import { deletePromptByAdmin } from "@/lib/api/adminPrompts";
 
-// import { deletePrompt } from "@/lib/api/adminPrompts";
-
 export default function DeletePromptModal({ prompt, onClose, onDeleted }) {
-  const router = useRouter();
+  // const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -69,7 +67,11 @@ export default function DeletePromptModal({ prompt, onClose, onDeleted }) {
 
       onDeleted?.();
 
-      router.refresh();
+      setTimeout(() => {
+        handleClose();
+      }, 1200);
+
+      // router.refresh();
     } catch (error) {
       console.error(error);
 
@@ -81,6 +83,7 @@ export default function DeletePromptModal({ prompt, onClose, onDeleted }) {
 
   return (
     <>
+      <Toaster position="top-right"></Toaster>
       {/* ================= BACKDROP ================= */}
 
       <div

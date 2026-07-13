@@ -205,7 +205,12 @@ py-4 "
                               ? "Pending"
                               : "Rejected"} */}
 
-                          {prompt.status === "pending" ? (
+                          {prompt.status === "approved" ? (
+                            <span className="text-green-500 border border-green-500 rounded-full px-3 py-1 bg-green-100">
+                              {" "}
+                              Approved
+                            </span>
+                          ) : prompt.status === "pending" ? (
                             <span className="text-yellow-500 border border-yellow-500 rounded-full px-3 py-1 bg-orange-100">
                               {" "}
                               Pending

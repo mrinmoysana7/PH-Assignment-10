@@ -17,7 +17,7 @@ export default async function MyProfilePage() {
   console.log("Profile Data:", profile);
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto py-20 sm:py-20 md:py-22 lg:py-10 px-6 sm:px-8 md:px-10 lg:px-15">
+    <div className="space-y-8 max-w-7xl mx-auto px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       <div clasName="">
         <h1 className="text-3xl font-bold">User Account Profile</h1>
 

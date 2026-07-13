@@ -36,7 +36,7 @@ export default function PromptsClient({ prompts = [], user }) {
   }, [prompts, search, category, tool, difficulty]);
 
   return (
-    <div className="px-5 md:px-10 py-25 bg-[#fafafa]">
+    <div className="px-5 min-h-screen md:px-10 py-25 bg-[#fafafa]">
       <div className="container space-y-8 mx-auto">
         <PromptFilter
           search={search}

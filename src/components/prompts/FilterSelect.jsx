@@ -87,7 +87,7 @@ export default function FilterSelect({
         </Select.Trigger>
 
         <Select.Popover className="rounded-2xl border border-default-200 bg-white p-2 shadow-xl">
-          <ListBox>
+          {/* <ListBox>
             {options.map((item) => (
               <ListBox.Item
                 key={item}
@@ -97,6 +97,23 @@ export default function FilterSelect({
                 {item === "all"
                   ? placeholder
                   : item.charAt(0).toUpperCase() + item.slice(1)}
+              </ListBox.Item>
+            ))}
+          </ListBox> */}
+
+          <ListBox>
+            {options.map((item) => (
+              <ListBox.Item
+                key={typeof item === "string" ? item : item.value}
+                id={typeof item === "string" ? item : item.value}
+                textValue={typeof item === "string" ? item : item.label}
+                className="rounded-xl px-3 py-2 hover:bg-violet-50"
+              >
+                {typeof item === "string"
+                  ? item === "all"
+                    ? placeholder
+                    : item
+                  : item.label}
               </ListBox.Item>
             ))}
           </ListBox>

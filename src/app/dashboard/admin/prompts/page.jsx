@@ -7,11 +7,11 @@ export default async function AdminPromptsPage() {
   const prompts = response?.prompts || [];
 
   return (
-    <div className="container mx-auto  md:py-25 lg:py-10">
+    <div className="max-w-7xl mx-auto px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       {/* ================= Header ================= */}
 
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold">
+      <div className="mb-8">
+        <h1 className="text-2xl md:text-4xl font-bold">
           Prompt Template Submissions Moderation
         </h1>
 

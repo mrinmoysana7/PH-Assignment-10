@@ -114,7 +114,7 @@ export default function AddPromptForm() {
   const handleSelectChange = (field, keys) => {
     setFormData((prev) => ({
       ...prev,
-      [field]: Array.from(keys)[0],
+      [field]: Array.from(keys),
     }));
   };
 

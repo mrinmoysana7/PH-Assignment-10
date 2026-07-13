@@ -25,6 +25,8 @@ export default function PromptDetailsClient({
 
   const backUrl = user && returnTo ? decodeURIComponent(returnTo) : "/prompts";
 
+  const creator = prompt?.creatorInformation;
+
   return (
     <div className="bg-slate-50 min-h-screen text-slate-900 pt-24 pb-10 px-5 md:px-10 lg:px-15">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
@@ -150,21 +152,21 @@ export default function PromptDetailsClient({
 
                 <div className="flex gap-3 items-center">
                   <Image
-                    src={user?.image || "/default-avatar.png"}
-                    width={42}
-                    height={42}
+                    src={creator?.image || "/default-avatar.png"}
+                    width={0}
+                    height={0}
                     alt="avatar"
-                    className="bg-gray-200 p-0.5 rounded-full"
+                    className="bg-gray-200 p-1 h-13 w-13 rounded-full"
                   />
 
                   <div>
                     <h4 className="font-semibold">
-                      {user?.name || "Anonymous"}
+                      {creator?.name || "Anonymous"}
                     </h4>
 
-                    <p className="text-xs text-slate-500">
-                      @{user?.username || "unknown"}
-                    </p>
+                    {/* <p className="text-xs text-slate-500">
+                      @{creator?.username || "unknown"}
+                    </p> */}
                   </div>
                 </div>
               </div>

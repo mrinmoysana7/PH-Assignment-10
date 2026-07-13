@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-
 import { Table, Button } from "@heroui/react";
 
-import {  Person, Calendar } from "@gravity-ui/icons";
+import { Person, Calendar } from "@gravity-ui/icons";
 
 import DeleteUserModal from "./DeleteUserModal";
 import Image from "next/image";
@@ -17,8 +16,6 @@ export default function AllUsersTable({ users = [] }) {
 
   const [loadingUser, setLoadingUser] = useState(null);
 
-
-
   const getUserId = (user) => user?._id || user?.id || "";
 
   const formatDate = (date) => {
@@ -26,8 +23,6 @@ export default function AllUsersTable({ users = [] }) {
 
     return new Date(date).toLocaleDateString("en-GB");
   };
-
-
 
   const handleRoleChange = async (userId, role) => {
     if (!role) return;
@@ -175,13 +170,24 @@ export default function AllUsersTable({ users = [] }) {
 
                     <Table.Cell className="px-5 py-5">
                       <div className="flex items-center gap-4">
-                        <Image
+                        {/* <Image
                           alt="image"
-                          width={30}
-                          height={5}
+                          width={0}
+                          height={0}
                           src={user?.image || ""}
-                          className="ring-2 ring-violet-500/20 rounded-full"
-                        />
+                          className="ring-2 h-10 w-10 ring-violet-500/20 rounded-full"
+                        /> */}
+
+                        <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-violet-500">
+                          <Image
+                            src={
+                              user?.image || "https://i.pravatar.cc/150?img=12"
+                            }
+                            alt={user?.name || "User"}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
 
                         <div className="flex flex-col">
                           <h3 className="font-semibold text-white">
@@ -235,8 +241,6 @@ export default function AllUsersTable({ users = [] }) {
                     {/* ================================= */}
                     {/* ROLE */}
                     {/* ================================= */}
-
-                    
 
                     <Table.Cell>
                       <div className="">
