@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Card, Button, Chip } from "@heroui/react";
 
 import { ArrowLeft, Flag, Star } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import BookmarkButton from "./BookmarkButton";
 import CopyPromptButton from "./CopyPromptButton";
@@ -23,7 +24,7 @@ export default function PromptDetailsClient({
   const [copyCount, setCopyCount] = useState(prompt.copyCount || 0);
   const [reviewList, setReviewList] = useState(reviews);
 
-  const backUrl = user && returnTo ? decodeURIComponent(returnTo) : "/prompts";
+  const backUrl = returnTo ? decodeURIComponent(returnTo) : "/prompts";
 
   const creator = prompt?.creatorInformation;
 
@@ -59,7 +60,7 @@ export default function PromptDetailsClient({
                 <div className="flex gap-2 shrink-0">
                   <BookmarkButton promptId={prompt._id} />
 
-                  <ReportPromptButton promptId={prompt._id} userId={user?.id} />
+                  <ReportPromptButton prompt={prompt} user={user} />
                 </div>
               </div>
 

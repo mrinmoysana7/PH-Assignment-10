@@ -94,10 +94,10 @@ export const dashboardNavLinks = {
       href: "/dashboard/admin/reported-prompts",
       icon: TriangleExclamation,
     },
-    {
-      label: "Settings",
-      href: "/dashboard/admin/settings",
-      icon: Gear,
-    },
+    // {
+    //   label: "Settings",
+    //   href: "/dashboard/admin/settings",
+    //   icon: Gear,
+    // },
   ],
 };

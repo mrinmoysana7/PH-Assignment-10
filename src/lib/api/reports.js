@@ -20,6 +20,10 @@ export const warnCreator = (reportId, message) => {
   );
 };
 
-export const removeReportedPrompt = (reportId) => {
-  return serverMutation(`/api/admin/reports/${reportId}/remove`, {}, "DELETE");
+export const deleteReport = (reportId) => {
+  return serverMutation(`/api/admin/reports/${reportId}`, {}, "DELETE");
+};
+
+export const dismissReport = (reportId) => {
+  return serverMutation(`/api/admin/reports/${reportId}/dismiss`, {}, "PATCH");
 };

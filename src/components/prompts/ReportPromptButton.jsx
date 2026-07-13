@@ -8,7 +8,7 @@ import { Flag } from "lucide-react";
 
 import ReportPromptModal from "./ReportPromptModal";
 
-export default function ReportPromptButton({ promptId, userId }) {
+export default function ReportPromptButton({ prompt, user }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -25,8 +25,8 @@ export default function ReportPromptButton({ promptId, userId }) {
       <ReportPromptModal
         open={open}
         setOpen={setOpen}
-        promptId={promptId}
-        userId={userId}
+        prompt={prompt}
+        user={user}
       />
     </>
   );

@@ -91,7 +91,7 @@ export default function PromptFilter({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by title, description or tags..."
-                className="h-14 text-[15px] w-full"
+                className="h-14 text-[15px] w-full focus:outline-none"
               />
             </InputGroup>
           </TextField>

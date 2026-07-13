@@ -13,12 +13,12 @@ export default function PromptsClient({ prompts = [], user }) {
 
   const filteredPrompts = useMemo(() => {
     return prompts.filter((prompt) => {
-      const keyword = search.toLowerCase();
+      const keyword = search;
 
       const matchesSearch =
-        prompt.promptTitle.toLowerCase().includes(keyword) ||
-        prompt.fullDescription.toLowerCase().includes(keyword) ||
-        prompt.aiToolName.toLowerCase().includes(keyword) ||
+        prompt.promptTitle.includes(keyword) ||
+        prompt.fullDescription.includes(keyword) ||
+        prompt.aiToolName.includes(keyword) ||
         prompt.tags.some((tag) => tag.toLowerCase().includes(keyword));
 
       const matchesCategory =

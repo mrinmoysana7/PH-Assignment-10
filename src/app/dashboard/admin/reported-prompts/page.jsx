@@ -5,11 +5,11 @@ export default async function ReportedPromptsPage() {
   const reports = await getReportedPrompts();
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10">
+    <div className="max-w-7xl mx-auto px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       {/* Header */}
 
       <div className="mb-10">
-        <h1 className="text-4xl font-bold text-white">
+        <h1 className="text-2xl md:text-4xl font-bold">
           Reported Prompts Moderation Queue
         </h1>
 

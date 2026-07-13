@@ -2,26 +2,24 @@
 
 export default function AnalyticsCard({ title, value, icon: Icon, color }) {
   const colors = {
-    violet: "bg-violet-500/10 text-violet-400",
+    violet: " text-violet-400",
 
-    sky: "bg-sky-500/10 text-sky-400",
+    sky: " text-sky-400",
 
-    emerald: "bg-emerald-500/10 text-emerald-400",
+    emerald: " text-emerald-400",
 
-    amber: "bg-amber-500/10 text-amber-400",
+    amber: " text-amber-400",
 
-    rose: "bg-rose-500/10 text-rose-400",
+    rose: "text-rose-400",
   };
 
   return (
     <div
       className="
       rounded-3xl
-      border
-      border-default-100
       bg-content1
       p-7
-      shadow-md
+      shadow-lg
       transition-all
       hover:-translate-y-1
       hover:shadow-xl
@@ -31,8 +29,8 @@ export default function AnalyticsCard({ title, value, icon: Icon, color }) {
         <div
           className={`
             flex
-            h-16
-            w-16
+            fllex-wrap
+            
             items-center
             justify-center
             rounded-2xl

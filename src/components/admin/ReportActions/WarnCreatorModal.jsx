@@ -6,11 +6,20 @@ import { useRouter } from "next/navigation";
 
 import toast from "react-hot-toast";
 
-import { Button, Avatar, Chip, TextArea } from "@heroui/react";
+import {
+  Button,
+  Avatar,
+  Chip,
+  TextArea,
+  TextField,
+  ChipLabel,
+} from "@heroui/react";
 
 import { AlertTriangle, Mail, ShieldAlert, User, X } from "lucide-react";
-
 import { warnCreator } from "@/lib/api/reports";
+import { Label } from "recharts";
+
+// import { warnCreator } from "@/lib/api/reports";
 
 export default function WarnCreatorModal({ report, onClose, onUpdated }) {
   const router = useRouter();
@@ -58,7 +67,6 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
   const handleWarnCreator = async () => {
     if (!message.trim()) {
       toast.error("Please write a warning message.");
-
       return;
     }
 
@@ -68,21 +76,18 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
       const result = await warnCreator(report._id, message.trim());
 
       if (!result.success) {
-        toast.error(result.message || "Failed to send warning.");
-
+        toast.error(result.message);
         return;
       }
 
       toast.success("Warning sent successfully.");
 
-      onUpdated?.();
-
-      handleClose();
-
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-
+      setTimeout(() => {
+        handleClose();
+        onUpdated?.();
+      }, 1200);
+    } catch (err) {
+      console.error(err);
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -126,7 +131,8 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
           onClick={(e) => e.stopPropagation()}
           className="
             w-full
-            max-w-3xl
+            max-h-200
+            max-w-2xl
             overflow-hidden
             rounded-3xl
             border
@@ -200,7 +206,7 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                 Creator Information
             ========================================== */}
 
-            <div
+            {/* <div
               className="
                 rounded-2xl
                 border
@@ -225,30 +231,25 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                 </div>
               </div>
 
-              <div className="flex items-center gap-5">
-                <Avatar
-                  src={report.creator?.image}
-                  name={report.creator?.name}
-                  className="h-16 w-16"
-                />
-
+              <div className="">
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-white">
-                    {report.creator?.name}
-                  </h4>
+                  <div className="flex gap-3">
+                    <h4 className="text-lg font-semibold text-white">
+                      {report.creator?.name}
+                    </h4>
+                    <div className="text-cyan-700 rounded-full  text-center border border-cyan-700 bg-cyan-200 px-3 py-1">
+                      {report.creator?.role || "Creator"}
+                    </div>
+                  </div>
 
                   <div className="flex items-center gap-2 text-slate-400">
                     <Mail size={15} />
 
                     <span className="text-sm">{report.creator?.email}</span>
                   </div>
-
-                  <Chip color="secondary" variant="flat" size="sm">
-                    {report.creator?.role || "Creator"}
-                  </Chip>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* ==========================================
                 Report Information
@@ -260,32 +261,33 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                 border
                 border-slate-700
                 bg-[#111827]
-                p-6
+                max-h-52
+                p-5
               "
             >
-              <h3 className="mb-5 text-xl font-bold text-white">
+              <h3 className="mb-5 text-xl  font-bold text-white">
                 Report Summary
               </h3>
 
               <div className="space-y-4">
-                <div className="flex justify-between gap-5">
-                  <span className="text-slate-400">Prompt</span>
+                <div className="flex justify-between">
+                  <span className="text-slate-300">Prompt</span>
 
                   <span className="max-w-md text-right font-medium text-white">
-                    {report.promptTitle}
+                    {report?.promptTitle}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Reason</span>
+                  <span className="text-slate-300">Reason</span>
 
-                  <Chip color="danger" variant="flat" size="sm">
+                  <span className="max-w-md text-right font-medium text-white">
                     {report.reason}
-                  </Chip>
+                  </span>
                 </div>
 
                 <div className="flex justify-between gap-5">
-                  <span className="text-slate-400">Reported By</span>
+                  <span className="text-slate-300">Reported By</span>
 
                   <span className="font-medium text-white">
                     {report.reporter?.name}
@@ -298,7 +300,7 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                 Warning Alert
             ========================================== */}
 
-            <div
+            {/* <div
               className="
                 rounded-2xl
                 border
@@ -335,36 +337,38 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            {/* ==========================================
-                Warning Message
-            ========================================== */}
-
-            <div className="space-y-3">
-              <label className="text-sm font-semibold text-white">
-                Warning Message
+            <div>
+              <label className="text-lg font-semibold text-white">
+                Warning Message!
               </label>
-
               <TextArea
-                minRows={7}
-                maxRows={10}
+                name="warningMessage"
                 value={message}
-                onValueChange={setMessage}
-                placeholder="Explain why this prompt violates the community guidelines and what the creator should do before publishing similar prompts again..."
-                variant="bordered"
-                classNames={{
-                  input: "text-white placeholder:text-slate-500",
-                  inputWrapper:
-                    "bg-[#111827] border border-slate-700 rounded-2xl hover:border-amber-500 focus-within:border-amber-500",
-                }}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Kindly write the warning message....."
+                className="h-30
+                mt-2
+                p-2
+                w-full
+rounded-2xl
+border
+border-gray-200
+bg-white/5
+text-white
+px-4
+placeholder:text-gray-400
+shadow-md
+transition-all
+duration-300
+hover:border-violet-600
+focus:ring-4
+focus:ring-violet-600"
+                minRows={5}
               />
-
-              <p className="text-xs text-slate-500">
-                Be professional, respectful, and clearly explain the community
-                guideline violation.
-              </p>
             </div>
+
             {/* ==========================================
                 Footer
             ========================================== */}
@@ -395,7 +399,9 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                   border-slate-600
                   bg-[#1E293B]
                   px-6
+                  py-3
                   text-white
+                  text-xl
                   transition-all
                   hover:bg-slate-700
                 "
@@ -416,6 +422,8 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
                   from-amber-500
                   to-orange-500
                   px-6
+                  py-3
+                  text-xl
                   font-semibold
                   text-black
                   shadow-lg

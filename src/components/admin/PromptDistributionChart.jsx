@@ -28,10 +28,12 @@ export default function PromptDistributionChart({ data }) {
     <div
       className="
 rounded-3xl
-border
-border-default-100
+shadow-lg
+hover:shadow-xl
 bg-content1
+transition-all
 p-8
+
 "
     >
       <h2 className="mb-8 text-2xl font-bold">Prompt Distribution Share</h2>

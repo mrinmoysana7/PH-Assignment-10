@@ -16,9 +16,10 @@ export default function EngineBarChart({ data }) {
     <div
       className="
 rounded-3xl
-border
-border-default-100
+shadow-lg
+hover:shadow-xl
 bg-content1
+transition-all
 p-8
 "
     >

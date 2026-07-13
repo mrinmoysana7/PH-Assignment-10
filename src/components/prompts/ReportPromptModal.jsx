@@ -8,12 +8,10 @@ import { Button } from "@heroui/react";
 
 import { ShieldAlert } from "lucide-react";
 
-// import Modal from "@/components/ui/Modal";
-import { submitReport } from "@/lib/api/reports";
 import Modal from "../ui/Modal";
-// import { getLoggedInUser } from "@/lib/api/user";
+import { submitReport } from "@/lib/api/reports";
 
-export default function ReportPromptModal({ open, setOpen, promptId, userId }) {
+export default function ReportPromptModal({ open, setOpen, prompt, user }) {
   const [reason, setReason] = useState("Inappropriate Content");
 
   const [description, setDescription] = useState("");
@@ -38,19 +36,29 @@ export default function ReportPromptModal({ open, setOpen, promptId, userId }) {
     try {
       setLoading(true);
 
-      console.log({
-        promptId,
-        reason,
-        description,
-      });
-
-      //   const user = await getLoggedInUser();
-    //   console.log(user);
-
       const payload = {
-        promptId,
-        userId,
+        promptId: prompt._id,
+
+        promptTitle: prompt.promptTitle,
+
+        promptImage: prompt.image,
+
+        creator: {
+          id: prompt.creatorInformation.id,
+          name: prompt.creatorInformation.name,
+          email: prompt.creatorInformation.email,
+          image: prompt.creatorInformation.image,
+        },
+
+        reporter: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        },
+
         reason,
+
         description,
       };
 
