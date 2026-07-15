@@ -39,7 +39,8 @@ export default function RemoveBookmarkButton({ promptId, userId }) {
       onPress={handleRemove}
       className="
         bg-red-600/10
-        hover:bg-red-600/20
+        p-1.5 rounded-lg border border-red-600
+        hover:bg-red-600/20 hover:text-white
         text-red-400
       "
     >

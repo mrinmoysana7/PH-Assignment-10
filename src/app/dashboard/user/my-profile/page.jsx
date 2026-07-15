@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export default async function MyProfilePage() {
   const session = await getUserSession();
 
-  console.log('Session',session);
+  console.log("Session", session);
 
   if (!session) {
     redirect("/signin");
@@ -17,9 +17,9 @@ export default async function MyProfilePage() {
   console.log("Profile Data:", profile);
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto py-20 sm:py-20 md:py-22 lg:py-10 px-6 sm:px-8 md:px-10 lg:px-15">
+    <div className="space-y-8 max-w-7xl mx-auto py-22 lg:py-10 w-full px-6">
       <div clasName="">
-        <h1 className="text-3xl font-bold">User Account Profile</h1>
+        <h1 className="text-4xl font-bold">User Account Profile</h1>
 
         <p className="mt-2 text-zinc-400">
           Manage your plan, credentials and published prompt details.

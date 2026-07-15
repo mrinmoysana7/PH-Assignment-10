@@ -26,12 +26,15 @@ export default function SavedPromptCard({ prompt, user }) {
         <div className="flex items-center gap-2 flex-wrap">
           <Chip
             size="sm"
-            className="bg-violet-600/20 text-violet-300 font-medium"
+            className="bg-violet-600/20 text-violet-300 rounded-full px-2 py-1 font-medium"
           >
             {prompt.aiToolName}
           </Chip>
 
-          <Chip size="sm" className="bg-cyan-600/20 text-cyan-300 font-medium">
+          <Chip
+            size="sm"
+            className="bg-cyan-600/20 text-cyan-300 rounded-full px-2 py-1 font-medium"
+          >
             {prompt.category}
           </Chip>
         </div>
@@ -55,7 +58,7 @@ export default function SavedPromptCard({ prompt, user }) {
             color="secondary"
             radius="md"
             className="
-              flex-1
+              flex
               bg-linear-to-r
               from-violet-600
               to-fuchsia-600
@@ -67,10 +70,14 @@ export default function SavedPromptCard({ prompt, user }) {
               hover:opacity-90
               transition-opacity
               duration-300
+              w-full
+              items-center
+              justify-center
+              gap-1
+
             "
-            startContent={<Eye size={16} />}
           >
-            View Details
+            <Eye size={16} /> View Details
           </Link>
 
           <RemoveBookmarkButton promptId={prompt._id} userId={user.id} />

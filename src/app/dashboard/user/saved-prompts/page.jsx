@@ -20,10 +20,10 @@ export default async function SavedPromptsPage() {
   console.log("Saved Prompts =>", prompts);
 
   return (
-    <div className="space-y-8 max-w-7xl px-5 sm:px-10 md:px-15 mx-auto py-20 sm:py-22 md:py-24 lg:py-10"> 
+    <div className="space-y-8 max-w-7xl mx-auto py-22 lg:py-10 w-full px-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-zinc-900">
+        <h1 className="text-4xl font-bold text-zinc-900">
           Saved Prompt Templates
         </h1>
 

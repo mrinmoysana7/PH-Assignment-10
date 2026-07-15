@@ -19,11 +19,11 @@ const MyPromptsPage = async () => {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="space-y-3">
             <h1 className="text-3xl md:text-4xl font-bold text-white">
-              My Product Reviews
+              My Prompts
             </h1>
 
             <p className="max-w-2xl mb-3 text-slate-400">
-              Feedback and ratings you have posted on the PromptVerse
+              My created prompts in the PromptVerse
               marketplace.
             </p>
           </div>
