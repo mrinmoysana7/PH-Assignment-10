@@ -1,20 +1,12 @@
-// import DashboardHeader from "@/components/dashboard/creator/DashboardHeader";
-// import CreatorAnalyticsCards from "@/components/dashboard/creator/CreatorAnalyticsCards";
-
 import CreatorAnalyticsCards from "@/components/creator/CreatorAnalyticsCards";
 import CreatorCopiesChart from "@/components/creator/CreatorCopiesChart";
 import CreatorGrowthChart from "@/components/creator/CreatorGrowthChart";
 import DashboardHeader from "@/components/creator/DashboardHeader";
 import { getCreatorAnalytics } from "@/lib/api/prompts";
-import { getLoggedInUser } from "@/lib/api/user";
 import Image from "next/image";
 import Link from "next/link";
 
-// import CreatorCopiesChart from "@/components/dashboard/creator/CreatorCopiesChart";
-// import CreatorGrowthChart from "@/components/dashboard/creator/CreatorGrowthChart";
-
 import { getUserSession } from "@/lib/core/session";
-// import { getUserPrompts } from "@/lib/api/prompts";
 
 export default async function CreatorDashboardPage() {
   const user = await getUserSession();
@@ -65,7 +57,7 @@ export default async function CreatorDashboardPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10">
+    <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       <DashboardHeader />
 
       <CreatorAnalyticsCards

@@ -167,3 +167,7 @@ export const getCreatorAnalytics = async (userId) => {
 
   return data.analytics;
 };
+
+export const getPromptCountByUser = async (userId) => {
+  return serverFetch(`/api/prompts/count?userId=${userId}`);
+};

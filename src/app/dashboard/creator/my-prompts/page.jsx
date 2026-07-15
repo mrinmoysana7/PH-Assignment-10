@@ -37,7 +37,7 @@ export default async function CreatorMyPromptsPage() {
   ).length;
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-10">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       {/* Header */}
 
       <div className="flex flex-col gap-6 rounded-3xl border border-slate-800 bg-[#0F172A] p-8 shadow-xl md:flex-row md:items-center md:justify-between">
@@ -54,15 +54,15 @@ export default async function CreatorMyPromptsPage() {
           href="/dashboard/creator/add-prompt"
           className="font-semibold flex items-center gap-2 bg-violet-500 px-5 rounded-xl"
         >
-          <CirclePlus className="h-20 w-7 text-white"></CirclePlus>
-          <span className="text-white">Create New Prompt</span>
+          <CirclePlus className="h-13 w-7 text-white"></CirclePlus>
+          <span className="text-white md:text-[13px] lg:text-lg">Create New Prompt</span>
         </Link>
       </div>
 
       {/* Statistics */}
 
       <div className="grid gap-6 md:grid-cols-4">
-        <div className="rounded-2xl border border-slate-800 bg-[#0F172A] p-6">
+        <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all bg-[#14213d] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
             Total Prompts
           </p>
@@ -70,7 +70,7 @@ export default async function CreatorMyPromptsPage() {
           <h2 className="mt-3 text-4xl font-bold text-white">{totalPrompts}</h2>
         </div>
 
-        <div className="rounded-2xl border border-emerald-500/20 bg-[#0F172A] p-6">
+        <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all bg-[#14213d] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Approved
           </p>
@@ -80,7 +80,7 @@ export default async function CreatorMyPromptsPage() {
           </h2>
         </div>
 
-        <div className="rounded-2xl border border-yellow-500/20 bg-[#0F172A] p-6">
+        <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all bg-[#14213d] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-yellow-400">
             Pending
           </p>
@@ -90,7 +90,7 @@ export default async function CreatorMyPromptsPage() {
           </h2>
         </div>
 
-        <div className="rounded-2xl border border-red-500/20 bg-[#0F172A] p-6">
+        <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all bg-[#14213d] p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-red-400">
             Rejected
           </p>

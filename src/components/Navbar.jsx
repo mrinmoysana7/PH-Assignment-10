@@ -1,63 +1,95 @@
 "use client";
 
-import React, { useState } from "react";
+import { useEffect, React, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
 import { Menu, X } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 import { ScaleLoader } from "react-spinners";
+
 import { authClient } from "@/lib/auth-client";
+
 import { NavLinks } from "./NavLinks";
 import Logo from "./ui/Logo";
 
 export default function Navbar() {
+  // ==========================
+  // States
+  // ==========================
+
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // ==========================
+  // Hooks
+  // ==========================
+
   const pathname = usePathname();
+  const router = useRouter();
+
   const { data: session, isPending } = authClient.useSession();
 
-  const user = session?.user;
+  const user = mounted ? session?.user : null;
 
-  const handleLogout = async () => {
-    try {
-      await authClient.signOut();
-      toast.success("Logged out successfully");
+  // ==========================
+  // Dashboard Routes
+  // ==========================
 
-      setTimeout(() => {
-        window.location.href = "/signin";
-      }, 1000);
-    } catch (error) {
-      toast.error("Failed to log out");
-    }
-  };
-
-  const navLinks = [
-    {
-      label: "Prompts",
-      href: "/prompts",
-    },
-    {
-      label: "Pricing",
-      href: "/pricing",
-    },
-  ];
-
-  // Dynamically push dashboard routes based on authentication role
   const dashboardLinks = {
     user: "/dashboard/user/my-profile",
     creator: "/dashboard/creator/my-profile",
     admin: "/dashboard/admin/profile",
   };
 
-  if (user) {
-    navLinks.push({
+  // ==========================
+  // Navbar Links
+  // ==========================
+
+  const navLinks = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "Prompts",
+      href: "/prompts",
+    },
+  ];
+
+  const links = [...navLinks];
+
+  if (mounted && user) {
+    links.push({
       label: "Dashboard",
-      href: dashboardLinks[user?.role || "user"],
+      href: dashboardLinks[user.role] || dashboardLinks.user,
     });
   }
 
+  // ==========================
+  // Logout
+  // ==========================
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+
+      toast.success("Logged out successfully");
+
+      setTimeout(() => {
+        router.replace("/signin");
+      }, 800);
+    } catch {
+      toast.error("Failed to log out");
+    }
+  };
+
   return (
-    <header className="bg-white/30 backdrop-blur-md border border-white/5 shadow z-50 fixed top-0.5 left-0
-    right-0">
+    <header className="bg-white/30 backdrop-blur-md border border-white/5 shadow z-50 fixed top-0.5 left-0 right-0">
       <Toaster />
       {/* <div className=""> */}
       <nav className="flex container mx-auto h-16 items-center px-6 justify-between  ">
@@ -66,7 +98,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation Links */}
         <div className="hidden lg:flex items-center gap-8 ml-8">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <NavLinks
               key={link.href}
               href={link.href}
@@ -79,7 +111,7 @@ export default function Navbar() {
 
         {/* Desktop Action & Status CTA Block */}
         <div className="hidden lg:flex items-center ml-auto">
-          {isPending ? (
+          {!mounted || isPending ? (
             <div className="flex items-center h-5 px-4">
               <ScaleLoader
                 color="#6366f1"
@@ -133,7 +165,7 @@ export default function Navbar() {
       {isOpen && (
         <div className="mt-2 overflow-hidden rounded-2xl border border-white/5 bg-[#0F1117]/95 px-4 py-4 backdrop-blur-2xl shadow-xl lg:hidden transition-all duration-200 ease-in-out">
           <div className="flex flex-col gap-1">
-            {navLinks.map((link, index) => (
+            {links.map((link, index) => (
               <Link
                 key={index}
                 href={link.href}
@@ -151,7 +183,7 @@ export default function Navbar() {
             {/* Separator inside Mobile Drawer */}
             <hr className="my-2 border-white/5" />
 
-            {isPending ? (
+            {!mounted || isPending ? (
               <div className="flex justify-center py-3">
                 <ScaleLoader color="#6366f1" height={15} width={3} radius={2} />
               </div>

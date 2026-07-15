@@ -4,33 +4,26 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-import {
-  Form,
-  TextField,
-  Label,
-  Input,
-  TextArea,
-  Select,
-  ListBox,
-  Radio,
-  RadioGroup,
-  Button,
-  FieldError,
-} from "@heroui/react";
+import { Form } from "@heroui/react";
 
 import { ChevronDown } from "@gravity-ui/icons";
-import { ArrowUpFromLine } from "lucide-react";
 import Image from "next/image";
-
-import { authClient } from "@/lib/auth-client";
 import { addPrompt } from "@/lib/api/prompts";
-
 import FormHeader from "./FormHeader";
 import FreePlanAlert from "./FreePlanAlert";
 
-/* ==========================================
-            CONSTANTS
-========================================== */
+import {
+  Sparkles,
+  ArrowUpFromLine,
+  Type,
+  AlignLeft,
+  Tags,
+  LayoutGrid,
+  Cpu,
+  Gauge,
+  Eye,
+  ImageIcon,
+} from "lucide-react";
 
 const categories = [
   "Coding",
@@ -56,14 +49,8 @@ const aiTools = [
 
 const difficultyLevels = ["Beginner", "Intermediate", "Pro"];
 
-/* ==========================================
-              COMPONENT
-========================================== */
-
-export default function AddPromptForm() {
+export default function AddPromptForm({ user, plan, promptCount }) {
   const router = useRouter();
-  const { data: session } = authClient.useSession();
-  const user = session?.user;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState(null);
@@ -81,24 +68,6 @@ export default function AddPromptForm() {
     tags: "",
   });
 
-  /* ==========================================
-          COMMON CSS CLASSES
-  ========================================== */
-
-  const fieldWrapperClass = "w-full";
-  const labelClass =
-    "mb-2 text-xs font-semibold uppercase tracking-wider text-default-400";
-  const inputClass =
-    "rounded-xl border border-default-300 bg-background transition-all";
-  const selectTriggerClass =
-    "h-12 rounded-xl border border-default-300 bg-background px-4";
-  const selectPopoverClass =
-    "rounded-xl border border-default-200 bg-background p-2 shadow-xl";
-
-  /* ==========================================
-          INPUT CHANGE
-  ========================================== */
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -107,20 +76,12 @@ export default function AddPromptForm() {
     }));
   };
 
-  /* ==========================================
-          SELECT CHANGE
-  ========================================== */
-
-  const handleSelectChange = (field, keys) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: Array.from(keys),
-    }));
-  };
-
-  /* ==========================================
-          IMAGE CHANGE
-  ========================================== */
+  // const handleSelectChange = (field, keys) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [field]: Array.from(keys),
+  //   }));
+  // };
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
@@ -129,10 +90,6 @@ export default function AddPromptForm() {
     setImageFile(file);
     setThumbnailUrl(URL.createObjectURL(file));
   };
-
-  /* ==========================================
-          VALIDATION
-  ========================================== */
 
   const validate = () => {
     if (!formData.promptTitle.trim()) {
@@ -162,10 +119,6 @@ export default function AddPromptForm() {
     return true;
   };
 
-  /* ==========================================
-        IMAGE UPLOAD
-  ========================================== */
-
   const uploadImage = async () => {
     if (!imageFile) return "";
 
@@ -189,12 +142,14 @@ export default function AddPromptForm() {
     return data.data.url;
   };
 
-  /* ==========================================
-        HANDLE SUBMIT
-  ========================================== */
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (reachedLimit) {
+      toast.error("Free plan limit reached. Upgrade to Premium.");
+
+      return;
+    }
 
     // 1. Basic check for authenticated user
     if (!user) {
@@ -249,328 +204,395 @@ export default function AddPromptForm() {
     }
   };
 
+  const maxLimit = plan?.maxPromptLimit ?? 3;
+
+  const reachedLimit = maxLimit !== -1 && Number(promptCount) >= maxLimit;
+
+  const premiumLabelClass =
+    "flex items-center gap-2 text-sm font-medium text-slate-300 mb-2.5";
+  const premiumInputClass =
+    "w-full bg-[#171C2B] border border-slate-700/60 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/70 focus:ring-1 focus:ring-violet-500/70 transition-all shadow-inner shadow-black/20 appearance-none";
+  const premiumFieldWrapper = "flex flex-col w-full relative";
+
+  const isProUser = true;
+
   return (
-    <>
+    <div className="max-w-5xl mx-auto px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       <FormHeader />
 
       <div className="mt-8">
-        <FreePlanAlert currentCount={1} limit={3} plan="free" />
+        <FreePlanAlert
+          currentCount={Number(promptCount)}
+          limit={plan?.maxPromptLimit ?? 3}
+          plan={plan?.plan_id ?? "free"}
+        />
       </div>
 
-      <div className="mt-8 rounded-2xl border border-slate-800 bg-[#0F172A] p-6 shadow-lg md:p-10">
-        <Form onSubmit={handleSubmit} className="flex w-full flex-col gap-8">
-          {/* ======================================
-            Prompt Title
-    ====================================== */}
-          <TextField isRequired className={fieldWrapperClass}>
-            <Label className={labelClass}>Prompt Title</Label>
-            <Input
-              name="promptTitle"
-              value={formData.promptTitle}
-              onChange={handleInputChange}
-              placeholder="e.g. React Landing Page Generator"
-              className={inputClass}
-            />
-            <FieldError />
-          </TextField>
+      <div
+        className={`
+    mt-8
+    rounded-2xl
+    border
+    border-slate-800
+    bg-[#111520]
+    shadow-lg
+    transition-all
+    duration-300
+    ${reachedLimit ? "pointer-events-none opacity-0 select-none" : ""}
+  `}
+      >
+        <Form
+          onSubmit={handleSubmit}
+          className="flex w-full flex-col gap-8 max-w-5xl p-8 mx-auto"
+        >
+          {/* SECTION 1: Core Information */}
+          <div className="bg-[#111520] border border-slate-800 rounded-2xl p-6 md:p-8 shadow-lg shadow-black/40 space-y-8">
+            <div className="border-b border-slate-800/80 pb-4 mb-2">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <Sparkles className="text-violet-400" size={20} /> Prompt
+                Details
+              </h2>
+              <p className="text-sm text-slate-400 mt-1">
+                Provide the core structure of your AI template.
+              </p>
+            </div>
 
-          {/* ======================================
-          Short Description
-    ====================================== */}
-          <TextField isRequired className={fieldWrapperClass}>
-            <Label className={labelClass}>Short Description</Label>
-            <TextArea
-              name="fullDescription"
-              value={formData.fullDescription}
-              onChange={handleInputChange}
-              placeholder="Briefly explain what this prompt does..."
-              rows={3}
-              className={`${inputClass} min-h-28`}
-            />
-            <FieldError />
-          </TextField>
-
-          {/* ======================================
-            Prompt Content
-    ====================================== */}
-          <TextField isRequired className={fieldWrapperClass}>
-            <Label className={labelClass}>Prompt Content</Label>
-            <TextArea
-              name="promptContent"
-              value={formData.promptContent}
-              onChange={handleInputChange}
-              placeholder="Paste your AI prompt template..."
-              rows={12}
-              className={`${inputClass} min-h-72`}
-            />
-            <FieldError />
-          </TextField>
-
-          {/* ======================================
-          Category & AI Tool
-    ====================================== */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* Category */}
-            <Select
-              className={fieldWrapperClass}
-              placeholder="Select Category"
-              selectedKeys={
-                formData.category ? new Set([formData.category]) : new Set([])
-              }
-              onSelectionChange={(keys) => handleSelectChange("category", keys)}
-            >
-              <Label className={labelClass}>Category</Label>
-              <Select.Trigger className={selectTriggerClass}>
-                <div className="flex items-center justify-between gap-3">
-                  <Select.Value placeholder="Select Category" />
-                  <ChevronDown />
-                </div>
-              </Select.Trigger>
-
-              <Select.Popover className={selectPopoverClass}>
-                <ListBox>
-                  {categories.map((category) => (
-                    <ListBox.Item
-                      key={category}
-                      id={category}
-                      className="rounded-xl px-3 py-2.5 text-sm transition hover:bg-violet-50 hover:text-violet-600"
-                    >
-                      {category}
-                    </ListBox.Item>
-                  ))}
-                </ListBox>
-              </Select.Popover>
-            </Select>
-
-            {/* AI Tool */}
-            <Select
-              className={fieldWrapperClass}
-              placeholder="Select AI Tool"
-              selectedKeys={
-                formData.aiToolName
-                  ? new Set([formData.aiToolName])
-                  : new Set([])
-              }
-              onSelectionChange={(keys) =>
-                handleSelectChange("aiToolName", keys)
-              }
-            >
-              <Label className={labelClass}>AI Tool</Label>
-              <Select.Trigger className={selectTriggerClass}>
-                <div className="flex items-center justify-between gap-3">
-                  <Select.Value placeholder="Select AI Tool" />
-                  <ChevronDown />
-                </div>
-              </Select.Trigger>
-
-              <Select.Popover className={selectPopoverClass}>
-                <ListBox>
-                  {aiTools.map((tool) => (
-                    <ListBox.Item
-                      key={tool}
-                      id={tool}
-                      className="rounded-xl px-3 py-2.5 text-sm transition hover:bg-violet-50 hover:text-violet-600"
-                    >
-                      {tool}
-                    </ListBox.Item>
-                  ))}
-                </ListBox>
-              </Select.Popover>
-            </Select>
-          </div>
-
-          {/* ======================================
-            Difficulty & Visibility
-    ====================================== */}
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {/* Difficulty */}
-            <Select
-              className={fieldWrapperClass}
-              placeholder="Select Difficulty"
-              selectedKeys={
-                formData.difficultyLevel
-                  ? new Set([formData.difficultyLevel])
-                  : new Set([])
-              }
-              onSelectionChange={(keys) =>
-                handleSelectChange("difficultyLevel", keys)
-              }
-            >
-              <Label className={labelClass}>Difficulty Level</Label>
-              <Select.Trigger className={selectTriggerClass}>
-                <div className="flex items-center justify-between gap-3">
-                  <Select.Value placeholder="Select Difficulty" />
-                  <ChevronDown />
-                </div>
-              </Select.Trigger>
-
-              <Select.Popover className={selectPopoverClass}>
-                <ListBox>
-                  {difficultyLevels.map((level) => (
-                    <ListBox.Item
-                      key={level}
-                      id={level}
-                      className="rounded-xl px-3 py-2.5 text-sm transition hover:bg-violet-50 hover:text-violet-600"
-                    >
-                      {level}
-                    </ListBox.Item>
-                  ))}
-                </ListBox>
-              </Select.Popover>
-            </Select>
-
-            {/* Visibility */}
-            <RadioGroup
-              orientation="horizontal"
-              value={formData.visibility}
-              onValueChange={(value) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  visibility: value,
-                }))
-              }
-              className="mt-2"
-            >
-              <Label className={labelClass}>Visibility Status</Label>
-              <div className="flex flex-wrap items-start gap-8">
-                {/* Public */}
-                <Radio value="public">
-                  <Radio.Content className="flex cursor-pointer items-center gap-3">
-                    <Radio.Control>
-                      <Radio.Indicator />
-                    </Radio.Control>
-                    <div className="leading-5">
-                      <span className="font-medium text-default-300">
-                        Public
-                      </span>
-                      <span className="text-default-400"> (Free Access)</span>
-                    </div>
-                  </Radio.Content>
-                </Radio>
-
-                {/* Private */}
-                <Radio value="private">
-                  <Radio.Content className="flex cursor-pointer items-center gap-3">
-                    <Radio.Control>
-                      <Radio.Indicator />
-                    </Radio.Control>
-                    <div className="leading-5">
-                      <span className="font-medium text-default-300">
-                        Private
-                      </span>
-                      <span className="text-default-400"> (Premium Only)</span>
-                    </div>
-                  </Radio.Content>
-                </Radio>
-              </div>
-              <FieldError />
-            </RadioGroup>
-          </div>
-
-          {/* ======================================
-          Usage Instructions
-    ====================================== */}
-          <TextField className={fieldWrapperClass}>
-            <Label className={labelClass}>Usage Instructions</Label>
-            <TextArea
-              name="usageInstructions"
-              value={formData.usageInstructions}
-              onChange={handleInputChange}
-              placeholder="Explain how users should use this prompt for the best results..."
-              rows={5}
-              className={`${inputClass} min-h-36`}
-            />
-            <FieldError />
-          </TextField>
-
-          {/* ======================================
-                  Tags
-    ====================================== */}
-          <TextField className={fieldWrapperClass}>
-            <Label className={labelClass}>Tags</Label>
-            <Input
-              name="tags"
-              value={formData.tags}
-              onChange={handleInputChange}
-              placeholder="react, nextjs, tailwind, ai, prompt"
-              className={inputClass}
-            />
-            <p className="mt-2 text-xs text-default-400">
-              Separate each tag using commas (,).
-            </p>
-            <FieldError />
-          </TextField>
-
-          {/* ======================================
-            Thumbnail Upload
-    ====================================== */}
-          <div className="flex flex-col gap-3">
-            <span className={labelClass}>Thumbnail Image</span>
-            <div className="relative flex min-h-64 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-default-300 bg-default-50 transition-all hover:border-violet-500 hover:bg-violet-50/40">
+            <div className={premiumFieldWrapper}>
+              <label className={premiumLabelClass}>
+                <Type size={16} className="text-violet-400" /> Prompt Title
+              </label>
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="absolute inset-0 cursor-pointer opacity-0"
+                type="text"
+                name="promptTitle"
+                value={formData.promptTitle}
+                onChange={handleInputChange}
+                placeholder="e.g. React Landing Page Generator"
+                className={premiumInputClass}
+                required
               />
-              {thumbnailUrl ? (
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={thumbnailUrl}
-                    alt="Thumbnail Preview"
-                    fill
-                    className="rounded-2xl object-cover"
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-violet-100 text-violet-600">
-                    <ArrowUpFromLine size={30} />
-                  </div>
-                  <h3 className="text-lg font-semibold text-default-700">
-                    Upload Thumbnail
-                  </h3>
-                  <p className="mt-2 text-sm text-default-500">
-                    Click or Drag & Drop your image here
-                  </p>
-                  <p className="mt-1 text-xs text-default-400">
-                    PNG • JPG • WEBP (Max 2MB)
-                  </p>
-                </>
-              )}
+            </div>
+
+            <div className={premiumFieldWrapper}>
+              <label className={premiumLabelClass}>
+                <AlignLeft size={16} className="text-violet-400" /> Short
+                Description
+              </label>
+              <textarea
+                name="fullDescription"
+                value={formData.fullDescription}
+                onChange={handleInputChange}
+                placeholder="Briefly explain what this prompt does..."
+                rows={3}
+                className={`${premiumInputClass} h-20 resize-y`}
+                required
+              />
+            </div>
+
+            <div className={premiumFieldWrapper}>
+              <label className={premiumLabelClass}>
+                <AlignLeft size={16} className="text-emerald-400" /> Prompt
+                Content
+              </label>
+              <textarea
+                name="promptContent"
+                value={formData.promptContent}
+                onChange={handleInputChange}
+                placeholder="Paste your exact AI prompt template here..."
+                rows={10}
+                className={`${premiumInputClass} h-30 font-mono text-sm leading-relaxed text-slate-300 resize-y`}
+                required
+              />
             </div>
           </div>
 
-          {/* ======================================
-            Submit Section
-    ====================================== */}
-          <div className="rounded-2xl border border-violet-200 bg-violet-50/50 p-6">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div>
-                <h3 className="text-lg font-bold text-default-700">
-                  Ready to Submit?
-                </h3>
-                <p className="mt-2 max-w-xl text-sm leading-6 text-default-500">
-                  Every prompt goes through an admin review before being
-                  published on the PromptVerse marketplace. This helps us
-                  maintain high-quality prompt templates for everyone.
-                </p>
-                <div className="mt-4 inline-flex items-center rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-700">
-                  ● Status: Pending Review
+          {/* SECTION 2: Metadata & Classification */}
+          <div className="bg-[#111520] border border-slate-800 rounded-2xl p-6 md:p-8 shadow-lg shadow-black/40 space-y-8">
+            <div className="border-b border-slate-800/80 pb-4 mb-2">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <LayoutGrid className="text-cyan-400" size={20} />{" "}
+                Classification
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Category - Native Select */}
+              <div className={premiumFieldWrapper}>
+                <label className={premiumLabelClass}>
+                  <LayoutGrid size={16} className="text-slate-400" /> Category
+                </label>
+                <div className="relative">
+                  <select
+                    name="category"
+                    value={formData.category || ""}
+                    onChange={handleInputChange}
+                    className={`${premiumInputClass} cursor-pointer pr-10`}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Category
+                    </option>
+                    {categories.map((category) => (
+                      <option
+                        key={category}
+                        value={category}
+                        className="bg-[#171C2B] text-white"
+                      >
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    size={18}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                  />
                 </div>
               </div>
 
-              <Button
+              {/* AI Tool - Native Select */}
+              <div className={premiumFieldWrapper}>
+                <label className={premiumLabelClass}>
+                  <Cpu size={16} className="text-slate-400" /> Target AI Tool
+                </label>
+                <div className="relative">
+                  <select
+                    name="aiToolName"
+                    value={formData.aiToolName || ""}
+                    onChange={handleInputChange}
+                    className={`${premiumInputClass} cursor-pointer pr-10`}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select AI Tool
+                    </option>
+                    {aiTools.map((tool) => (
+                      <option
+                        key={tool}
+                        value={tool}
+                        className="bg-[#171C2B] text-white"
+                      >
+                        {tool}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    size={18}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              {/* Difficulty - Native Select */}
+              <div className={premiumFieldWrapper}>
+                <label className={premiumLabelClass}>
+                  <Gauge size={16} className="text-slate-400" /> Difficulty
+                  Level
+                </label>
+                <div className="relative">
+                  <select
+                    name="difficultyLevel"
+                    value={formData.difficultyLevel || ""}
+                    onChange={handleInputChange}
+                    className={`${premiumInputClass} cursor-pointer pr-10`}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Difficulty
+                    </option>
+                    {difficultyLevels.map((level) => (
+                      <option
+                        key={level}
+                        value={level}
+                        className="bg-[#171C2B] text-white"
+                      >
+                        {level}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    size={18}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                  />
+                </div>
+              </div>
+
+              {/* Visibility - Native Radio Inputs styled with Tailwind */}
+              <div className={premiumFieldWrapper}>
+                <label className={premiumLabelClass}>
+                  <Eye size={16} className="text-slate-400" /> Visibility Status
+                </label>
+                <div className="flex flex-wrap items-center gap-4 mt-2">
+                  {/* Public Radio */}
+                  <label
+                    className={`flex-1 flex cursor-pointer items-center gap-3 p-4 rounded-xl border transition-all ${
+                      formData.visibility === "public"
+                        ? "border-violet-500 bg-violet-500/10"
+                        : "border-slate-700/60 bg-[#171C2B] hover:border-violet-500/50"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="visibility"
+                      value="public"
+                      checked={formData.visibility === "public"}
+                      onChange={handleInputChange}
+                      className="hidden"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${formData.visibility === "public" ? "border-violet-500" : "border-slate-500"}`}
+                    >
+                      {formData.visibility === "public" && (
+                        <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                      )}
+                    </div>
+                    <div className="leading-tight">
+                      <div className="font-semibold text-slate-200">Public</div>
+                      <div className="text-xs text-slate-500 mt-1">
+                        Free Access
+                      </div>
+                    </div>
+                  </label>
+
+                  {/* Private Radio (Protected by isProUser) */}
+                  <label
+                    className={`flex-1 flex items-center gap-3 p-4 rounded-xl border transition-all ${
+                      !isProUser
+                        ? "opacity-50 cursor-not-allowed border-slate-800 bg-[#111520]"
+                        : "cursor-pointer"
+                    } ${
+                      formData.visibility === "private"
+                        ? "border-violet-500 bg-violet-500/10"
+                        : isProUser
+                          ? "border-slate-700/60 bg-[#171C2B] hover:border-violet-500/50"
+                          : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="visibility"
+                      value="private"
+                      checked={formData.visibility === "private"}
+                      onChange={handleInputChange}
+                      disabled={!isProUser}
+                      className="hidden"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${formData.visibility === "private" ? "border-violet-500" : "border-slate-500"}`}
+                    >
+                      {formData.visibility === "private" && (
+                        <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                      )}
+                    </div>
+                    <div className="leading-tight">
+                      <div className="font-semibold text-slate-200">
+                        Private
+                      </div>
+                      <div className="text-xs text-slate-500 mt-1">
+                        {isProUser ? "Premium Only" : "Upgrade to Pro"}
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className={premiumFieldWrapper}>
+              <label className={premiumLabelClass}>
+                <Tags size={16} className="text-slate-400" /> Tags
+              </label>
+              <input
+                type="text"
+                name="tags"
+                value={formData.tags}
+                onChange={handleInputChange}
+                placeholder="react, nextjs, tailwind, ai"
+                className={premiumInputClass}
+              />
+              <p className="mt-2 text-xs text-slate-500">
+                Separate each tag using commas (,).
+              </p>
+            </div>
+          </div>
+
+          {/* SECTION 3: Media Upload */}
+          <div className="bg-[#111520] border border-slate-800 rounded-2xl p-6 md:p-8 shadow-lg shadow-black/40">
+            <div className="flex flex-col gap-4">
+              <span className={premiumLabelClass}>
+                <ImageIcon size={16} className="text-fuchsia-400" /> Thumbnail
+                Image
+              </span>
+              <div className="relative flex min-h-70 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-700/60 bg-[#171C2B] transition-all hover:border-violet-500 hover:bg-violet-500/5 group">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="absolute inset-0 z-10 cursor-pointer opacity-0"
+                />
+                {thumbnailUrl ? (
+                  <div className="relative h-full w-full min-h-70">
+                    <Image
+                      src={thumbnailUrl}
+                      alt="Thumbnail Preview"
+                      fill
+                      className="rounded-xl object-cover p-2"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-xl pointer-events-none">
+                      <span className="text-white font-medium bg-black/60 px-4 py-2 rounded-lg backdrop-blur-sm">
+                        Change Image
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center text-center p-6">
+                    <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-violet-500/10 text-violet-400 shadow-[0_0_15px_rgba(139,92,246,0.15)] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-300">
+                      <ArrowUpFromLine size={28} />
+                    </div>
+                    <h3 className="text-lg font-semibold text-slate-200">
+                      Upload Thumbnail
+                    </h3>
+                    <p className="mt-2 text-sm text-slate-400">
+                      Click or Drag & Drop your high-res image here
+                    </p>
+                    <p className="mt-2 text-xs font-medium text-slate-500 bg-slate-800/50 px-3 py-1.5 rounded-md">
+                      PNG • JPG • WEBP (Max 2MB)
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 4: Submit Area */}
+          <div className="relative rounded-2xl border border-violet-500/30 bg-violet-900/10 p-6 md:p-8 overflow-hidden backdrop-blur-md">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-violet-500/10 blur-[80px] pointer-events-none"></div>
+
+            <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  Ready to Submit?
+                </h3>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
+                  Every prompt goes through an admin review before being
+                  published.
+                </p>
+                <div className="mt-4 inline-flex items-center rounded-full bg-amber-500/10 border border-amber-500/20 px-4 py-2 text-xs font-semibold text-amber-400">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 mr-2 animate-pulse"></span>
+                  Status: Pending Review
+                </div>
+              </div>
+
+              <button
                 type="submit"
-                isLoading={isSubmitting}
-                className="h-13 min-w-60 rounded-xl bg-linear-to-r from-violet-600 to-fuchsia-600 font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl data-[hover=true]:from-violet-500 data-[hover=true]:to-fuchsia-500"
+                disabled={reachedLimit || isSubmitting}
+                className="h-14 min-w-60 rounded-xl bg-violet-600 font-semibold text-white shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300 hover:bg-violet-500 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)] disabled:opacity-70 disabled:pointer-events-none"
               >
-                {isSubmitting ? "Submitting..." : "Submit for Review"}
-              </Button>
+                {isSubmitting ? "Submitting Template..." : "Submit for Review"}
+              </button>
             </div>
           </div>
         </Form>
       </div>
-    </>
+    </div>
   );
 }

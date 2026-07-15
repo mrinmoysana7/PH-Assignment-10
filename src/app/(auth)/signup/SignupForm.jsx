@@ -30,7 +30,6 @@ import {
 import RoleSelector from "./RoleSelector";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
-import { div } from "framer-motion/client";
 
 export default function SignupForm() {
   const [loading, setLoading] = useState(false);

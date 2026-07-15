@@ -1,7 +1,7 @@
 export default function FormHeader() {
   return (
     <div className="space-y-2">
-      <h1 className="text-4xl font-bold tracking-tight text-white">
+      <h1 className="text-4xl font-bold tracking-tight ">
         Create New Prompt Template
       </h1>
 

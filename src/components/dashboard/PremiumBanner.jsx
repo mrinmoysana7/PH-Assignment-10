@@ -31,7 +31,7 @@ export default function PremiumBanner({ plan }) {
     <div className="rounded-2xl border border-violet-500/30 bg-violet-500/10 p-6">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Crown size={22} className="text-yellow-400" />
 
             <h3 className="text-xl font-bold text-white">Upgrade to Premium</h3>
@@ -45,7 +45,7 @@ export default function PremiumBanner({ plan }) {
 
         <Link
           href="/pricing"
-          className="rounded-xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-6 py-3 text-center font-semibold text-white transition duration-300 hover:scale-105"
+          className="rounded-xl bg-linear-to-r from-violet-600 to-fuchsia-600 text-center font-semibold text-white transition py-4 px-3.5 duration-300 hover:scale-105"
         >
           Upgrade Now
         </Link>
