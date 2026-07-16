@@ -5,7 +5,7 @@ import AnalyticsCard from "./AnalyticsCard";
 
 
 
-export default function AnalyticsCards({ analytics }) {
+export default function AnalyticsCards({ analytics, totalRevenue, }) {
   const cards = [
     {
       title: "Total Users",
@@ -37,7 +37,7 @@ export default function AnalyticsCards({ analytics }) {
 
     {
       title: "Total Revenue",
-      value: `$${analytics.totalRevenue.toFixed(2)}`,
+      value:`₹${(totalRevenue / 100).toFixed(2)}`,
       icon: DollarSign,
       color: "rose",
     },

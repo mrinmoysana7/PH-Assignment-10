@@ -21,8 +21,6 @@ export async function POST(request) {
 
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-
       customer_email: user.email,
 
       line_items: [
@@ -32,6 +30,7 @@ export async function POST(request) {
           quantity: 1,
         },
       ],
+      mode: "payment",
 
       metadata: {
         planId,

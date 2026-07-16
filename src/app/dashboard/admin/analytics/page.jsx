@@ -1,9 +1,12 @@
 import AnalyticsCards from "@/components/admin/AnalyticsCards";
 import AnalyticsCharts from "@/components/admin/AnalyticsCharts";
 import { getAdminAnalytics } from "@/lib/api/adminAnalytics";
+// import { getAllPayments } from "@/lib/api/payments";
 
 export default async function AnalyticsPage() {
   const analytics = await getAdminAnalytics();
+
+  // const totalRevenue = await getAllPayments();
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-20 lg:py-12">
@@ -15,7 +18,7 @@ export default async function AnalyticsPage() {
         </p>
       </div>
 
-      <AnalyticsCards analytics={analytics} />
+      <AnalyticsCards analytics={analytics} totalRevenue={analytics.totalRevenue} />
 
       <AnalyticsCharts data={analytics.engineAnalytics} />
     </div>

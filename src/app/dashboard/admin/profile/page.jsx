@@ -18,7 +18,7 @@ export default async function MyProfilePage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
-      <div clasName="">
+      <div className="">
         <h1 className="text-3xl font-bold">User Account Profile</h1>
 
         <p className="mt-2 text-zinc-400">

@@ -10,27 +10,17 @@ export default async function Success({ searchParams }) {
     throw new Error("Please provide a valid session_id (`cs_test_...`)");
   }
 
-  // const {
-  //   status,
-  //   customer_details: { email: customerEmail },
-  //   metadata,
-  // } = await stripe.checkout.sessions.retrieve(session_id, {
-  //   expand: ["line_items", "payment_intent"],
-  // });
-
   const session = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["payment_intent"],
   });
-
-  // if (session.status === "open") {
-  //   return redirect("/");
-  // }
 
   if (session.status === "complete") {
     const subInfo = {
       sessionId: session.id,
 
       paymentIntent: session.payment_intent.id,
+
+      userId: session.metadata.userId,
 
       email: session.customer_details.email,
 
@@ -46,7 +36,11 @@ export default async function Success({ searchParams }) {
     // Update the user table about the new plan
     const result = await createSubscription(subInfo);
 
-    console.log("result", result);
+    console.log(result);
+
+    if (!result.success) {
+      throw new Error(result.message);
+    }
 
     return (
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col items-center justify-center p-4 font-sans">
