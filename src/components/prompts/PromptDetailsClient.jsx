@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Card, Chip, Button } from "@heroui/react";
+import { Card, Chip } from "@heroui/react";
 
 import { ArrowLeft, Crown, Lock, Sparkles } from "lucide-react";
 
@@ -463,11 +463,10 @@ export default function PromptDetailsClient({
         "
                 >
                   <div className="flex items-center gap-3">
-                    
-
                     <div>
                       <h4 className="font-semibold text-amber-700 flex gap-2">
-                       <Crown size={22} className="text-amber-600" /> Premium Access Required
+                        <Crown size={22} className="text-amber-600" /> Premium
+                        Access Required
                       </h4>
 
                       <p className="mt-1 mb-4 text-sm text-slate-600">
@@ -477,7 +476,10 @@ export default function PromptDetailsClient({
                     </div>
                   </div>
 
-                  <Link href="/pricing" className="w-full transition-all hover:translate-0.5 shadow-md hover:shadow-lg border border-violet-200 px-2.5 py-1 font-medium rounded-md bg-violet-100 text-violet-600">
+                  <Link
+                    href="/pricing"
+                    className="w-full transition-all hover:translate-0.5 shadow-md hover:shadow-lg border border-violet-200 px-2.5 py-1 font-medium rounded-md bg-violet-100 text-violet-600"
+                  >
                     Upgrade Now
                   </Link>
                 </div>
