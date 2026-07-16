@@ -192,7 +192,9 @@ export default function AddPromptForm({ user, plan, promptCount }) {
       console.log(result);
 
       // 6. Success handling
-      toast.success("Prompt submitted for review successfully!");
+      toast.success(
+        "Prompt submitted successfully. Waiting for admin approval.",
+      );
 
       // Redirect user (update path according to your app structure)
       router.push("/dashboard/creator/my-prompts");

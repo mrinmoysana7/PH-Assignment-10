@@ -2,12 +2,17 @@
 
 import { useMemo, useState } from "react";
 
-import { Card } from "@heroui/react";
+import { Button, Card } from "@heroui/react";
 
 import ReviewForm from "./ReviewForm";
 import ReviewCard from "./ReviewCard";
+import { Crown } from "lucide-react";
+import { Lock } from "@gravity-ui/icons";
+import Link from "next/link";
 
-export default function ReviewSection({ prompt, user, reviews }) {
+export default function ReviewSection({ prompt, user, reviews, isLocked }) {
+  const isPremium = user?.plan === "AI_Prompt_PRO_Access";
+
   const [reviewList, setReviewList] = useState(reviews);
   /* ===============================
             CALCULATIONS
@@ -40,6 +45,22 @@ export default function ReviewSection({ prompt, user, reviews }) {
         <div>
           <h2 className="text-3xl font-bold text-slate-900">
             Community Reviews
+            {isLocked && (
+              <span
+                className="
+ml-3
+rounded-full
+bg-amber-100
+px-3
+py-1
+text-sm
+font-semibold
+text-amber-700
+"
+              >
+                Premium Only
+              </span>
+            )}
             <span className="ml-2 text-violet-600">({reviewList.length})</span>
           </h2>
 
@@ -48,7 +69,7 @@ export default function ReviewSection({ prompt, user, reviews }) {
           </p>
         </div>
 
-        <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm">
           <Card.Content className="flex items-center gap-6 px-6 py-4">
             <div>
               <p className="text-xs uppercase tracking-widest text-slate-500">
@@ -88,12 +109,76 @@ export default function ReviewSection({ prompt, user, reviews }) {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Left */}
 
-        <ReviewForm
+        {/* <ReviewForm
           promptId={prompt._id}
           user={user}
           hasReviewed={hasReviewed}
           onSuccess={handleReviewAdded}
-        />
+        /> */}
+
+        {isLocked ? (
+          <Card
+            className="
+rounded-3xl
+border
+border-amber-300
+bg-linear-to-br
+from-amber-50
+to-orange-50
+shadow-sm
+"
+          >
+            <Card.Content className="p-8 text-center">
+              <div
+                className="
+mx-auto
+flex
+h-18
+w-18
+items-center
+justify-center
+rounded-full
+bg-amber-100
+"
+              >
+                <Crown size={34} className="text-amber-600" />
+              </div>
+
+              <h3
+                className="
+mt-6
+text-2xl
+font-bold
+text-slate-900
+"
+              >
+                Premium Reviews
+              </h3>
+
+              <p
+                className="
+mt-3
+leading-7
+text-slate-600
+"
+              >
+                Upgrade your account to write reviews, rate premium prompts and
+                help other users.
+              </p>
+
+              <Link href="/pricing" color="warning" className="mt-8 w-full">
+                Upgrade to Premium
+              </Link>
+            </Card.Content>
+          </Card>
+        ) : (
+          <ReviewForm
+            promptId={prompt._id}
+            user={user}
+            hasReviewed={hasReviewed}
+            onSuccess={handleReviewAdded}
+          />
+        )}
 
         {/* Right */}
 
@@ -109,6 +194,60 @@ export default function ReviewSection({ prompt, user, reviews }) {
                   Be the first person to review this prompt and help the
                   community.
                 </p>
+              </Card.Content>
+            </Card>
+          ) : isLocked ? (
+            <Card
+              className="
+rounded-3xl
+border
+border-dashed
+border-slate-300
+"
+            >
+              <Card.Content
+                className="
+flex
+min-h-70
+flex-col
+items-center
+justify-center
+p-8
+text-center
+"
+              >
+                <Lock size={34} className="text-slate-400" />
+
+                <h3
+                  className="
+mt-5
+text-xl
+font-bold
+"
+                >
+                  Reviews Hidden
+                </h3>
+
+                <p
+                  className="
+mt-3
+max-w-sm
+leading-7
+text-slate-500
+"
+                >
+                  Upgrade to Premium to read community reviews and ratings for
+                  this prompt.
+                </p>
+
+                <Button
+                  as={Link}
+                  href="/pricing"
+                  color="warning"
+                  className="mt-6"
+                >
+                  Unlock Reviews
+                </Button>
               </Card.Content>
             </Card>
           ) : (
