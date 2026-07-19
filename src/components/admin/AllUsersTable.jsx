@@ -7,9 +7,11 @@ import { Table, Button } from "@heroui/react";
 
 import { Person, Calendar } from "@gravity-ui/icons";
 
-import DeleteUserModal from "./DeleteUserModal";
+// import DeleteUserModal from "./DeleteUserModal";
 import Image from "next/image";
 import { updateUserRole } from "@/lib/api/users";
+import DeleteUserModal from "./DeleteUserModal";
+// import { updateUserRole } from "@/lib/api/users";
 
 export default function AllUsersTable({ users = [] }) {
   const router = useRouter();
@@ -94,7 +96,7 @@ export default function AllUsersTable({ users = [] }) {
               </Table.Column>
 
               <Table.Column
-                minWidth={160}
+                minWidth={220}
                 className="
                 text-xs
                 uppercase

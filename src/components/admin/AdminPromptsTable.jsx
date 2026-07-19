@@ -87,7 +87,7 @@ export default function AdminPromptsTable({ prompts }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-[#1F2937] bg-[#0F172A]  shadow-2xl ">
       <Toaster></Toaster>
-      <Table aria-label="Admin Premium Prompt Table" removeWrapper>
+      <Table aria-label="Admin Premium Prompt Table">
         <Table.ResizableContainer>
           <Table.Content>
             <Table.Header className="bg-[#131C33]">
