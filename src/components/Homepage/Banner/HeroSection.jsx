@@ -86,7 +86,7 @@ export default function HeroSection() {
             </span>
           </motion.div>
 
-          <h1 className="mt-8 text-[38px] sm:text-5xl font-extrabold leading-tight md:text-7xl">
+          <h1 className="mt-8 text-5xl font-extrabold leading-tight md:text-7xl">
             Unlock the <br />
             True Potential of
             <br />

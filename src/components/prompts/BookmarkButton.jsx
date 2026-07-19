@@ -57,9 +57,9 @@ export default function BookmarkButton({ promptId }) {
 
       toast.success(result.message);
     } catch (error) {
-      console.error(error);
+      console.error("Bookmark Error:", error);
 
-      toast.error("Bookmark failed.");
+      toast.error(error.message || "Bookmark failed.");
     } finally {
       setLoading(false);
     }

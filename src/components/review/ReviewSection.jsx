@@ -43,11 +43,15 @@ export default function ReviewSection({ prompt, user, reviews, isLocked }) {
 
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-slate-900">
-            Community Reviews
-            {isLocked && (
-              <span
-                className="
+          <div >
+            <h2 className="text-[22px] md:text-3xl font-bold text-slate-900">
+              Community Reviews
+              <span className="ml-2 text-violet-600">
+                ({reviewList.length})
+              </span>
+              {isLocked && (
+                <span
+                  className="
 ml-3
 rounded-full
 bg-amber-100
@@ -57,12 +61,14 @@ text-sm
 font-semibold
 text-amber-700
 "
-              >
-                Premium Only
-              </span>
-            )}
-            <span className="ml-2 text-violet-600">({reviewList.length})</span>
-          </h2>
+                >
+                  Premium Only
+                </span>
+              )}
+            </h2>
+
+            
+          </div>
 
           <p className="mt-2 text-slate-500">
             Share your experience and help other users choose better prompts.

@@ -1,6 +1,7 @@
 import PricingClient from "@/components/pricing/PricingClient";
 import { getUserSession } from "@/lib/core/session";
 import { getPlanById } from "@/lib/api/plans";
+import { redirect } from "next/navigation";
 
 export default async function PricingPage() {
   const user = await getUserSession();
