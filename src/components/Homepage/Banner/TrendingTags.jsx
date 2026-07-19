@@ -4,7 +4,7 @@ const tags = [
   "Business Strategy",
   "Resume Builder",
   "Content Ideas",
-  "AI Tools",
+  
 ];
 
 export default function TrendingTags() {
@@ -12,7 +12,7 @@ export default function TrendingTags() {
     <div className="mt-8">
       <h3 className="mb-5 font-semibold">↗ Trending Prompts</h3>
 
-      <div className="flex flex-wrap justify-center gap-3">
+      <div className="flex flex-wrap justify-center gap-2 md:gap-3">
         {tags.map((tag) => (
           <button
             key={tag}

@@ -18,7 +18,7 @@ const particles = [
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-23">
+    <section className="relative overflow-hidden bg-white py-27">
       {/* Background Glow */}
       <div className="absolute left-1/2 top-20 h-150 w-150 -translate-x-1/2 rounded-full bg-violet-400/20 blur-[140px]" />
 
@@ -82,11 +82,11 @@ export default function HeroSection() {
             className="inline-flex rounded-full border border-violet-200 bg-white px-5 py-2 shadow-md"
           >
             <span className="text-sm font-medium text-violet-600">
-              ✨ Your Ideas. AI Prompts. Limitless Possibilities.
+              ✨ Your Ideas. Limitless Possibilities.
             </span>
           </motion.div>
 
-          <h1 className="mt-8 text-5xl font-extrabold leading-tight md:text-7xl">
+          <h1 className="mt-8 text-[38px] sm:text-5xl font-extrabold leading-tight md:text-7xl">
             Unlock the <br />
             True Potential of
             <br />
@@ -95,7 +95,7 @@ export default function HeroSection() {
             </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray-500">
+          <p className="mx-auto mt-6 max-w-3xl leading-6 text-md md:text-lg text-gray-500">
             Discover, create, and share powerful AI prompts. Boost productivity,
             automate workflows and spark creativity.
           </p>
@@ -109,7 +109,7 @@ export default function HeroSection() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="mt-10 rounded-2xl bg-linear-to-r from-violet-600 to-blue-600 px-10 py-4 font-semibold text-white shadow-xl"
+              className="mt-10 rounded-2xl bg-linear-to-r text-sm md:text-lg from-violet-600 to-blue-600 px-4.5 sm:px-5 md:px-10 py-4 font-semibold text-white shadow-xl"
             >
               Explore Prompts →
             </motion.button>
@@ -119,7 +119,7 @@ export default function HeroSection() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="mt-10 rounded-2xl border border-purple-600 bg-transparent px-10 py-4 font-semibold shadow-xl"
+              className="mt-10 rounded-2xl border text-sm md:text-lg border-purple-600 bg-transparent px-4.5 sm:px-5 md:px-10 py-4 font-semibold shadow-xl"
             >
               Become a Creator
             </motion.button>

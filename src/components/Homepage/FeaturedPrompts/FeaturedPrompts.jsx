@@ -56,33 +56,6 @@ export default function FeaturedPrompts({ prompts }) {
 
       <div className="container relative mx-auto px-4">
         {/* Header */}
-        {/* <div className="mb-14 flex flex-col items-center justify-between gap-6 md:flex-row">
-          <div>
-            <span className="rounded-full bg-violet-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-700">
-              Handpicked
-            </span>
-
-            <h2 className="mt-5 text-4xl font-black md:text-5xl">
-              Featured{" "}
-              <span className="bg-linear-to-r from-violet-600 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                Prompts
-              </span>
-            </h2>
-
-            <p className="mt-4 max-w-2xl text-lg text-default-500">
-              Discover the most popular prompts curated by our community of
-              Prompt Engineers.
-            </p>
-          </div>
-
-          <Link
-            href="/prompts"
-            className="group flex items-center gap-2 rounded-full border border-default-200 bg-white px-6 py-3 font-semibold shadow-sm transition-all hover:border-violet-400 hover:shadow-lg"
-          >
-            View All Prompts
-            <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-        </div> */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -242,7 +215,7 @@ export default function FeaturedPrompts({ prompts }) {
               >
                 <Link
                   href="/prompts"
-                  className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 px-8 py-4 text-base font-semibold text-white shadow-xl transition-all duration-300 hover:shadow-2xl"
+                  className="group inline-flex items-center gap-3 rounded-2xl bg-linear-to-r from-violet-600 via-purple-600 to-fuchsia-600 px-8 py-4 text-base font-semibold text-white shadow-xl transition-all duration-300 hover:shadow-2xl"
                 >
                   Explore All Prompts
                   <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
