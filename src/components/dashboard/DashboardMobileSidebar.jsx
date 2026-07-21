@@ -1,31 +1,24 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { Button, Drawer } from "@heroui/react";
-import { ArrowRightFromSquare, Sparkles } from "@gravity-ui/icons";
+import { ArrowRightFromSquare } from "@gravity-ui/icons";
 
 import { authClient } from "@/lib/auth-client";
 import { dashboardNavLinks } from "@/lib/dashboard-navigation";
 import DashboardNavItems from "./DashboardNavItems";
 import DashboardProfileCard from "./DashboardProfileCard";
-import DashboardLogo from "./DashboardLogo";
 
 export default function DashboardMobileSidebar({ open, setOpen }) {
   const { data: session, isPending } = authClient.useSession();
-
   const user = session?.user;
-
   const navItems = dashboardNavLinks[user?.role] ?? dashboardNavLinks.user;
 
   const handleLogout = async () => {
     try {
       setOpen(false);
-
       await authClient.signOut();
-
       toast.success("Logged out successfully.");
-
       setTimeout(() => {
         window.location.href = "/";
       }, 700);
@@ -34,128 +27,70 @@ export default function DashboardMobileSidebar({ open, setOpen }) {
     }
   };
 
-  const planColor =
-    user?.plan === "pro"
-      ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-      : "bg-default-100 text-default-600 border border-cyan-500/40";
-
-  const roleColor =
-    user?.role === "admin"
-      ? "bg-red-500/10 text-red-400"
-      : user?.role === "creator"
-        ? "bg-violet-500/10 text-violet-400"
-        : "bg-sky-500/10 text-sky-400";
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
 
   return (
-    <Drawer isOpen={open} onOpenChange={setOpen} placement="left">
-      {/* Backdrop */}
+    <>
+      {open && (
+        <div
+          className="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden transition-opacity"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
-      <Drawer.Backdrop className="bg-black/40 backdrop-blur-sm" />
+      <aside
+        className={`
+          fixed top-16 left-0 z-40 flex h-[calc(100vh-4rem)] w-[85vw] max-w-[320px] flex-col 
+          border-r border-slate-200 bg-white shadow-2xl lg:hidden
+          transition-transform duration-300 ease-in-out
+          ${open ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        {/* Body Area */}
+        <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-5 py-6">
+          <DashboardProfileCard user={user} />
 
-      {/* Drawer */}
-
-      <Drawer.Content>
-        <Drawer.Dialog
-          className="
-            flex
-            h-screen
-            w-80
-            flex-col
-            overflow-hidden
-            border-r-2
-            border-gray-300
-            bg-white
-            shadow-2xl
-            lg:hidden
-          "
-        >
-          {/* Header */}
-
-          <Drawer.Header
-            className="
-              flex
-              items-center
-              justify-between
-              border-b
-              border-default-200
-              px-6
-              py-5
-            "
-          >
-            <Drawer.CloseTrigger />
-          </Drawer.Header>
-
-          {/* Body */}
-
-          <Drawer.Body
-            className="
-              flex
-              flex-1
-              flex-col
-              gap-6
-              overflow-y-auto
-              px-6
-              py-6
-            "
-          >
-            {/* Logo */}
-
-            <div className="border-b border-white/10 ">
-              <Link href="/">
-                <DashboardLogo />
-              </Link>
+          {isPending ? (
+            <div className="flex flex-1 items-center justify-center">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-violet-600 border-t-transparent"></div>
             </div>
+          ) : (
+            <DashboardNavItems
+              navItems={navItems}
+              onNavigate={() => setOpen(false)}
+            />
+          )}
+        </div>
 
-            <DashboardProfileCard user={user} />
-
-            {isPending ? (
-              <div className="flex flex-1 items-center justify-center">
-                <p className="text-sm text-default-500">Loading...</p>
-              </div>
-            ) : (
-              <>
-                <DashboardNavItems
-                  navItems={navItems}
-                  onNavigate={() => setOpen(false)}
-                />
-              </>
-            )}
-          </Drawer.Body>
-
-          {/* Footer */}
-
-          <Drawer.Footer
+        {/* Footer Area */}
+        <div className="px-5 pb-30">
+          <button
+            onClick={handleLogout}
             className="
-              p-6
+              group flex h-12 w-full items-center justify-center gap-2
+              rounded-xl bg-red-50 text-red-600 font-semibold shadow-sm
+              transition-all duration-300 hover:bg-red-500 hover:text-white
+              hover:shadow-md hover:shadow-red-500/25 active:scale-95
             "
           >
-            <Button
-              variant="flat"
-              onPress={handleLogout}
-              className="
-                h-12
-                w-full
-                rounded-2xl
-                font-semibold
-                flex
-                gap-2
-                items-center
-                justify-center
-                shadow-2xl
-                hover:bg-red-500
-                hover:shadow-lg
-                transition
-                hover:scale-104
-                hover:text-white
-                
-              "
-            >
-              <ArrowRightFromSquare width={18} className="mr-2" />
-              <h2>Logout</h2>
-            </Button>
-          </Drawer.Footer>
-        </Drawer.Dialog>
-      </Drawer.Content>
-    </Drawer>
+            <ArrowRightFromSquare
+              width={18}
+              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

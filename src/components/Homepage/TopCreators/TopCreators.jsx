@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import { motion } from "framer-motion";
 import { Sparkles, ShieldCheck, TrendingUp } from "lucide-react";
 import { getTopCreators } from "@/lib/api/users";
@@ -193,9 +193,9 @@ const TopCreators = () => {
           {/* Dynamic Cards */}
           {!loading &&
             !error &&
-            creators.map((creator) => (
+            creators.map((creator, index) => (
               <motion.div
-                key={creator._id}
+                key={index}
                 variants={itemVariants}
                 whileHover={{
                   y: -10,
@@ -220,7 +220,7 @@ const TopCreators = () => {
                       height={112}
                       width={112}
                       src={creator.avatar}
-                      alt={creator.name || "Creator avatar"}
+                      alt={creator.name}
                       className="h-28 w-28 rounded-full border-4 border-white object-cover shadow-xl"
                     />
                     {creator.verified && (

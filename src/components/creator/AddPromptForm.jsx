@@ -197,7 +197,7 @@ export default function AddPromptForm({ user, plan, promptCount }) {
       );
 
       // Redirect user (update path according to your app structure)
-      router.push("/dashboard/creator/my-prompts");
+      router.refresh();
     } catch (error) {
       console.error("Submission Error:", error);
       toast.error(error.message || "Failed to submit prompt.");
@@ -245,7 +245,7 @@ export default function AddPromptForm({ user, plan, promptCount }) {
       >
         <Form
           onSubmit={handleSubmit}
-          className="flex w-full flex-col gap-8 max-w-5xl p-8 mx-auto"
+          className="flex w-full flex-col gap-8 max-w-5xl p-2 md:p-8 mx-auto"
         >
           {/* SECTION 1: Core Information */}
           <div className="bg-[#111520] border border-slate-800 rounded-2xl p-6 md:p-8 shadow-lg shadow-black/40 space-y-8">

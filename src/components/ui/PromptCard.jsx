@@ -31,10 +31,10 @@ export default function PromptCard({ prompt, user }) {
       router.push("/signin");
       return;
     }
-    router.push(`/prompts/${_id}`);
+    // router.push(`/prompts/${_id}`);
   };
 
-  return ( 
+  return (
     <Card
       radius="xl"
       className="
@@ -248,8 +248,6 @@ export default function PromptCard({ prompt, user }) {
         <Link href={`/prompts/${_id}`}>
           <Button
             onClick={handleViewDetails}
-            as={Link}
-            radius="full"
             className="
             h-12
             w-full
