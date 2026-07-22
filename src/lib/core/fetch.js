@@ -39,13 +39,40 @@ export const apiGet = async (path, options = {}) => {
 /**
  * POST / PATCH / DELETE
  */
-export const apiRequest = async (path, method = "POST", body, options = {}) => {
+// export const apiRequest = async (path, method = "POST", body, options = {}) => {
+//   const res = await fetch(`${BASE_URL}${path}`, {
+//     method,
+//     // credentials: "include",
+
+//     headers: {
+//       "Content-Type": "application/json",
+//       ...(options.headers || {}),
+//     },
+
+//     body:
+//       body !== undefined && method !== "GET" ? JSON.stringify(body) : undefined,
+
+//     ...options,
+//   });
+
+//   const data = await parseResponse(res);
+
+//   if (!res.ok) {
+//     throw new Error(data?.message || "Something went wrong.");
+//   }
+
+//   return data;
+// };
+
+export const apiRequest = async (path, config = {}, options = {}) => {
+  const { method = "POST", body, headers = {} } = config;
+
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
-    // credentials: "include",
 
     headers: {
       "Content-Type": "application/json",
+      ...headers,
       ...(options.headers || {}),
     },
 
