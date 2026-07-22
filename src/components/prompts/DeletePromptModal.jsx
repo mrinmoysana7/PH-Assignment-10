@@ -117,64 +117,36 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
 
           {/* Modal Wrapper */}
 
-          <div
-            className="
-              fixed
-              inset-0
-              z-9999
-              flex
-              items-center
-              justify-center
-              p-5
-            "
-          >
+          <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6 bg-slate-950/60 backdrop-blur-md transition-all">
             <div
               onClick={(e) => e.stopPropagation()}
               className="
-                w-full
-                max-w-xl
-                overflow-hidden
-                rounded-3xl
-                border
-                border-slate-700
-                bg-[#0F172A]
-                shadow-2xl
-                animate-in
-                fade-in
-                zoom-in-95
-                duration-200
-              "
+      w-full 
+      max-w-md 
+      overflow-hidden 
+      rounded-3xl 
+      border 
+      border-slate-700/60 
+      bg-[#0F172A] 
+      shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] 
+      animate-in 
+      fade-in 
+      zoom-in-95 
+      duration-200
+    "
             >
               {/* Header */}
-
-              <div
-                className="
-                  flex
-                  items-center
-                  justify-between
-                  border-b
-                  border-slate-700
-                  px-8
-                  py-6
-                "
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className="
-                      rounded-2xl
-                      bg-red-500/10
-                      p-3
-                    "
-                  >
-                    <Trash2 className="text-red-500" size={24} />
+              <div className="flex items-center justify-between border-b border-slate-700/50 px-6 py-5 sm:px-8 sm:py-6 bg-slate-900/40">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-red-500/10 border border-red-500/20 shadow-inner shadow-red-500/10">
+                    <Trash2 className="text-red-500 w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
 
                   <div>
-                    <h2 className="text-2xl font-bold text-white">
+                    <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                       Delete Prompt
                     </h2>
-
-                    <p className="mt-1 text-sm text-slate-400">
+                    <p className="mt-0.5 text-xs sm:text-sm text-slate-400">
                       This action cannot be undone.
                     </p>
                   </div>
@@ -183,96 +155,27 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                 <button
                   onClick={handleClose}
                   disabled={loading}
-                  className="
-                    rounded-lg
-                    p-2
-                    text-slate-400
-                    hover:bg-slate-800
-                    hover:text-white
-                    transition
-                  "
+                  className="rounded-full p-2 text-slate-400 hover:bg-slate-800 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-slate-600 disabled:opacity-50"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               {/* Body */}
-
-              <div className="space-y-6 p-8">
-                {/* Description */}
-
-                <p className="leading-7 text-slate-400">
-                  Are you sure you want to permanently delete this prompt
-                  template? Once deleted, it cannot be recovered and all
-                  associated analytics, bookmarks and reports will be removed.
-                </p>
-
-                {/* Prompt Preview */}
-
-                <div
-                  className="
-                    rounded-2xl
-                    border
-                    border-slate-700
-                    bg-[#151D30]
-                    p-5
-                  "
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                    Prompt Title
-                  </p>
-
-                  <h3 className="mt-3 text-lg font-semibold text-white">
-                    {prompt?.promptTitle}
-                  </h3>
-
-                  <div className="mt-5">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                      Description
-                    </p>
-
-                    <p className="mt-2 line-clamp-3 leading-7 text-slate-400">
-                      {prompt?.fullDescription || "No description available."}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Danger Alert */}
-
-                <div
-                  className="
-                    rounded-2xl
-                    border
-                    border-red-500/30
-                    bg-red-500/10
-                    p-5
-                  "
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="
-                        flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-red-500/20
-                      "
-                    >
-                      <Trash2 size={18} className="text-red-400" />
+              <div className="p-6 sm:p-8 space-y-6">
+                <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-4 sm:p-5">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/20">
+                      <Trash2 size={16} className="text-red-400" />
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-red-400">
+                      <h4 className="font-semibold text-red-400 text-sm sm:text-base">
                         Permanent Action
                       </h4>
-
-                      <p className="mt-2 text-sm leading-7 text-red-200">
-                        Deleting this prompt will permanently remove the prompt,
-                        analytics, bookmarks, reports and related records from
-                        the system. This action cannot be undone.
+                      <p className="mt-1 text-sm leading-relaxed text-slate-300">
+                        Are you sure you want to permanently delete this prompt
+                        template? All associated data will be removed.
                       </p>
                     </div>
                   </div>
@@ -280,33 +183,25 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
               </div>
 
               {/* Footer */}
-
-              <div
-                className="
-                  flex
-                  items-center
-                  justify-end
-                  gap-3
-                  border-t
-                  border-slate-700
-                  bg-[#0F172A]
-                  px-8
-                  py-5
-                "
-              >
+              <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 border-t border-slate-700/50 bg-slate-900/40 px-6 py-5 sm:px-8 sm:py-6">
                 <Button
                   variant="bordered"
                   onPress={handleClose}
                   isDisabled={loading}
                   className="
-                    border-slate-600
-                    bg-[#1E293B]
-                    text-white
-                    hover:bg-slate-700
-                    rounded-xl
-                    px-6
-                    py-2
-                  "
+          w-full 
+          sm:w-auto 
+          border-slate-600 
+          bg-transparent 
+          text-white 
+          hover:bg-slate-800 
+          hover:border-slate-500 
+          rounded-xl 
+          px-6 
+          py-2.5 
+          font-medium 
+          transition-all
+        "
                 >
                   Cancel
                 </Button>
@@ -317,17 +212,24 @@ export default function DeletePromptModal({ prompt, user, onDeleted }) {
                   startContent={!loading && <Trash2 size={16} />}
                   onClick={handleDelete}
                   className="
-                    bg-linear-to-r
-                    from-red-600
-                    to-red-500
-                    text-white
-                    rounded-xl
-                    px-6
-                    py-2
-                    cursor-pointer
-                    hover:translate-y-0.5
-                    transition-all
-                  "
+          w-full 
+          sm:w-auto 
+          bg-linear-to-r 
+          from-red-600 
+          to-red-500 
+          text-white 
+          rounded-xl 
+          px-6 
+          py-2.5 
+          font-medium 
+          shadow-lg 
+          shadow-red-500/20 
+          border 
+          border-red-500/50
+          hover:shadow-red-500/40 
+          hover:-translate-y-0.5 
+          transition-all
+        "
                 >
                   Delete Prompt
                 </Button>

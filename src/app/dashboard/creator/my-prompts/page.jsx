@@ -19,6 +19,8 @@ export default async function CreatorMyPromptsPage() {
     );
   }
 
+  
+
   // Creator prompts
   const prompts = await getUserPrompts(user.id);
 

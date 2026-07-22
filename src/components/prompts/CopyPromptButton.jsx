@@ -62,6 +62,7 @@ export default function CopyPromptButton({
         bg-slate-100
         text-slate-700
         font-medium
+        w-21
         px-3
         py-1
         rounded-lg

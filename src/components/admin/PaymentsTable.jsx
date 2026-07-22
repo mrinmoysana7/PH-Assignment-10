@@ -29,7 +29,7 @@ export default function PaymentsTable({ payments = [] }) {
     <div className="mx-auto max-w-7xl px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight mb-1">
+        <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-1">
           Stripe Premium Payments Log
         </h1>
         <p className="text-slate-400 text-sm">

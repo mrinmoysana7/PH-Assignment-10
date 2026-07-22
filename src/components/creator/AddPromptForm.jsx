@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 import { Form } from "@heroui/react";
-
 import { ChevronDown } from "@gravity-ui/icons";
 import Image from "next/image";
 import { addPrompt } from "@/lib/api/prompts";
@@ -49,8 +48,22 @@ const aiTools = [
 
 const difficultyLevels = ["Beginner", "Intermediate", "Pro"];
 
+// Helper function to convert File to Base64 to ensure API compatibility
+const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 export default function AddPromptForm({ user, plan, promptCount }) {
   const router = useRouter();
+
+  // Move limit logic to the top so it is globally available to the component
+  const maxLimit = plan?.maxPromptLimit ?? 3;
+  const reachedLimit = maxLimit !== -1 && Number(promptCount) >= maxLimit;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState(null);
@@ -76,16 +89,15 @@ export default function AddPromptForm({ user, plan, promptCount }) {
     }));
   };
 
-  // const handleSelectChange = (field, keys) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [field]: Array.from(keys),
-  //   }));
-  // };
-
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Enforce the 2MB size limit stated in the UI
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Image size must be less than 2MB.");
+      return;
+    }
 
     setImageFile(file);
     setThumbnailUrl(URL.createObjectURL(file));
@@ -122,21 +134,28 @@ export default function AddPromptForm({ user, plan, promptCount }) {
   const uploadImage = async () => {
     if (!imageFile) return "";
 
-    const form = new FormData();
-    form.append("image", imageFile);
+    const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
-    const res = await fetch(
-      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
-      {
-        method: "POST",
-        body: form,
-      },
-    );
+    if (!apiKey) {
+      throw new Error("ImgBB API key is missing. Check your .env file.");
+    }
+
+    // Convert to Base64 to avoid fetch multipart/form-data boundary drops
+    const base64Image = await fileToBase64(imageFile);
+
+    const form = new FormData();
+    form.append("image", base64Image);
+
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+      method: "POST",
+      body: form,
+    });
 
     const data = await res.json();
 
     if (!data.success) {
-      throw new Error("Image upload failed.");
+      // Expose the EXACT reason ImgBB rejected the image
+      throw new Error(data.error?.message || "ImgBB image upload failed.");
     }
 
     return data.data.url;
@@ -147,57 +166,41 @@ export default function AddPromptForm({ user, plan, promptCount }) {
 
     if (reachedLimit) {
       toast.error("Free plan limit reached. Upgrade to Premium.");
-
       return;
     }
 
-    // 1. Basic check for authenticated user
     if (!user) {
       toast.error("Please log in to submit a prompt.");
       return;
     }
 
-    // 2. Run validations
     if (!validate()) return;
 
     try {
       setIsSubmitting(true);
 
-      // 3. Upload thumbnail if provided
       const uploadedImageUrl = await uploadImage();
 
-      // 4. Construct Payload
       const payload = {
         ...formData,
-
         userId: user.id,
-
         thumbnailUrl: uploadedImageUrl,
-
         creatorInformation: {
           id: user.id,
-
           name: user.name,
-
           email: user.email,
-
           image: user.image,
-
           role: user.role,
         },
       };
 
-      // 5. Send to API
       const result = await addPrompt(payload);
-      console.log(result);
+      console.log("Success Result:", result);
 
-      // 6. Success handling
+      window.location.reload(true);
       toast.success(
         "Prompt submitted successfully. Waiting for admin approval.",
       );
-
-      // Redirect user (update path according to your app structure)
-      router.refresh();
     } catch (error) {
       console.error("Submission Error:", error);
       toast.error(error.message || "Failed to submit prompt.");
@@ -205,10 +208,6 @@ export default function AddPromptForm({ user, plan, promptCount }) {
       setIsSubmitting(false);
     }
   };
-
-  const maxLimit = plan?.maxPromptLimit ?? 3;
-
-  const reachedLimit = maxLimit !== -1 && Number(promptCount) >= maxLimit;
 
   const premiumLabelClass =
     "flex items-center gap-2 text-sm font-medium text-slate-300 mb-2.5";

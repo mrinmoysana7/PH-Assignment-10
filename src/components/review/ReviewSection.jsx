@@ -1,23 +1,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
 import { Button, Card } from "@heroui/react";
-
 import ReviewForm from "./ReviewForm";
 import ReviewCard from "./ReviewCard";
 import { Crown } from "lucide-react";
 import { Lock } from "@gravity-ui/icons";
 import Link from "next/link";
 
-export default function ReviewSection({ prompt, user, reviews, isLocked }) {
-  const isPremium = user?.plan === "AI_Prompt_PRO_Access";
-
+export default function ReviewSection({
+  prompt,
+  user,
+  reviews,
+  isLocked,
+  onReviewAdded,
+}) {
   const [reviewList, setReviewList] = useState(reviews);
+
   /* ===============================
             CALCULATIONS
   =============================== */
-
   const averageRating = useMemo(() => {
     if (!reviewList.length) return 0;
 
@@ -33,41 +35,37 @@ export default function ReviewSection({ prompt, user, reviews, isLocked }) {
     (review) => String(review.userId) === String(user?.id),
   );
 
-  const handleReviewAdded = (Review) => {
-    setReviewList((prev) => [Review, ...prev]);
+  // নতুন রিভিউ সাবমিট হলে লোকাল স্টেট এবং প্যারেন্ট কম্পোনেন্ট উভয়কেই আপডেট করা
+  const handleReviewAdded = (newReview) => {
+    const updatedList = [newReview, ...reviewList];
+    setReviewList(updatedList);
+
+    // নতুন গড় রেটিং হিসাব করে প্যারেন্টে পাঠানো
+    const total = updatedList.reduce((sum, r) => sum + Number(r.rating), 0);
+    const newAvgRating = Number((total / updatedList.length).toFixed(1));
+
+    if (onReviewAdded) {
+      onReviewAdded(newReview, newAvgRating);
+    }
   };
 
   return (
     <section className="mt-12">
       {/* Header */}
-
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <div >
+          <div>
             <h2 className="text-[22px] md:text-3xl font-bold text-slate-900">
               Community Reviews
               <span className="ml-2 text-violet-600">
                 ({reviewList.length})
               </span>
               {isLocked && (
-                <span
-                  className="
-ml-3
-rounded-full
-bg-amber-100
-px-3
-py-1
-text-sm
-font-semibold
-text-amber-700
-"
-                >
+                <span className="ml-3 rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-700">
                   Premium Only
                 </span>
               )}
             </h2>
-
-            
           </div>
 
           <p className="mt-2 text-slate-500">
@@ -111,68 +109,27 @@ text-amber-700
       </div>
 
       {/* Content */}
-
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* Left */}
-
-        {/* <ReviewForm
-          promptId={prompt._id}
-          user={user}
-          hasReviewed={hasReviewed}
-          onSuccess={handleReviewAdded}
-        /> */}
-
         {isLocked ? (
-          <Card
-            className="
-rounded-3xl
-border
-border-amber-300
-bg-linear-to-br
-from-amber-50
-to-orange-50
-shadow-sm
-"
-          >
+          <Card className="rounded-3xl border border-amber-300 bg-linear-to-br from-amber-50 to-orange-50 shadow-sm">
             <Card.Content className="p-8 text-center">
-              <div
-                className="
-mx-auto
-flex
-h-18
-w-18
-items-center
-justify-center
-rounded-full
-bg-amber-100
-"
-              >
+              <div className="mx-auto flex h-18 w-18 items-center justify-center rounded-full bg-amber-100">
                 <Crown size={34} className="text-amber-600" />
               </div>
 
-              <h3
-                className="
-mt-6
-text-2xl
-font-bold
-text-slate-900
-"
-              >
+              <h3 className="mt-6 text-2xl font-bold text-slate-900">
                 Premium Reviews
               </h3>
 
-              <p
-                className="
-mt-3
-leading-7
-text-slate-600
-"
-              >
+              <p className="mt-3 leading-7 text-slate-600">
                 Upgrade your account to write reviews, rate premium prompts and
                 help other users.
               </p>
 
-              <Link href="/pricing" color="warning" className="mt-8 w-full">
+              <Link
+                href="/pricing"
+                className="mt-8 inline-block w-full rounded-xl bg-amber-600 py-3 text-center font-bold text-white shadow-md hover:bg-amber-700"
+              >
                 Upgrade to Premium
               </Link>
             </Card.Content>
@@ -187,7 +144,6 @@ text-slate-600
         )}
 
         {/* Right */}
-
         <div className="space-y-5">
           {reviewList.length === 0 ? (
             <Card className="rounded-2xl border border-dashed border-slate-300 shadow-sm">
@@ -203,45 +159,13 @@ text-slate-600
               </Card.Content>
             </Card>
           ) : isLocked ? (
-            <Card
-              className="
-rounded-3xl
-border
-border-dashed
-border-slate-300
-"
-            >
-              <Card.Content
-                className="
-flex
-min-h-70
-flex-col
-items-center
-justify-center
-p-8
-text-center
-"
-              >
+            <Card className="rounded-3xl border border-dashed border-slate-300">
+              <Card.Content className="flex min-h-70 flex-col items-center justify-center p-8 text-center">
                 <Lock size={34} className="text-slate-400" />
 
-                <h3
-                  className="
-mt-5
-text-xl
-font-bold
-"
-                >
-                  Reviews Hidden
-                </h3>
+                <h3 className="mt-5 text-xl font-bold">Reviews Hidden</h3>
 
-                <p
-                  className="
-mt-3
-max-w-sm
-leading-7
-text-slate-500
-"
-                >
+                <p className="mt-3 max-w-sm leading-7 text-slate-500">
                   Upgrade to Premium to read community reviews and ratings for
                   this prompt.
                 </p>

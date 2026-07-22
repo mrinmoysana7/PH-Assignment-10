@@ -5,7 +5,7 @@ export default async function ReportedPromptsPage() {
   const reports = await getReportedPrompts();
 
   return (
-    <div className="max-w-7xl mx-auto px-5 md:px-12 lg:px-10 xl:px-0 py-22 lg:py-10">
+    <div className="max-w-7xl mx-auto px-5 md:px-12 lg:px-10 xl:px-5 py-22 lg:py-10">
       {/* Header */}
 
       <div className="mb-10">

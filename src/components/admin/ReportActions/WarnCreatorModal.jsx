@@ -1,47 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-
 import { useRouter } from "next/navigation";
-
 import toast from "react-hot-toast";
-
-import {
-  Button,
-  Avatar,
-  Chip,
-  TextArea,
-  TextField,
-  ChipLabel,
-} from "@heroui/react";
-
-import { AlertTriangle, Mail, ShieldAlert, User, X } from "lucide-react";
+import { Button, TextArea } from "@heroui/react";
+import { ShieldAlert, X, AlertTriangle, FileText, User } from "lucide-react";
 import { warnCreator } from "@/lib/api/reports";
-import { Label } from "recharts";
-
-// import { warnCreator } from "@/lib/api/reports";
 
 export default function WarnCreatorModal({ report, onClose, onUpdated }) {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-
   const [message, setMessage] = useState("");
 
-  /* ==========================================
-        CLOSE MODAL
-  ========================================== */
-
+  /* ================= CLOSE MODAL ================= */
   const handleClose = useCallback(() => {
     if (loading) return;
-
     onClose?.();
   }, [loading, onClose]);
 
-  /* ==========================================
-        ESC KEY
-  ========================================== */
-
+  /* ================= ESC KEY ================= */
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") {
@@ -50,20 +27,15 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
     };
 
     document.addEventListener("keydown", handleEsc);
-
     document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
-
       document.body.style.overflow = "auto";
     };
   }, [handleClose]);
 
-  /* ==========================================
-        SEND WARNING
-  ========================================== */
-
+  /* ================= SEND WARNING ================= */
   const handleWarnCreator = async () => {
     if (!message.trim()) {
       toast.error("Please write a warning message.");
@@ -72,11 +44,10 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
 
     try {
       setLoading(true);
-
       const result = await warnCreator(report._id, message.trim());
 
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(result.message || "Failed to send warning.");
         return;
       }
 
@@ -94,350 +65,114 @@ export default function WarnCreatorModal({ report, onClose, onUpdated }) {
     }
   };
 
+  if (!report) return null;
+
   return (
     <>
-      {/* ==========================================
-            Backdrop
-      ========================================== */}
-
+      {/* ================= BACKDROP ================= */}
       <div
         onClick={handleClose}
-        className="
-          fixed
-          inset-0
-          z-9998
-          bg-black/70
-          backdrop-blur-sm
-        "
+        className="fixed inset-0 z-[9998] bg-slate-950/80 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
       />
 
-      {/* ==========================================
-            Modal Wrapper
-      ========================================== */}
-
-      <div
-        className="
-          fixed
-          inset-0
-          z-9999
-          flex
-          items-center
-          justify-center
-          overflow-y-auto
-          p-6
-        "
-      >
+      {/* ================= MODAL ================= */}
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-hidden">
         <div
           onClick={(e) => e.stopPropagation()}
-          className="
-            w-full
-            max-h-200
-            max-w-2xl
-            overflow-hidden
-            rounded-3xl
-            border
-            border-slate-700
-            bg-[#0F172A]
-            shadow-2xl
-            animate-in
-            fade-in
-            zoom-in-95
-            duration-200
-          "
+          className="relative w-full max-w-lg flex flex-col rounded-2xl sm:rounded-3xl border border-slate-800 bg-slate-950 shadow-2xl shadow-amber-950/10 overflow-hidden animate-in zoom-in-95 duration-200"
         >
-          {/* ==========================================
-                Header
-          ========================================== */}
-
-          <div
-            className="
-              flex
-              items-center
-              justify-between
-              border-b
-              border-slate-700
-              px-8
-              py-6
-            "
-          >
-            <div className="flex items-center gap-4">
-              <div
-                className="
-                  rounded-2xl
-                  bg-amber-500/10
-                  p-3
-                "
-              >
-                <ShieldAlert size={24} className="text-amber-400" />
+          {/* ================= HEADER ================= */}
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-slate-800/80 bg-slate-900/30 shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                <ShieldAlert size={18} />
               </div>
-
               <div>
-                <h2 className="text-2xl font-bold text-white">Warn Creator</h2>
-
-                <p className="mt-1 text-sm text-slate-400">
-                  Send an official warning regarding this reported prompt.
-                </p>
+                <h2 className="text-base sm:text-lg font-semibold text-slate-100">
+                  Warn Creator
+                </h2>
               </div>
             </div>
 
             <button
               onClick={handleClose}
               disabled={loading}
-              className="
-                rounded-lg
-                p-2
-                text-slate-400
-                transition
-                hover:bg-slate-800
-                hover:text-white
-              "
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-50"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
 
-          {/* ==========================================
-                Body Starts Here
-                (Continue in Part 2)
-          ========================================== */}
-
-          <div className="space-y-8 p-8">
-            {/* ==========================================
-                Creator Information
-            ========================================== */}
-
-            {/* <div
-              className="
-                rounded-2xl
-                border
-                border-slate-700
-                bg-[#111827]
-                p-6
-              "
-            >
-              <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-violet-500/10 p-3">
-                  <User size={22} className="text-violet-400" />
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-bold text-white">
-                    Prompt Creator
-                  </h3>
-
-                  <p className="text-sm text-slate-400">
-                    This warning will be sent to the prompt creator.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="space-y-2">
-                  <div className="flex gap-3">
-                    <h4 className="text-lg font-semibold text-white">
-                      {report.creator?.name}
-                    </h4>
-                    <div className="text-cyan-700 rounded-full  text-center border border-cyan-700 bg-cyan-200 px-3 py-1">
-                      {report.creator?.role || "Creator"}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <Mail size={15} />
-
-                    <span className="text-sm">{report.creator?.email}</span>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-            {/* ==========================================
-                Report Information
-            ========================================== */}
-
-            <div
-              className="
-                rounded-2xl
-                border
-                border-slate-700
-                bg-[#111827]
-                max-h-52
-                p-5
-              "
-            >
-              <h3 className="mb-5 text-xl  font-bold text-white">
+          {/* ================= BODY ================= */}
+          <div className="p-4 sm:p-6 space-y-5 overflow-y-auto max-h-[70vh]">
+            {/* Report Summary Box */}
+            <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 sm:p-5">
+              <h3 className="mb-4 text-sm font-semibold text-slate-200 flex items-center gap-2">
+                <FileText size={16} className="text-slate-400" />
                 Report Summary
               </h3>
 
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-slate-300">Prompt</span>
-
-                  <span className="max-w-md text-right font-medium text-white">
-                    {report?.promptTitle}
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between items-start gap-4">
+                  <span className="text-slate-400 shrink-0">Prompt</span>
+                  <span className="font-medium text-slate-100 text-right truncate">
+                    {report?.promptTitle || "Unknown Prompt"}
                   </span>
                 </div>
 
-                <div className="flex justify-between">
-                  <span className="text-slate-300">Reason</span>
-
-                  <span className="max-w-md text-right font-medium text-white">
-                    {report.reason}
+                <div className="flex justify-between items-start gap-4">
+                  <span className="text-slate-400 shrink-0">Reason</span>
+                  <span className="font-medium text-amber-400 text-right">
+                    {report?.reason || "Not specified"}
                   </span>
                 </div>
 
-                <div className="flex justify-between gap-5">
-                  <span className="text-slate-300">Reported By</span>
-
-                  <span className="font-medium text-white">
-                    {report.reporter?.name}
+                <div className="flex justify-between items-start gap-4">
+                  <span className="text-slate-400 shrink-0">Reported By</span>
+                  <span className="font-medium text-slate-100 text-right flex items-center gap-1.5 justify-end">
+                    <User size={14} className="text-slate-500" />
+                    {report?.reporter?.name || "Anonymous"}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* ==========================================
-                Warning Alert
-            ========================================== */}
-
-            {/* <div
-              className="
-                rounded-2xl
-                border
-                border-amber-500/30
-                bg-amber-500/10
-                p-5
-              "
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className="
-                    flex
-                    h-11
-                    w-11
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-amber-500/20
-                  "
-                >
-                  <AlertTriangle size={20} className="text-amber-400" />
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-amber-300">
-                    Warning Notice
-                  </h4>
-
-                  <p className="mt-2 leading-7 text-amber-100">
-                    This warning will notify the creator that their prompt has
-                    been reported by the community. Repeated violations may lead
-                    to prompt removal or account restrictions.
-                  </p>
-                </div>
-              </div>
-            </div> */}
-
-            <div>
-              <label className="text-lg font-semibold text-white">
-                Warning Message!
+            {/* Warning Message Input */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                <AlertTriangle size={16} className="text-amber-500" />
+                Warning Message
               </label>
               <TextArea
                 name="warningMessage"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Kindly write the warning message....."
-                className="h-30
-                mt-2
-                p-2
-                w-full
-rounded-2xl
-border
-border-gray-200
-bg-white/5
-text-white
-px-4
-placeholder:text-gray-400
-shadow-md
-transition-all
-duration-300
-hover:border-violet-600
-focus:ring-4
-focus:ring-violet-600"
-                minRows={5}
+                placeholder="Detail the community guidelines violation here..."
+                minRows={4}
+                className="w-full rounded-xl border border-slate-700 bg-slate-900/50 text-slate-100 px-4 py-3 placeholder:text-slate-500 shadow-inner transition-all duration-200 hover:border-slate-600 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none"
               />
             </div>
+          </div>
 
-            {/* ==========================================
-                Footer
-            ========================================== */}
-
-            <div
-              className="
-                flex
-                flex-col-reverse
-                gap-3
-                border-t
-                border-slate-700
-                bg-[#0F172A]
-                px-8
-                py-6
-                sm:flex-row
-                sm:items-center
-                sm:justify-end
-              "
+          {/* ================= FOOTER ================= */}
+          <div className="shrink-0 p-4 sm:p-5 border-t border-slate-800/80 bg-slate-900/30 flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3">
+            <Button
+              variant="bordered"
+              onPress={handleClose}
+              isDisabled={loading}
+              className="w-full sm:w-auto h-10 px-5 rounded-xl border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium"
             >
-              {/* Cancel Button */}
+              Cancel
+            </Button>
 
-              <Button
-                variant="bordered"
-                onPress={handleClose}
-                isDisabled={loading}
-                className="
-                  rounded-xl
-                  border-slate-600
-                  bg-[#1E293B]
-                  px-6
-                  py-3
-                  text-white
-                  text-xl
-                  transition-all
-                  hover:bg-slate-700
-                "
-              >
-                Cancel
-              </Button>
-
-              {/* Send Warning */}
-
-              <Button
-                color="warning"
-                isLoading={loading}
-                startContent={!loading && <ShieldAlert size={18} />}
-                onPress={handleWarnCreator}
-                className="
-                  rounded-xl
-                  bg-linear-to-r
-                  from-amber-500
-                  to-orange-500
-                  px-6
-                  py-3
-                  text-xl
-                  font-semibold
-                  text-black
-                  shadow-lg
-                  transition-all
-                  hover:scale-[1.02]
-                "
-              >
-                {loading ? "Sending Warning..." : "Send Warning"}
-              </Button>
-            </div>
-
-            {/* ==========================================
-                End Body
-            ========================================== */}
+            <Button
+              isLoading={loading}
+              onPress={handleWarnCreator}
+              startContent={!loading && <ShieldAlert size={16} />}
+              className="w-full sm:w-auto h-10 px-5 rounded-xl font-medium text-sm text-white bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 shadow-md shadow-amber-950/20 border-none"
+            >
+              {loading ? "Sending..." : "Send Warning"}
+            </Button>
           </div>
         </div>
       </div>

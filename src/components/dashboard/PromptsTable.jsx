@@ -11,10 +11,41 @@ import DeletePromptModal from "../prompts/DeletePromptModal";
 import PromptAnalyticsModal from "../prompts/PromptAnalyticsModal";
 
 export default function PromptsTable({ prompts = [], user }) {
-  // console.log("PromptsTable received prompts:", prompts);
-  const getPromptId = (prompt) => prompt._id?.$oid || prompt._id;
-
   const router = useRouter();
+
+  const role = user?.role;
+
+  const getPromptId = (prompt) => {
+    if (!prompt) return "";
+
+    if (typeof prompt._id === "string") {
+      return prompt._id;
+    }
+
+    if (prompt._id && typeof prompt._id === "object") {
+      if (prompt._id.$oid) {
+        return prompt._id.$oid;
+      }
+
+      if (typeof prompt._id.toHexString === "function") {
+        return prompt._id.toHexString();
+      }
+
+      if (typeof prompt._id.toString === "function") {
+        return prompt._id.toString();
+      }
+    }
+
+    if (typeof prompt.id === "string") {
+      return prompt.id;
+    }
+
+    if (prompt.id?.$oid) {
+      return prompt.id.$oid;
+    }
+
+    return "";
+  };
 
   return (
     <div
@@ -121,6 +152,8 @@ py-4 "
             {/* টেবিল বডি */}
             <Table.Body>
               {prompts.map((prompt) => {
+                const promptId = getPromptId(prompt);
+
                 // console.log("Prompt Data:", prompt); // Debugging line to check the structure of prompt
                 const isRejected = prompt.status?.toLowerCase() === "rejected";
 
@@ -247,11 +280,11 @@ py-4 "
                         {/* View Details */}
                         <div>
                           <Link
-                            href={`/prompts/${getPromptId(prompt)}?returnTo=/dashboard/user/my-prompts`}
-                            isIconOnly
-                            size="sm"
-                            variant="flat"
-                            color="primary"
+                            href={
+                              promptId
+                                ? `/prompts/${encodeURIComponent(promptId)}?returnTo=/dashboard/${role}/my-prompts`
+                                : "#"
+                            }
                             title="View Details"
                             className="p-2 bg-zinc-900/50 hover:bg-white/75 text-white hover:text-black border border-white/75 rounded-lg transition-colors flex items-center justify-center"
                           >

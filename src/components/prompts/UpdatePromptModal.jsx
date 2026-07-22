@@ -173,7 +173,7 @@ export default function UpdatePromptModal({ prompt, onUpdated }) {
         type="button"
         title="Update Prompt"
         onClick={handleOpen}
-        className="flex items-center justify-center h-8 w-8 bg-zinc-900/50 hover:bg-violet-600 border border-violet-600 transition-all duration-300 rounded-lg text-white"
+        className="flex items-center justify-center h-9 w-9 bg-zinc-900/50 hover:bg-violet-600 border border-violet-600 transition-all duration-300 rounded-lg text-white"
       >
         <Pencil size={14} />
       </button>
@@ -210,7 +210,7 @@ export default function UpdatePromptModal({ prompt, onUpdated }) {
             </div>
 
             {/* Body */}
-            <div className="overflow-y-auto px-6 py-6 md:px-8 space-y-8 hide-scrollbar">
+            <div className="overflow-y-auto p-3 md:px-8 space-y-8 hide-scrollbar">
               {/* SECTION 1: Core Information */}
               <div className="bg-[#111520] border border-slate-800/60 rounded-2xl p-6 shadow-lg shadow-black/20 space-y-6">
                 <div className="border-b border-slate-800/80 pb-3 mb-2">

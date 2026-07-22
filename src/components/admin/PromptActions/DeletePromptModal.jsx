@@ -1,34 +1,21 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-// import { useRouter } from "next/navigation";
-
 import { toast, Toaster } from "react-hot-toast";
-
 import { Button } from "@heroui/react";
-
-import { Trash2, AlertTriangle, X } from "lucide-react";
+import { Trash2, AlertTriangle, X, FileText } from "lucide-react";
 import { deletePromptByAdmin } from "@/lib/api/adminPrompts";
 
 export default function DeletePromptModal({ prompt, onClose, onDeleted }) {
-  // const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
-  /* ==========================================
-                CLOSE MODAL
-  ========================================== */
-
+  /* ================= CLOSE MODAL ================= */
   const handleClose = useCallback(() => {
     if (loading) return;
-
     onClose?.();
   }, [loading, onClose]);
 
-  /* ==========================================
-                ESC CLOSE
-  ========================================== */
-
+  /* ================= ESC CLOSE ================= */
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") {
@@ -37,314 +24,127 @@ export default function DeletePromptModal({ prompt, onClose, onDeleted }) {
     };
 
     document.addEventListener("keydown", handleEsc);
-
     document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
-
       document.body.style.overflow = "auto";
     };
   }, [handleClose]);
 
-  /* ==========================================
-              DELETE PROMPT
-  ========================================== */
-
+  /* ================= DELETE PROMPT ================= */
   const handleDelete = async () => {
     try {
       setLoading(true);
-
       const result = await deletePromptByAdmin(prompt._id);
 
       if (!result.success) {
         toast.error(result.message || "Delete failed.");
-
         return;
       }
 
       toast.success("Prompt deleted successfully.");
-
       onDeleted?.();
 
       setTimeout(() => {
         handleClose();
       }, 1200);
-
-      // router.refresh();
     } catch (error) {
       console.error(error);
-
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
 
+  if (!prompt) return null;
+
   return (
     <>
-      <Toaster position="top-right"></Toaster>
-      {/* ================= BACKDROP ================= */}
+      <Toaster position="top-right" />
 
-      <div
-        onClick={handleClose}
-        className="
-          fixed
-          inset-0
-          z-9998
-          bg-black/70
-          backdrop-blur-sm
-        "
-      />
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+        {/* ================= BACKDROP ================= */}
+        <div
+          onClick={handleClose}
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
+        />
 
-      {/* ================= MODAL ================= */}
-
-      <div
-        className="
-          fixed
-          inset-0
-          z-9999
-          flex
-          items-center
-          justify-center
-          p-5
-        "
-      >
+        {/* ================= MODAL ================= */}
         <div
           onClick={(e) => e.stopPropagation()}
-          className="
-            w-full
-            max-w-2xl
-            overflow-hidden
-            rounded-3xl
-            border
-            border-slate-700
-            bg-[#0F172A]
-            shadow-2xl
-            animate-in
-            fade-in
-            zoom-in-95
-            duration-200
-          "
+          className="relative z-10 w-full max-w-md flex flex-col rounded-2xl sm:rounded-3xl border border-slate-800 bg-slate-950 shadow-2xl shadow-red-950/10 overflow-hidden animate-in zoom-in-95 duration-200"
         >
           {/* ================= HEADER ================= */}
-
-          <div
-            className="
-              flex
-              items-center
-              justify-between
-              border-b
-              border-slate-700
-              px-8
-              py-6
-            "
-          >
-            <div className="flex items-center gap-4">
-              <div
-                className="
-                  rounded-2xl
-                  bg-red-500/10
-                  p-3
-                "
-              >
-                <Trash2 className="text-red-500" size={24} />
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-slate-800/80 bg-slate-900/30 shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 text-red-500 border border-red-500/20">
+                <Trash2 size={18} />
               </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-white">Delete Prompt</h2>
-
-                <p className="mt-1 text-sm text-slate-400">
-                  This action is permanent and cannot be undone.
-                </p>
-              </div>
+              <h2 className="text-base sm:text-lg font-semibold text-slate-100">
+                Delete Prompt
+              </h2>
             </div>
 
             <button
               onClick={handleClose}
               disabled={loading}
-              className="
-                rounded-lg
-                p-2
-                text-slate-400
-                transition
-                hover:bg-slate-800
-                hover:text-white
-              "
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-50"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
 
           {/* ================= BODY ================= */}
-
-          <div className="space-y-6 p-8">
-            {/* Warning */}
-
-            <div
-              className="
-                rounded-2xl
-                border
-                border-red-500/20
-                bg-red-500/10
-                p-5
-              "
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className="
-                    flex
-                    h-10
-                    w-10
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-red-500/20
-                  "
-                >
-                  <AlertTriangle size={18} className="text-red-400" />
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-red-400">
-                    Permanent Delete
-                  </h4>
-
-                  <p className="mt-2 text-sm leading-7 text-red-200">
-                    This prompt template will be permanently removed from
-                    PromptVerse. This operation cannot be reversed.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Prompt Preview */}
-
-            <div
-              className="
-                rounded-2xl
-                border
-                border-slate-700
-                bg-[#151D30]
-                p-5
-              "
-            >
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                Prompt Title
+          <div className="p-4 sm:p-6 space-y-4">
+            {/* Target Reference Banner */}
+            <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border border-slate-800 bg-slate-900/50 text-sm">
+              <FileText size={16} className="text-slate-400 shrink-0" />
+              <p className="text-slate-300 truncate">
+                Deleting:{" "}
+                <span className="font-semibold text-white">
+                  {prompt.promptTitle}
+                </span>
               </p>
-
-              <h3 className="mt-3 text-lg font-semibold text-white">
-                {prompt?.promptTitle}
-              </h3>
-
-              <div className="mt-5">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Description
-                </p>
-
-                <p className="mt-2 line-clamp-3 leading-7 text-slate-400">
-                  {prompt?.fullDescription || "No description available."}
-                </p>
-              </div>
             </div>
 
-            {/* ==========================================
-                    DANGER NOTE
-            ========================================== */}
-
-            <div
-              className="
-                rounded-2xl
-                border
-                border-amber-500/20
-                bg-amber-500/10
-                p-5
-              "
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className="
-                    flex
-                    h-10
-                    w-10
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-amber-500/20
-                  "
-                >
-                  <AlertTriangle size={18} className="text-amber-400" />
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-amber-400">Warning</h4>
-
-                  <p className="mt-2 text-sm leading-7 text-amber-200">
-                    Deleting this prompt will permanently remove all associated
-                    reviews, analytics, bookmarks, reports and prompt data. This
-                    action cannot be undone.
-                  </p>
-                </div>
+            {/* Consolidated Warning */}
+            <div className="flex items-start gap-3.5 p-4 rounded-xl border border-red-500/20 bg-red-500/10">
+              <div className="flex items-center justify-center w-9 h-9 shrink-0 rounded-lg bg-red-500/20 text-red-400">
+                <AlertTriangle size={18} />
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-red-400">
+                  Irreversible Action
+                </h4>
+                <p className="mt-1 text-xs sm:text-sm leading-relaxed text-red-200/90">
+                  This will permanently remove this prompt and all associated
+                  data, including reviews, bookmarks, and analytics.{" "}
+                  <strong>This cannot be undone.</strong>
+                </p>
               </div>
             </div>
           </div>
 
-          {/* ==========================================
-                    FOOTER
-          ========================================== */}
-
-          <div
-            className="
-              flex
-              items-center
-              justify-end
-              gap-3
-              border-t
-              border-slate-700
-              bg-[#0F172A]
-              px-8
-              py-5
-            "
-          >
-            {/* Cancel */}
-
+          {/* ================= FOOTER ================= */}
+          <div className="shrink-0 p-4 sm:p-5 border-t border-slate-800/80 bg-slate-900/30 flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3">
             <Button
               variant="bordered"
               onPress={handleClose}
               isDisabled={loading}
-              className="
-                rounded-xl
-                border-slate-600
-                bg-[#1E293B]
-                px-6
-                text-white
-                hover:bg-slate-700
-              "
+              className="w-full sm:w-auto h-10 px-5 rounded-xl border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 text-sm font-medium"
             >
               Cancel
             </Button>
-
-            {/* Delete */}
 
             <Button
               color="danger"
               isLoading={loading}
               onPress={handleDelete}
               startContent={!loading && <Trash2 size={16} />}
-              className="
-                rounded-xl
-                bg-linear-to-r
-                from-red-600
-                to-red-500
-                px-6
-                text-white
-                transition-all
-                hover:translate-y-0.5
-              "
+              className="w-full sm:w-auto h-10 px-5 rounded-xl font-medium text-sm text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/20"
             >
-              Delete Prompt
+              Confirm Delete
             </Button>
           </div>
         </div>

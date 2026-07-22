@@ -179,7 +179,7 @@ py-4"
 
               <Table.Column
                 isRowHeader
-                minWidth={200}
+                minWidth={220}
                 className="text-xs
 text-start              
 uppercase

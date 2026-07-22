@@ -20,17 +20,22 @@ export default function PromptDetailsClient({
   returnTo,
 }) {
   const [copyCount, setCopyCount] = useState(prompt.copyCount || 0);
-  const [reviewList, setReviewList] = useState(reviews);
+  const [reviewList, setReviewList] = useState(
+    Array.isArray(reviews) ? reviews : [],
+  );
+
+  // prompt ডেটাকে স্টেটে রাখা যাতে রেটিং বা অন্যান্য তথ্য সাথে সাথে আপডেট হয়
+  const [currentPrompt, setCurrentPrompt] = useState(prompt);
 
   const backUrl = returnTo ? decodeURIComponent(returnTo) : "/prompts";
-  const creator = prompt?.creatorInformation;
+  const creator = currentPrompt?.creatorInformation;
 
   const isPremium = user?.plan === "AI_Prompt_PRO_Access";
-  const isPrivate = prompt.visibility === "private";
+  const isPrivate = currentPrompt.visibility === "private";
   const isLocked = isPrivate && !isPremium;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-violet-50/70 pt-24 pb-10 px-4 md:px-8 lg:px-12">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-violet-50/70 pt-24 pb-10 px-4 md:px-8 lg:px-12">
       <div className="container mx-auto flex flex-col gap-8">
         {/* Back Button */}
         <Link
@@ -55,7 +60,7 @@ export default function PromptDetailsClient({
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-3">
                     <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                      {prompt.promptTitle}
+                      {currentPrompt.promptTitle}
                     </h1>
 
                     {isPrivate && (
@@ -66,27 +71,26 @@ export default function PromptDetailsClient({
                   </div>
 
                   <p className="mt-4 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">
-                    {prompt.fullDescription}
+                    {currentPrompt.fullDescription}
                   </p>
                 </div>
 
-                {/* Actions (Responsive grouping) */}
+                {/* Actions */}
                 <div className="flex items-center gap-3 shrink-0 w-full md:w-auto justify-end border-t md:border-none border-slate-100 pt-4 md:pt-0">
-                  <BookmarkButton promptId={prompt._id} />
-                  <ReportPromptButton prompt={prompt} user={user} />
+                  <BookmarkButton promptId={currentPrompt._id} />
+                  <ReportPromptButton prompt={currentPrompt} user={user} />
                 </div>
               </div>
 
-              {/* Top Premium Notice (Luxurious Design) */}
+              {/* Top Premium Notice */}
               {isLocked && (
-                <div className="relative overflow-hidden rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 via-white to-purple-50 p-6 md:p-8 shadow-sm">
-                  {/* Decorative Background Element */}
+                <div className="relative overflow-hidden rounded-2xl border border-violet-200 bg-linear-to-br from-violet-50 via-white to-purple-50 p-6 md:p-8 shadow-sm">
                   <div className="absolute -right-6 -top-6 text-violet-100/50 rotate-12 pointer-events-none">
                     <Crown size={120} />
                   </div>
 
                   <div className="relative flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-6">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-md">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-violet-500 to-fuchsia-600 shadow-md">
                       <Lock size={24} className="text-white" />
                     </div>
 
@@ -103,7 +107,7 @@ export default function PromptDetailsClient({
 
                     <Link
                       href="/pricing"
-                      className="mt-4 md:mt-0 flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-violet-500/30"
+                      className="mt-4 md:mt-0 flex shrink-0 items-center gap-2 rounded-xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-violet-500/30"
                     >
                       <Sparkles size={16} /> Upgrade Now
                     </Link>
@@ -111,9 +115,7 @@ export default function PromptDetailsClient({
                 </div>
               )}
 
-              {/* ========================= */}
               {/* Prompt Template */}
-              {/* ========================= */}
               <div className="space-y-5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
@@ -135,26 +137,24 @@ export default function PromptDetailsClient({
                     </Link>
                   ) : (
                     <CopyPromptButton
-                      prompt={prompt}
+                      prompt={currentPrompt}
                       user={user}
-                      promptId={prompt._id}
-                      promptContent={prompt.promptContent}
+                      promptId={currentPrompt._id}
+                      promptContent={currentPrompt.promptContent}
                       onCopied={setCopyCount}
                     />
                   )}
                 </div>
 
-                {/* Prompt Content Box */}
-                <div className="relative overflow-hidden rounded-2xl border min-h-[200px] border-slate-200/80 bg-slate-50">
+                <div className="relative overflow-hidden rounded-2xl border border-dashed min-h-50 border-violet-500 bg-slate-50">
                   <div
                     className={`p-6 md:p-8 transition-all duration-300 ${isLocked ? "pointer-events-none select-none blur-md opacity-40" : ""}`}
                   >
                     <pre className="whitespace-pre-wrap wrap-break-word text-sm md:text-base font-mono leading-relaxed text-indigo-900/80">
-                      {prompt.promptContent}
+                      {currentPrompt.promptContent}
                     </pre>
                   </div>
 
-                  {/* Glassmorphism Locked Overlay */}
                   {isLocked && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white backdrop-blur-md">
                       <div className="rounded-3xl bg-white p-8 text-center border border-white/50 backdrop-blur-xl max-w-sm py-5 mx-auto">
@@ -181,9 +181,7 @@ export default function PromptDetailsClient({
                 </div>
               </div>
 
-              {/* ========================= */}
               {/* Usage Instructions */}
-              {/* ========================= */}
               <div className="space-y-4">
                 <h2 className="text-xl font-bold text-slate-900">
                   Usage Instructions
@@ -203,7 +201,7 @@ export default function PromptDetailsClient({
                 ) : (
                   <div className="rounded-2xl bg-slate-50 p-6 border border-slate-100">
                     <p className="leading-relaxed text-slate-600">
-                      {prompt.usageInstructions ||
+                      {currentPrompt.usageInstructions ||
                         "No specific instructions provided for this prompt. You can use it directly in your AI tool."}
                     </p>
                   </div>
@@ -218,7 +216,6 @@ export default function PromptDetailsClient({
           <div className="flex flex-col gap-6 h-fit">
             <Card className="rounded-3xl border border-slate-200/60 bg-white/70 backdrop-blur-xl shadow-sm overflow-hidden">
               <Card.Content className="space-y-8 p-6 md:p-8">
-                {/* Header */}
                 <div>
                   <h2 className="text-xl font-bold text-slate-900">
                     Prompt Overview
@@ -228,14 +225,13 @@ export default function PromptDetailsClient({
                   </p>
                 </div>
 
-                {/* AI Information */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-slate-500">
                       AI Engine
                     </span>
-                    <Chip className="bg-blue-50 rounded-full  text-blue-700 border border-blue-100 font-medium px-3 py-1">
-                      {prompt.aiToolName}
+                    <Chip className="bg-blue-50 rounded-full text-blue-700 border border-blue-100 font-medium px-3 py-1">
+                      {currentPrompt.aiToolName}
                     </Chip>
                   </div>
 
@@ -243,8 +239,8 @@ export default function PromptDetailsClient({
                     <span className="text-sm font-medium text-slate-500">
                       Category
                     </span>
-                    <Chip className="bg-slate-100 rounded-full  text-slate-700 border border-slate-200 font-medium px-3 py-1">
-                      {prompt.category}
+                    <Chip className="bg-slate-100 rounded-full text-slate-700 border border-slate-200 font-medium px-3 py-1">
+                      {currentPrompt.category}
                     </Chip>
                   </div>
 
@@ -252,8 +248,8 @@ export default function PromptDetailsClient({
                     <span className="text-sm font-medium text-slate-500">
                       Difficulty
                     </span>
-                    <Chip className="bg-fuchsia-50 rounded-full  text-fuchsia-700 border border-fuchsia-100 font-medium px-3 py-1">
-                      {prompt.difficultyLevel}
+                    <Chip className="bg-fuchsia-50 rounded-full text-fuchsia-700 border border-fuchsia-100 font-medium px-3 py-1">
+                      {currentPrompt.difficultyLevel}
                     </Chip>
                   </div>
 
@@ -262,11 +258,11 @@ export default function PromptDetailsClient({
                       Access
                     </span>
                     {isPrivate ? (
-                      <Chip className="bg-violet-100 rounded-full  text-violet-700 border border-violet-200 font-medium px-3 py-1 flex items-center gap-1">
+                      <Chip className="bg-violet-100 rounded-full text-violet-700 border border-violet-200 font-medium px-3 py-1 flex items-center gap-1">
                         <Lock size={12} /> Premium
                       </Chip>
                     ) : (
-                      <Chip className="bg-emerald-50 rounded-full  text-emerald-700 border border-emerald-200 font-medium px-3 py-1">
+                      <Chip className="bg-emerald-50 rounded-full text-emerald-700 border border-emerald-200 font-medium px-3 py-1">
                         Public
                       </Chip>
                     )}
@@ -294,9 +290,9 @@ export default function PromptDetailsClient({
                       </span>
                     ) : (
                       <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1 rounded-lg border border-amber-100">
-                        <RatingStars value={prompt.rating} size={14} />
+                        <RatingStars value={currentPrompt.rating} size={14} />
                         <span className="font-bold text-amber-700 text-sm">
-                          {Number(prompt.rating || 0).toFixed(1)}
+                          {Number(currentPrompt.rating || 0).toFixed(1)}
                         </span>
                       </div>
                     )}
@@ -312,7 +308,7 @@ export default function PromptDetailsClient({
                       </span>
                     ) : (
                       <span className="font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-lg">
-                        {reviewList.length}
+                        {reviewList?.length ?? 0}
                       </span>
                     )}
                   </div>
@@ -327,7 +323,7 @@ export default function PromptDetailsClient({
                     <div className="relative">
                       <Image
                         src={creator?.image || "/default-avatar.png"}
-                        alt={creator?.name}
+                        alt={creator?.name || "Creator"}
                         width={48}
                         height={48}
                         className="rounded-full h-12 w-12 object-cover border-2 border-white shadow-md transition-transform group-hover:scale-105"
@@ -347,9 +343,8 @@ export default function PromptDetailsClient({
               </Card.Content>
             </Card>
 
-            {/* Sidebar Premium Notice */}
             {isLocked && (
-              <div className="rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-600 p-6 text-white shadow-xl relative overflow-hidden">
+              <div className="rounded-3xl bg-linear-to-br from-violet-600 to-fuchsia-600 p-6 text-white shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Crown size={80} />
                 </div>
@@ -379,13 +374,19 @@ export default function PromptDetailsClient({
         {/* ====================================== */}
         <div className="mt-4">
           <ReviewSection
-            prompt={prompt}
+            prompt={currentPrompt}
             user={user}
-            reviews={reviewList}
-            onReviewAdded={(newReview) => {
-              setReviewList((prev) => [newReview, ...prev]);
-            }}
+            reviews={reviewList ?? []}
             isLocked={isLocked}
+            onReviewAdded={(newReview, updatedRating) => {
+              setReviewList((prev) => [newReview, ...prev]);
+              if (updatedRating !== undefined) {
+                setCurrentPrompt((prev) => ({
+                  ...prev,
+                  rating: updatedRating,
+                }));
+              }
+            }}
           />
         </div>
       </div>
