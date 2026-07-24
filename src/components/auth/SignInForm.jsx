@@ -58,7 +58,7 @@ export default function SignInForm() {
         email,
         password,
         rememberMe,
-        callbackURL: redirectTo,
+        // callbackURL: redirectTo,
       });
 
       if (error) {
@@ -69,7 +69,8 @@ export default function SignInForm() {
       toast.success("Welcome back to PromptVerse! 🚀");
 
       setTimeout(() => {
-        router.push(redirectTo);
+        // router.push(redirectTo);
+        router.replace(redirectTo);
         router.refresh();
       }, 1200);
     } catch (error) {

@@ -19,6 +19,28 @@ export async function proxy(request) {
     }
   }
 
+  // if (pathname.startsWith("/prompts/")) {
+  //   if (!session) {
+  //     return NextResponse.redirect(new URL("/signin", request.url));
+  //   }
+  // }
+
+  // if (pathname.startsWith("/prompts/") && pathname !== "/prompts") {
+  //   if (!session) {
+  //     return NextResponse.redirect(new URL("/signin", request.url));
+  //   }
+  // }
+
+  if (pathname.startsWith("/prompts/") && pathname !== "/prompts") {
+    if (!session) {
+      const signinUrl = new URL("/signin", request.url);
+
+      signinUrl.searchParams.set("redirect", pathname);
+
+      return NextResponse.redirect(signinUrl);
+    }
+  }
+
   // -----------------------------
   // Logged In User can't access
   // signin/signup
@@ -44,6 +66,7 @@ export async function proxy(request) {
 export const config = {
   matcher: [
     "/dashboard/:path*",
+    "/prompts/:path*",
     "/signin",
     "/signup",
     "/pricing/success/:path*",

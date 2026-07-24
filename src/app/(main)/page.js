@@ -3,8 +3,9 @@ import FeaturedPrompts from "@/components/Homepage/FeaturedPrompts/FeaturedPromp
 import Testimonials from "@/components/Homepage/Testimonials/Testimonials";
 import TopCreators from "@/components/Homepage/TopCreators/TopCreators";
 import WhyChoose from "@/components/Homepage/WhyChoose/WhyChoose";
-
 import { getFeaturedPrompts } from "@/lib/api/prompts";
+
+// import { getFeaturedPrompts } from "@/lib/api/prompts";
 import { getHomepageReviews } from "@/lib/api/reviews";
 
 export default async function Home() {

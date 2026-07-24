@@ -247,7 +247,8 @@ export default function PromptCard({ prompt, user }) {
         </div>
         <Link href={`/prompts/${_id}`}>
           <Button
-            onClick={handleViewDetails}
+            // onClick={handleViewDetails}
+            prefetch={false}
             className="
             h-12
             w-full

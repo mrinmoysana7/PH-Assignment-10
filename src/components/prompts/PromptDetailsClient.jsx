@@ -30,6 +30,10 @@ export default function PromptDetailsClient({
   const backUrl = returnTo ? decodeURIComponent(returnTo) : "/prompts";
   const creator = currentPrompt?.creatorInformation;
 
+  if (!user) {
+    redirect("/signin");
+  }
+
   const isPremium = user?.plan === "AI_Prompt_PRO_Access";
   const isPrivate = currentPrompt.visibility === "private";
   const isLocked = isPrivate && !isPremium;
